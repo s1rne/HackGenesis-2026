@@ -81,9 +81,16 @@ class StrategiesTest < Minitest::Test
   end
 
   def test_count_share_explains_itself_in_words
-    _fleet, left, = pair({ "traffic_percentage" => 50 }, { "traffic_percentage" => 50 })
+    fleet, left, = pair({ "traffic_percentage" => 50 }, { "traffic_percentage" => 50 })
+    strategy = S::CountShare.new({})
 
-    assert_match(/доля по количеству/, S::CountShare.new({}).explain(left))
+    assert_match(/по количеству/, strategy.explain(left))
+    assert_match(/50/, strategy.explain(left), "в объяснении должна стоять целевая доля")
+
+    fleet["right"].record_selection(build_operation(id: "seen", amount: 1000))
+
+    assert_match(/по количеству/, strategy.explain(left))
+    assert_match(/недобор/, strategy.explain(left))
   end
 
   # --- 2. доля по объёму ----------------------------------------------------
@@ -277,25 +284,55 @@ class StrategiesTest < Minitest::Test
   end
 
   # --- 7. обязательства по обороту -----------------------------------------
+  #
+  # Цель считает не сам недобор, а темп, которого он требует от остатка суток:
+  # «не добрано 2 млн» в девять утра и в одиннадцать вечера — разные ситуации.
+  # Поэтому во всех проверках задаётся конкретное время заявки.
+
+  MORNING = Time.new(2026, 7, 30, 9, 0, 0).to_f
+  LATE_EVENING = Time.new(2026, 7, 30, 22, 0, 0).to_f
 
   def test_turnover_commitment_prefers_the_provider_further_from_its_minimum
     _fleet, left, right = pair({ "daily_turnover_min" => 2_000_000, "daily_approved_amount" => 0 },
-                               { "daily_turnover_min" => 2_000_000, "daily_approved_amount" => 1_800_000 })
+                               { "daily_turnover_min" => 2_000_000, "daily_approved_amount" => 1_800_000 },
+                               at: LATE_EVENING)
 
     assert_prefers S::TurnoverCommitment.new({}), left, right
   end
 
+  def test_turnover_commitment_stays_out_of_the_way_while_the_provider_is_on_schedule
+    strategy = S::TurnoverCommitment.new({})
+    _fleet, left, = pair({ "daily_turnover_min" => 2_000_000, "daily_approved_amount" => 1_800_000 }, {},
+                         at: MORNING)
+
+    assert_in_delta 0.0, strategy.raw_score(left), 1e-9,
+                    "утром недобор в 10% — это график, а не срыв: старший эшелон остаётся ничейным"
+    assert_match(/график/, strategy.explain(left))
+  end
+
+  def test_turnover_commitment_wakes_up_when_the_day_is_running_out
+    strategy = S::TurnoverCommitment.new({})
+    _fleet, morning, = pair({ "daily_turnover_min" => 2_000_000, "daily_approved_amount" => 0 }, {},
+                            at: MORNING)
+    _fleet2, evening, = pair({ "daily_turnover_min" => 2_000_000, "daily_approved_amount" => 0 }, {},
+                             at: LATE_EVENING)
+
+    assert_operator strategy.raw_score(evening), :>, strategy.raw_score(morning),
+                    "тот же недобор к вечеру требует большего темпа и поднимает провайдера выше"
+  end
+
   def test_turnover_commitment_is_silent_once_the_minimum_is_met
     strategy = S::TurnoverCommitment.new({})
-    _fleet, left, = pair({ "daily_turnover_min" => 1_000_000, "daily_approved_amount" => 1_500_000 }, {})
+    _fleet, left, = pair({ "daily_turnover_min" => 1_000_000, "daily_approved_amount" => 1_500_000 }, {},
+                         at: LATE_EVENING)
 
     assert_in_delta 0.0, strategy.raw_score(left)
-    assert_match(/уже выполнен/, strategy.explain(left))
+    assert_match(/выполнен/, strategy.explain(left))
   end
 
   def test_turnover_commitment_is_not_applicable_without_the_obligation
     strategy = S::TurnoverCommitment.new({})
-    _fleet, _left, right = pair({ "daily_turnover_min" => 1_000_000 }, {})
+    _fleet, _left, right = pair({ "daily_turnover_min" => 1_000_000 }, {}, at: LATE_EVENING)
 
     assert_nil strategy.raw_score(right)
     assert_match(/не задано/, strategy.explain(right))
@@ -304,10 +341,20 @@ class StrategiesTest < Minitest::Test
   def test_turnover_commitment_urgency_exponent_is_configurable
     gentle = S::TurnoverCommitment.new({ "urgency_exponent" => 2.0 })
     steep = S::TurnoverCommitment.new({ "urgency_exponent" => 0.5 })
-    _fleet, left, = pair({ "daily_turnover_min" => 1_000_000, "daily_approved_amount" => 900_000 }, {})
+    _fleet, left, = pair({ "daily_turnover_min" => 1_000_000, "daily_approved_amount" => 900_000 }, {},
+                         at: LATE_EVENING)
 
     assert_operator steep.raw_score(left), :>, gentle.raw_score(left),
-                    "меньший показатель степени делает цель настойчивее при малом недоборе"
+                    "меньший показатель степени делает цель настойчивее при малом отставании"
+  end
+
+  def test_turnover_commitment_activation_threshold_is_configurable
+    _fleet, left, = pair({ "daily_turnover_min" => 2_000_000, "daily_approved_amount" => 1_800_000 }, {},
+                         at: MORNING)
+
+    assert_in_delta 0.0, S::TurnoverCommitment.new({}).raw_score(left)
+    assert_operator S::TurnoverCommitment.new({ "activation_pressure" => 0.05 }).raw_score(left), :>, 0.0,
+                    "порог включения задаётся настройкой, а не зашит в код"
   end
 
   # --- 8. маржинальность ----------------------------------------------------

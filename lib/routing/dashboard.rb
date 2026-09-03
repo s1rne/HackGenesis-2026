@@ -259,9 +259,11 @@ module Routing
         Array(decision["attempts"]).find { |attempt| attempt["decision"] == "selected" }
       end
 
+      # Сколько попыток реально было сделано. В строгой выгрузке блока cascade
+      # нет — тогда считаем по попыткам, которые дошли до провайдера.
       def cascade_depth(decision)
-        decision.dig("cascade", "attempts_made") || Array(decision["cascade_path"]).size ||
-          Array(decision["attempts"]).count { |a| a["decision"] != "skipped" }
+        decision.dig("cascade", "attempts_made") ||
+          Array(decision["attempts"]).count { |attempt| attempt["decision"] != "skipped" }
       end
 
       def providers_in_report

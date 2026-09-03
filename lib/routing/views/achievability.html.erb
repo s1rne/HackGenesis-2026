@@ -50,13 +50,18 @@
         <span class="badge <%= h(status) %>"><%= h(bound["verdict"]) %></span>
       </div>
     </div>
-<% if !blank?(bound["blocking_reasons"]) -%>
+<% if !blank?(bound["blocking_reasons"]) || bound["binding_limit"] -%>
     <div class="bar-row" style="padding-top:0">
       <div></div>
       <div style="grid-column:2 / -1;font-size:14px;color:var(--ink-2)">
+<% if bound["binding_limit"] -%>
+        <span class="tag">потолок ставит: <%= h(bound["binding_limit"]) %></span>
+<% end -%>
+<% unless blank?(bound["blocking_reasons"]) -%>
         что отсекает:
 <% bound["blocking_reasons"].each do |code, count| -%>
         <span class="tag"><%= h(reason_text(code)) %> — <%= h(num(count)) %></span>
+<% end -%>
 <% end -%>
       </div>
     </div>

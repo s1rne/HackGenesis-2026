@@ -79,11 +79,16 @@ module Routing
 
           headroom = state.headroom_amount
           share = @fleet.count_target(provider.id) * 100
-          suggested = (share * (1 - (utilization / 100.0))).round(1)
+          # Предлагаем не «долю, пропорциональную остатку лимита» — на исчерпанном
+          # лимите это выродилось бы в 0.1% и было бы бесполезным советом, — а
+          # доказанный потолок достижимости: столько заявок провайдер реально вмещает.
+          ceiling = achievable_ceiling(provider.id)
+          suggested = (ceiling || (share * (1 - (utilization / 100.0)))).round(1)
+          basis = ceiling ? "это доказанный потолок по свободному лимиту" : "пропорционально остатку лимита"
           item(
             text: "#{provider.id} выбрал #{utilization.round(1)}% дневного лимита, свободно #{headroom} — " \
-                  "снизить traffic_percentage до #{suggested}% или поднять daily_amount_limit, " \
-                  "иначе он выпадет из распределения до конца суток",
+                  "снизить traffic_percentage с #{share.round(1)}% до #{suggested}% (#{basis}) " \
+                  "или поднять daily_amount_limit, иначе он выпадет из распределения до конца суток",
             parameter: "providers.#{provider.id}.traffic_percentage",
             current: share.round(1), suggested: suggested,
             evidence: "оборот #{state.daily_amount} при лимите #{provider.daily_amount_limit}",
@@ -143,7 +148,7 @@ module Routing
           next if provider.nil? || provider.self_provider?
 
           item(
-            text: "#{provider_id} отсеян #{count} раз из #{@decisions.size} по причине «#{Reasons.text(reason)}» — " \
+            text: "#{provider_id} отсеян #{count} #{plural(count, 'раз', 'раза', 'раз')} из #{@decisions.size} по причине «#{Reasons.text(reason)}» — " \
                   "#{fix_for(reason, provider)}",
             parameter: parameter_for(reason, provider_id),
             evidence: "доминирующая причина отсева #{reason}",
@@ -241,6 +246,26 @@ module Routing
           evidence: "поле отсутствует у #{missing.size} из #{@fleet.routable.size} провайдеров",
           priority: "low", impact: 5
         )]
+      end
+
+      # Русская форма числительного: 1 раз, 2 раза, 5 раз.
+      # Мелочь, но текст рекомендации читают люди, и «отсеян 4 раз» бросается
+      # в глаза сильнее, чем стоит любая экономия на такой функции.
+      def plural(count, one, few, many)
+        tail = count.abs % 100
+        return many if (11..14).cover?(tail)
+
+        case tail % 10
+        when 1 then one
+        when 2, 3, 4 then few
+        else many
+        end
+      end
+
+      # Потолок из анализа достижимости, если он посчитан.
+      def achievable_ceiling(provider_id)
+        bounds = @report.target_achievability&.dig("bounds", provider_id)
+        bounds && bounds["ceiling_pct"]
       end
 
       def fix_for(reason, provider)

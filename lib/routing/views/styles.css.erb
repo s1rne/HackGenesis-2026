@@ -515,6 +515,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
   gap: 14px;
 }
 .rec {
+  min-width: 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-left: 4px solid var(--axis);
@@ -536,13 +537,15 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
   align-items: baseline;
   flex-wrap: wrap;
 }
-.rec-param code {
+.rec code, .rec-param code {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 13px;
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: 5px;
   padding: 1px 6px;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 .rec-evidence { font-size: 13px; color: var(--muted); }
 .rec-head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }

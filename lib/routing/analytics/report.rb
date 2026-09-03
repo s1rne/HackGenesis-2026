@@ -216,10 +216,15 @@ module Routing
       # диапазонах сумм и марже. Без этого раздела отклонение от цели выглядит
       # как недоработка политики, хотя нередко оно неустранимо в принципе.
       def target_achievability
-        return nil if @constraints.empty? || @decisions.empty?
+        return @achievability if defined?(@achievability)
 
-        Achievability.new(fleet: @fleet, constraints: @constraints, config: @config)
-                     .analyse(@decisions.map(&:operation))
+        @achievability =
+          if @constraints.empty? || @decisions.empty?
+            nil
+          else
+            Achievability.new(fleet: @fleet, constraints: @constraints, config: @config)
+                         .analyse(@decisions.map(&:operation))
+          end
       end
 
       private
