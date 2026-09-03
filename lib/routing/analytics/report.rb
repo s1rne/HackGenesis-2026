@@ -30,6 +30,7 @@ module Routing
           "total_operations" => @decisions.size,
           "distribution" => distribution,
           "skip_reasons" => skip_reasons,
+          "skip_reasons_by_category" => skip_reasons_by_category,
           "projected_daily_utilization" => projected_daily_utilization,
           "recommendations" => recommendations.map { |r| r["text"] },
           "outcomes" => outcomes,
@@ -79,10 +80,26 @@ module Routing
 
       # Сколько раз каждая причина отсева сработала. Ключи — машинные коды
       # из каталога причин, поэтому агрегат всегда сходится с attempts.
+      # Общий агрегат по всем записям со статусом skipped. Считается именно так,
+      # чтобы сумма сходилась с выгрузкой решений: любое другое правило означало бы,
+      # что отчёт и файл решений говорят разное.
       def skip_reasons
         counts = Hash.new(0)
         each_attempt { |attempt| counts[attempt["reason"]] += 1 if attempt["decision"] == "skipped" }
         counts.sort_by { |reason, count| [-count, reason] }.to_h
+      end
+
+      # Тот же агрегат, разложенный по природе причины. «Не прошёл по банку» и
+      # «не понадобился, заявку взял провайдер выше по скорингу» — принципиально
+      # разные события, и складывать их в одно число значит терять смысл обоих.
+      def skip_reasons_by_category
+        groups = Hash.new { |hash, key| hash[key] = {} }
+        skip_reasons.each { |reason, count| groups[Reasons.category(reason).to_s][reason] = count }
+        {
+          "по жёстким ограничениям" => groups["hard"],
+          "по отказу провайдера" => groups["attempt"],
+          "не понадобились" => groups["soft"]
+        }.reject { |_, value| value.empty? }
       end
 
       def projected_daily_utilization

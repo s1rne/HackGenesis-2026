@@ -92,6 +92,7 @@ module Routing
 
         total = decisions.size.to_f
         baseline = rows.count { |row| row[:status] == Calibration::SUCCESS }
+        divergence = compare_on_divergence(actual, decisions)
 
         {
           "operations" => decisions.size,
@@ -99,6 +100,7 @@ module Routing
           "baseline_approval_rate" => (baseline / total).round(4),
           "agreement_with_history" => agreed,
           "agreement_pct" => (agreed / total * 100).round(1),
+          "divergence" => divergence,
           "estimated_approval_rate" => {
             "lower" => (lower / total).round(4),
             "upper" => (upper / total).round(4),
@@ -111,6 +113,46 @@ module Routing
             "replay_vs_target" => tvd(replay_shares(decisions), target_shares(fleet)).round(4),
             "note" => "суммарное отклонение от целевых долей; меньше — ближе к плану"
           }
+        }
+      end
+
+      # Сравнение на тех операциях, где мы разошлись с историей.
+      #
+      # Это единственное место, где сравнение честное и содержательное. На
+      # совпавших решениях сравнивать нечего — провайдер тот же. А на разошедшихся
+      # можно сопоставить не исходы (нашего исхода не существует), а качество
+      # выбранного партнёра: эмпирическую конверсию того, кого выбрали мы,
+      # против того, кого выбрала история. Если она систематически выше, значит
+      # политика уводит трафик к более успешным партнёрам — и это утверждение
+      # проверяемо, в отличие от «у нас было бы больше одобрений».
+      def compare_on_divergence(actual, decisions)
+        ours = []
+        theirs = []
+
+        decisions.each do |decision|
+          historical = actual[decision.operation.id]
+          chosen = decision.selected_provider
+          next if historical.nil? || chosen.nil? || historical[:provider] == chosen
+
+          our_rate = @calibration.success_rate_for(chosen)
+          their_rate = @calibration.success_rate_for(historical[:provider])
+          next if our_rate.nil? || their_rate.nil?
+
+          ours << our_rate
+          theirs << their_rate
+        end
+
+        return { "operations" => 0 } if ours.empty?
+
+        our_mean = ours.sum / ours.size
+        their_mean = theirs.sum / theirs.size
+        {
+          "operations" => ours.size,
+          "our_provider_success_rate" => our_mean.round(4),
+          "historical_provider_success_rate" => their_mean.round(4),
+          "delta" => (our_mean - their_mean).round(4),
+          "note" => "средняя эмпирическая конверсия выбранного провайдера на тех операциях, " \
+                    "где решение разошлось с историей"
         }
       end
 

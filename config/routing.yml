@@ -223,6 +223,25 @@ profiles:
       load_balance:        { tier: 3, weight: 0.1 }
       margin:              { enabled: false }
 
+  # Деньги важнее штук: распределяем оборот, а не количество заявок.
+  # На разных по размеру чеках даёт заметно другое назначение, чем balanced.
+  volume_first:
+    scoring:
+      tier_epsilon: 0.01
+    strategies:
+      volume_share:        { tier: 1, weight: 1.5 }
+      count_share:         { tier: 3, weight: 0.3 }
+      amount_band:         { tier: 3, weight: 0.3 }
+      turnover_commitment: { tier: 2, weight: 1.0 }
+
+  # Максимум маржи мерчанта при соблюдении жёстких ограничений.
+  margin_first:
+    strategies:
+      margin:       { tier: 1, weight: 1.5 }
+      count_share:  { tier: 2, weight: 0.6 }
+      volume_share: { tier: 3, weight: 0.3 }
+      conversion:   { tier: 2, weight: 0.6 }
+
   # Беречь лимиты: загрузка и запас ёмкости важнее всего.
   capacity_saver:
     strategies:

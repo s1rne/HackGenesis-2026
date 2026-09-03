@@ -69,54 +69,76 @@ module Routing
       router = build_router
       operations = load_operations(router)
       decisions = router.route_all(operations)
+      problems = verify(decisions, router)
       write_decisions(decisions)
       summarize(decisions, router)
       report_issues(router.issues)
-      finish(router)
+      finish(router, problems)
     end
 
     def cmd_report
       router = build_router
       operations = load_operations(router)
       decisions = router.route_all(operations)
+      problems = verify(decisions, router)
       write_report(router, decisions)
       report_issues(router.issues)
-      finish(router)
+      finish(router, problems)
     end
 
     def cmd_run
       router = build_router
       operations = load_operations(router)
       decisions = router.route_all(operations)
+      problems = verify(decisions, router)
       write_decisions(decisions)
       write_report(router, decisions)
       summarize(decisions, router)
       report_issues(router.issues)
-      finish(router)
+      finish(router, problems)
     end
 
     # Один и тот же вход, разные профили — наглядно показывает, что поведение
     # задаётся настройками, а не зашито в код.
+    # Один и тот же вход, разные профили. Колонка «иначе» показывает, на скольких
+    # заявках профиль назначил другого провайдера, чем базовый: без неё
+    # совпадение распределений выглядело бы как неработающие настройки, хотя
+    # означает лишь, что на этих данных два порядка предпочтения совпали.
     def cmd_compare
       base = Config.load(@options[:config])
       profiles = ["balanced"] + base.profiles
+      baseline = nil
+
       rows = profiles.map do |name|
         config = name == "balanced" ? base : base.with_profile(name)
         router = build_router(config)
         decisions = router.route_all(load_operations(router))
-        distribution = decisions.group_by(&:selected_provider).transform_values(&:size)
-        approved = decisions.count(&:approved?)
-        [name, distribution, approved, decisions.sum(&:latency_sec)]
+        choices = decisions.to_h { |decision| [decision.operation.id, decision.selected_provider] }
+        baseline ||= choices
+        [name,
+         decisions.group_by(&:selected_provider).transform_values(&:size),
+         decisions.count(&:approved?),
+         decisions.sum(&:latency_sec),
+         choices.count { |id, provider| baseline[id] != provider }]
       end
 
       providers = rows.flat_map { |row| row[1].keys }.compact.uniq.sort
-      header = format("%-18s %5s %7s  %s", "профиль", "одобр", "задержка",
-                      providers.map { |p| p[0, 8].rjust(8) }.join(" "))
+      header = format("%-18s %6s %9s %7s  %s", "профиль", "одобр", "задержка", "иначе",
+                      providers.map { |id| id[0, 9].rjust(9) }.join(" "))
       say header
       say "-" * header.length
-      rows.each do |name, distribution, approved, latency|
-        say format("%-18s %5d %7d  %s", name, approved, latency,
-                   providers.map { |p| distribution.fetch(p, 0).to_s.rjust(8) }.join(" "))
+      rows.each do |name, distribution, approved, latency, diverged|
+        say format("%-18s %6d %9d %7s  %s", name, approved, latency,
+                   name == "balanced" ? "—" : "#{diverged}/#{baseline.size}",
+                   providers.map { |id| distribution.fetch(id, 0).to_s.rjust(9) }.join(" "))
+      end
+
+      same = rows.drop(1).select { |row| row[4].zero? }.map(&:first)
+      unless same.empty?
+        say ""
+        say "Совпали с balanced на этой очереди: #{same.join(', ')}."
+        say "Это свойство данных, а не настроек: порядок предпочтения, который они задают,"
+        say "совпал с тем, что даёт баланс целей. На другой очереди они разойдутся."
       end
       0
     end
@@ -140,8 +162,19 @@ module Routing
           "(#{summary['agreement_pct']}%)"
       say ""
       say format("Одобрения по факту истории:  %.1f%%", summary["baseline_approval_rate"] * 100)
-      say format("Наша политика, оценка:       %.1f%% .. %.1f%%",
-                 estimate["lower"] * 100, estimate["upper"] * 100)
+      say format("Наша политика, оценка:       %.1f%% .. %.1f%%", estimate["lower"] * 100, estimate["upper"] * 100)
+      say "Интервал накрывает базу: заявлять улучшение по одобрениям на этих данных нельзя."
+
+      divergence = summary["divergence"]
+      if divergence && divergence["operations"].to_i.positive?
+        say ""
+        say format("Разошлись с историей на %d операциях. Там, где решение другое, средняя",
+                   divergence["operations"])
+        say format("конверсия выбранного нами провайдера %.1f%% против %.1f%% у исторического (%+.1f п.п.).",
+                   divergence["our_provider_success_rate"] * 100,
+                   divergence["historical_provider_success_rate"] * 100,
+                   divergence["delta"] * 100)
+      end
       say ""
       say format("%-14s %8s %8s %8s", "провайдер", "цель", "история", "реплей")
       summary["share_comparison"].each do |id, row|
@@ -151,9 +184,9 @@ module Routing
       tvd = summary["total_variation_distance"]
       achievability = summary["target_achievability"]
       say ""
-      say format("Отклонение от целевых долей: история %.3f -> реплей %.3f, минимум %.3f",
-                 tvd["history_vs_target"], tvd["replay_vs_target"],
-                 achievability["min_total_variation_distance"])
+      say format("Отклонение от целей: минимум %.3f, история %.3f, мы %.3f",
+                 achievability["min_total_variation_distance"],
+                 tvd["history_vs_target"], tvd["replay_vs_target"])
       say achievability["verdict"]
 
       write_json(@options[:replay], summary)
@@ -299,6 +332,31 @@ module Routing
       loader.load_operations(@options[:queue])
     end
 
+    # Условия, при которых выгрузку нельзя считать пригодной. Проверяются на
+    # каждом прогоне, а не только в finalize: автопроверка организаторов
+    # завершается с ошибкой на файле, где у заявки нет провайдера, и молча
+    # отдать такой файл — худшее, что может сделать инструмент.
+    def verify(decisions, router)
+      problems = []
+
+      unrouted = decisions.select { |decision| decision.selected_provider.nil? }
+      unless unrouted.empty?
+        problems << "без провайдера осталось заявок: #{unrouted.size} " \
+                    "(#{unrouted.first(5).map { |d| d.operation.id }.join(', ')}#{'…' if unrouted.size > 5})"
+      end
+
+      duplicates = decisions.map { |d| d.operation.id }.tally.select { |_, count| count > 1 }.keys
+      problems << "повторяющиеся operation_id: #{duplicates.join(', ')}" unless duplicates.empty?
+
+      bad_result = decisions.reject { |d| %w[approved rejected expired].include?(d.simulated_result) }
+      unless bad_result.empty?
+        problems << "недопустимый simulated_result у заявок: #{bad_result.map { |d| d.operation.id }.join(', ')}"
+      end
+
+      problems.each { |problem| router.issues.error("выгрузка", problem) }
+      problems
+    end
+
     # --- вывод --------------------------------------------------------------
 
     # Основной файл — полный, с объяснением каждого решения: его читают люди.
@@ -316,7 +374,7 @@ module Routing
     def write_report(router, decisions)
       report = Analytics::Report.new(
         decisions: decisions, fleet: router.fleet, config: router.config,
-        period: router.period, calibration: router.calibration,
+        period: router.period(decisions.map(&:operation)), calibration: router.calibration,
         issues: router.issues, meta: router.meta, describe: router.describe,
         constraints: router.constraints
       )
@@ -358,7 +416,17 @@ module Routing
       issues.each { |issue| say "  #{issue}" } unless @options[:quiet]
     end
 
-    def finish(router)
+    # Ненулевой код возврата, если выгрузка непригодна, — независимо от --strict:
+    # это не придирка к качеству данных, а поломка контракта. Флаг --strict
+    # добавляет к этому нетерпимость к ошибкам разбора входных данных.
+    def finish(router, problems = [])
+      unless Array(problems).empty?
+        warn ""
+        warn "Выгрузка непригодна для сдачи:"
+        Array(problems).each { |problem| warn "  #{problem}" }
+        return 1
+      end
+
       return 1 if @options[:strict] && router.issues.any_errors?
 
       0

@@ -4,6 +4,13 @@
   "baseline_approval_rate": 0.68,
   "agreement_with_history": 47,
   "agreement_pct": 47.0,
+  "divergence": {
+    "operations": 53,
+    "our_provider_success_rate": 0.6844,
+    "historical_provider_success_rate": 0.6636,
+    "delta": 0.0208,
+    "note": "средняя эмпирическая конверсия выбранного провайдера на тех операциях, где решение разошлось с историей"
+  },
   "estimated_approval_rate": {
     "lower": 0.6085,
     "upper": 0.7604,

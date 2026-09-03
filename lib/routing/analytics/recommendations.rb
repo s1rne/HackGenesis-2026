@@ -177,6 +177,11 @@ module Routing
 
           provider = @fleet.provider_for(provider_id)
           next if provider.nil? || provider.self_provider?
+          # Провайдеру, у которого кончается дневной лимит, бессмысленно советовать
+          # расширить банковский список: иначе отчёт одновременно просит снизить его
+          # долю и дать ему больше заявок.
+          next if @fleet[provider_id].daily_utilization * 100 >=
+                  @thresholds.fetch("utilization_alert_pct", 80.0).to_f
 
           item(
             text: "#{provider_id} отсеян #{count} #{plural(count, 'раз', 'раза', 'раз')} из #{@decisions.size} по причине «#{Reasons.text(reason)}» — " \

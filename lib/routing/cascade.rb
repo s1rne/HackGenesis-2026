@@ -202,9 +202,7 @@ module Routing
                  end
       )
       { selected: provider.id, response: response, ranking: ranked,
-        reason_pair: ["cascade_retry",
-                      "повторная попытка на лучшем кандидате: остальные допустимые отказали " \
-                      "(#{refused.map(&:id).join(', ')})"],
+        reason_pair: ["cascade_retry", records.last["details"]],
         latency: path.sum { |step| step["latency_sec"] } }
     end
 
@@ -291,8 +289,11 @@ module Routing
         "score" => best.total.round(4),
         "outcome" => response.outcome.to_s,
         "latency_sec" => response.latency_sec,
-        "factors" => best.contributions.map(&:to_h)
-      }
+        # Раскладку скоринга показываем только там, где был выбор. При единственном
+        # допустимом все факторы нормализуются в нейтральные 0.5, и таблица из
+        # восьми строк создаёт видимость сравнения, которого не было.
+        "factors" => eligible_count > 1 ? best.contributions.map(&:to_h) : []
+      }.reject { |key, value| key == "factors" && value.empty? }
     end
 
     # Причина выбора — не «лучший скоринг», а конкретная цель, которая

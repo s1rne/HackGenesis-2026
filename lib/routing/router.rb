@@ -73,11 +73,17 @@ module Routing
       nil
     end
 
-    def period
+    # Период отчёта — это дата заявок, а не дата снимка провайдеров.
+    # Снимок может быть снят заранее: если брать дату из него, в отчёте по
+    # очереди от шестого сентября будет стоять тридцатое июля.
+    def period(operations = nil)
       configured = @config.fetch("run", "period")
       return configured.to_s if configured
 
-      (snapshot_time || Time.now).strftime("%Y-%m-%d")
+      dates = Array(operations).filter_map { |operation| operation.created_at&.strftime("%Y-%m-%d") }
+      return dates.tally.max_by { |_, count| count }.first unless dates.empty?
+
+      (snapshot_time || Clock::FALLBACK_ANCHOR).strftime("%Y-%m-%d")
     end
 
     def describe

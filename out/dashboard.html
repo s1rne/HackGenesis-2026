@@ -1551,7 +1551,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                 <b>quickpay</b> — следующий в каскаде после отказа предыдущего
                 <span class="tag">cascade_retry</span>
                 <span class="tag">профиль: balanced</span>
-                <div class="details">повторная попытка на лучшем кандидате: остальные допустимые отказали (quickpay)</div>
+                <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
               </div>
             </div>
 
@@ -1629,128 +1629,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
               </div>
             </div>
 
-            <div class="detail-block">
-              <h4>Разбор скоринга выбранного провайдера</h4>
-              <table class="factors">
-                <thead>
-                  <tr>
-                    <th>Фактор</th>
-                    <th class="num">Эшелон</th>
-                    <th class="num">Вес</th>
-                    <th class="num">Норм.</th>
-                    <th></th>
-                    <th class="num">Вклад</th>
-                    <th>Пояснение</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><b>turnover_commitment</b></td>
-                    <td class="num tier-1">1</td>
-                    <td class="num">1,20</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:50.0%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,600</td>
-                    <td class="note">обязательство по минимальному обороту не задано</td>
-                  </tr>
-                  <tr>
-                    <td><b>count_share</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">1,00</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:41.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,500</td>
-                    <td class="note">доля по количеству 0.0% при цели 100.0% (0 из 2 уже распределённых), недобор 3.0 заявки</td>
-                  </tr>
-                  <tr>
-                    <td><b>volume_share</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">0,80</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:33.333%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,400</td>
-                    <td class="note">доля по объёму 0.0% при цели 100.0% (0 из 63000)</td>
-                  </tr>
-                  <tr>
-                    <td><b>conversion</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">1,00</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:41.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,500</td>
-                    <td class="note">заявлено 79.0%, в прогоне 0 из 1; нижняя граница 53.9% при доверии 95.0% на 21 эффективных наблюдениях</td>
-                  </tr>
-                  <tr>
-                    <td><b>amount_band</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">0,90</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:37.5%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,450</td>
-                    <td class="note">сумма 150000 в полосе 100001..+ -&gt; предпочтителен (quickpay)</td>
-                  </tr>
-                  <tr>
-                    <td><b>cascade_priority</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,60</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:25.0%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,300</td>
-                    <td class="note">приоритет в каскаде 3</td>
-                  </tr>
-                  <tr>
-                    <td><b>load_balance</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,70</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:29.167%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,350</td>
-                    <td class="note">загрузка 13.8%, узкое место — дневной оборот (13.8%)</td>
-                  </tr>
-                  <tr>
-                    <td><b>margin</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,40</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:16.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,200</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
 
             <div class="detail-block">
               <h4>Сравнение кандидатов по скорингу</h4>
@@ -1809,7 +1687,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                 <b>quickpay</b> — следующий в каскаде после отказа предыдущего
                 <span class="tag">cascade_retry</span>
                 <span class="tag">профиль: balanced</span>
-                <div class="details">повторная попытка на лучшем кандидате: остальные допустимые отказали (quickpay)</div>
+                <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
               </div>
             </div>
 
@@ -1887,128 +1765,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
               </div>
             </div>
 
-            <div class="detail-block">
-              <h4>Разбор скоринга выбранного провайдера</h4>
-              <table class="factors">
-                <thead>
-                  <tr>
-                    <th>Фактор</th>
-                    <th class="num">Эшелон</th>
-                    <th class="num">Вес</th>
-                    <th class="num">Норм.</th>
-                    <th></th>
-                    <th class="num">Вклад</th>
-                    <th>Пояснение</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><b>turnover_commitment</b></td>
-                    <td class="num tier-1">1</td>
-                    <td class="num">1,20</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:50.0%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,600</td>
-                    <td class="note">обязательство по минимальному обороту не задано</td>
-                  </tr>
-                  <tr>
-                    <td><b>count_share</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">1,00</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:41.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,500</td>
-                    <td class="note">доля по количеству 33.3% при цели 100.0% (1 из 3 уже распределённых), недобор 3.0 заявки</td>
-                  </tr>
-                  <tr>
-                    <td><b>volume_share</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">0,80</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:33.333%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,400</td>
-                    <td class="note">доля по объёму 70.4% при цели 100.0% (150000 из 213000)</td>
-                  </tr>
-                  <tr>
-                    <td><b>conversion</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">1,00</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:41.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,500</td>
-                    <td class="note">заявлено 79.0%, в прогоне 0 из 3; нижняя граница 48.3% при доверии 95.0% на 23 эффективных наблюдениях</td>
-                  </tr>
-                  <tr>
-                    <td><b>amount_band</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">0,90</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:37.5%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,450</td>
-                    <td class="note">сумма 3000 в полосе 500..50000 -&gt; не в списке предпочтения (payflow, vipay)</td>
-                  </tr>
-                  <tr>
-                    <td><b>cascade_priority</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,60</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:25.0%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,300</td>
-                    <td class="note">приоритет в каскаде 3</td>
-                  </tr>
-                  <tr>
-                    <td><b>load_balance</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,70</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:29.167%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,350</td>
-                    <td class="note">загрузка 15.0%, узкое место — интенсивность (15.0%)</td>
-                  </tr>
-                  <tr>
-                    <td><b>margin</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,40</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:16.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,200</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
 
             <div class="detail-block">
               <h4>Сравнение кандидатов по скорингу</h4>
@@ -2616,128 +2372,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
               </div>
             </div>
 
-            <div class="detail-block">
-              <h4>Разбор скоринга выбранного провайдера</h4>
-              <table class="factors">
-                <thead>
-                  <tr>
-                    <th>Фактор</th>
-                    <th class="num">Эшелон</th>
-                    <th class="num">Вес</th>
-                    <th class="num">Норм.</th>
-                    <th></th>
-                    <th class="num">Вклад</th>
-                    <th>Пояснение</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><b>turnover_commitment</b></td>
-                    <td class="num tier-1">1</td>
-                    <td class="num">1,20</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:50.0%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,600</td>
-                    <td class="note">минимальный оборот 2000000 выполнен (2948000)</td>
-                  </tr>
-                  <tr>
-                    <td><b>count_share</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">1,00</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:41.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,500</td>
-                    <td class="note">доля по количеству 16.7% при цели 100.0% (1 из 6 уже распределённых), недобор 6.0 заявки</td>
-                  </tr>
-                  <tr>
-                    <td><b>volume_share</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">0,80</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:33.333%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,400</td>
-                    <td class="note">доля по объёму 16.4% при цели 100.0% (48000 из 293000)</td>
-                  </tr>
-                  <tr>
-                    <td><b>conversion</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">1,00</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:41.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,500</td>
-                    <td class="note">заявлено 91.0%, в прогоне 1 из 1; нижняя граница 72.3% при доверии 95.0% на 21 эффективных наблюдениях</td>
-                  </tr>
-                  <tr>
-                    <td><b>amount_band</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">0,90</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:37.5%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,450</td>
-                    <td class="note">сумма 800 в полосе 500..50000 -&gt; предпочтителен (payflow, vipay)</td>
-                  </tr>
-                  <tr>
-                    <td><b>cascade_priority</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,60</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:25.0%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,300</td>
-                    <td class="note">приоритет в каскаде 2</td>
-                  </tr>
-                  <tr>
-                    <td><b>load_balance</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,70</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:29.167%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,350</td>
-                    <td class="note">загрузка 98.3%, узкое место — дневной оборот (98.3%)</td>
-                  </tr>
-                  <tr>
-                    <td><b>margin</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,40</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:16.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,200</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
 
             <div class="detail-block">
               <h4>Сравнение кандидатов по скорингу</h4>
@@ -2795,7 +2429,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                 <b>quickpay</b> — следующий в каскаде после отказа предыдущего
                 <span class="tag">cascade_retry</span>
                 <span class="tag">профиль: balanced</span>
-                <div class="details">повторная попытка на лучшем кандидате: остальные допустимые отказали (quickpay)</div>
+                <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
               </div>
             </div>
 
@@ -2873,128 +2507,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
               </div>
             </div>
 
-            <div class="detail-block">
-              <h4>Разбор скоринга выбранного провайдера</h4>
-              <table class="factors">
-                <thead>
-                  <tr>
-                    <th>Фактор</th>
-                    <th class="num">Эшелон</th>
-                    <th class="num">Вес</th>
-                    <th class="num">Норм.</th>
-                    <th></th>
-                    <th class="num">Вклад</th>
-                    <th>Пояснение</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><b>turnover_commitment</b></td>
-                    <td class="num tier-1">1</td>
-                    <td class="num">1,20</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:50.0%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,600</td>
-                    <td class="note">обязательство по минимальному обороту не задано</td>
-                  </tr>
-                  <tr>
-                    <td><b>count_share</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">1,00</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:41.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,500</td>
-                    <td class="note">доля по количеству 28.6% при цели 100.0% (2 из 7 уже распределённых), недобор 6.0 заявки</td>
-                  </tr>
-                  <tr>
-                    <td><b>volume_share</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">0,80</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:33.333%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,400</td>
-                    <td class="note">доля по объёму 52.1% при цели 100.0% (153000 из 293800)</td>
-                  </tr>
-                  <tr>
-                    <td><b>conversion</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">1,00</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:41.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,500</td>
-                    <td class="note">заявлено 79.0%, в прогоне 0 из 5; нижняя граница 43.8% при доверии 95.0% на 25 эффективных наблюдениях</td>
-                  </tr>
-                  <tr>
-                    <td><b>amount_band</b></td>
-                    <td class="num ">2</td>
-                    <td class="num">0,90</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:37.5%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,450</td>
-                    <td class="note">сумма 42000 в полосе 500..50000 -&gt; не в списке предпочтения (payflow, vipay)</td>
-                  </tr>
-                  <tr>
-                    <td><b>cascade_priority</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,60</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:25.0%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,300</td>
-                    <td class="note">приоритет в каскаде 3</td>
-                  </tr>
-                  <tr>
-                    <td><b>load_balance</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,70</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:29.167%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,350</td>
-                    <td class="note">загрузка 13.8%, узкое место — дневной оборот (13.8%)</td>
-                  </tr>
-                  <tr>
-                    <td><b>margin</b></td>
-                    <td class="num ">3</td>
-                    <td class="num">0,40</td>
-                    <td class="num">0,500</td>
-                    <td>
-                      <span class="minibar-track">
-                        <span class="minibar" style="width:16.667%"></span>
-                      </span>
-                    </td>
-                    <td class="num">0,200</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
 
             <div class="detail-block">
               <h4>Сравнение кандидатов по скорингу</h4>
@@ -3843,7 +3355,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
 <section class="card" id="rekomendacii">
   <div class="card-head">
     <h2>Рекомендации по настройке роутинга</h2>
-    <span class="badge flat">пунктов: 8</span>
+    <span class="badge flat">пунктов: 7</span>
   </div>
   <p class="card-note">
     Каждая рекомендация указывает конкретный параметр конфигурации, его текущее и предлагаемое значение
@@ -3876,14 +3388,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
         <span>предлагается <b>0,47</b></span>
       </div>
       <div class="rec-evidence">основание: 9 одобрено из 19</div>
-    </div>
-    <div class="rec warn">
-      <div class="rec-head">
-        <span class="badge warn">приоритет: средний</span>
-        <code>providers.payflow.banks</code>
-      </div>
-      <div class="rec-text">payflow отсеян 4 раза из 10 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: sberbank, alfa</div>
-      <div class="rec-evidence">основание: доминирующая причина отсева bank_not_in_list</div>
     </div>
     <div class="rec warn">
       <div class="rec-head">
@@ -4045,7 +3549,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
 
 <footer class="footer">
   <span>HackGenesis 2026 · Умный роутинг выплат</span>
-  <span>собрано 03.09.2026 17:09 из routing_decisions.json, routing_report.json</span>
+  <span>собрано 03.09.2026 17:29 из routing_decisions.json, routing_report.json</span>
 </footer>
 
 <script>
