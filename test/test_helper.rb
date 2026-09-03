@@ -48,7 +48,10 @@ module RoutingTest
   # проверяет ровно тот конвейер, который сдаётся организаторам.
   def run_pipeline(extra_args = [])
     dir = Dir.mktmpdir("routing-test-")
-    decisions_path = File.join(dir, "routing_decisions.json")
+    # Имя выгрузки уникально: CLI кладёт строгий вариант в общий каталог out/
+    # рядом с проектом, и два прогона не должны наступать друг на друга.
+    stem = "routing_decisions_test_#{Process.pid}_#{(@run_counter = @run_counter.to_i + 1)}"
+    decisions_path = File.join(dir, "#{stem}.json")
     report_path = File.join(dir, "routing_report.json")
 
     output = nil
@@ -70,10 +73,21 @@ module RoutingTest
       output: output,
       decisions_path: decisions_path,
       report_path: report_path,
-      strict_path: decisions_path.sub(/\.json\z/, ".strict.json"),
+      strict_path: strict_dump_path(decisions_path),
       decisions: JSON.parse(File.read(decisions_path)),
       report: JSON.parse(File.read(report_path))
     }
+  end
+
+  # Строгая выгрузка пишется либо рядом с решениями, либо в каталог out/ —
+  # тест не должен ломаться от того, где именно CLI решил её положить.
+  def strict_dump_path(decisions_path)
+    stem = File.basename(decisions_path, ".json")
+    candidates = [decisions_path.sub(/\.json\z/, ".strict.json"),
+                  File.join(PROJECT_ROOT, "out", "#{stem}.strict.json")]
+    found = candidates.find { |path| File.exist?(path) }
+    (@stray_files ||= []) << found if found&.start_with?(File.join(PROJECT_ROOT, "out"))
+    found
   end
 
   # Приборка временных каталогов после всей сессии.
@@ -85,6 +99,7 @@ module RoutingTest
   def cleanup_temp_dirs
     Array(@temp_dirs).each { |dir| FileUtils.remove_entry(dir, true) }
     FileUtils.remove_entry(@pipeline[:dir], true) if @pipeline
+    Array(@stray_files).each { |path| FileUtils.rm_f(path) }
   end
 
   # Заглушка цели маршрутизации.

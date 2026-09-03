@@ -60,6 +60,12 @@ module Routing
     end
 
     def success_rate_for(provider)
+      # Принудительная доля отказов: нужна, чтобы показать каскад и fallback
+      # на данных, где провайдеры почти не отказывают. Задаётся только явно,
+      # в обычном прогоне не участвует.
+      forced = @settings["forced_decline_rate"]
+      return (1.0 - forced.to_f).clamp(0.0, 1.0) unless forced.nil?
+
       observed = @calibration&.success_rate_for(provider.id)
       declared = provider.conversion_24h
       return (observed || declared || 0.8).to_f.clamp(0.0, 1.0) unless observed && declared

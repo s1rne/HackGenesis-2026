@@ -26,6 +26,11 @@ module Routing
       @max_attempts = config.fetch("run", "max_attempts", default: 3).to_i.clamp(1, 50)
       @exhausted_policy = config.fetch("run", "exhausted_pool_policy", default: "retry_best").to_s
       @profile = config.fetch("profile")
+      # Пересчитывать ли цели по долям на доступное подмножество провайдеров.
+      # Выключено — цели считаются по всему пулу, и недоступный провайдер
+      # тянет распределение на себя, оставаясь недостижимым. Включено —
+      # его доля честно расходится по тем, кто может принять заявку.
+      @reallocate = config.fetch("goal_relaxation", "reallocate_unreachable_share", default: true)
     end
 
     def route(operation)
@@ -140,7 +145,7 @@ module Routing
     end
 
     def rank(providers, operation, at, attempt_no)
-      ids = providers.map(&:id)
+      ids = @reallocate ? providers.map(&:id) : nil
       contexts = providers.map { |provider| context_for(provider, operation, at, ids, attempt_no) }
       @scorer.rank(contexts)
     end

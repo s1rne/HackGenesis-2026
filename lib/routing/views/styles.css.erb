@@ -266,12 +266,13 @@ a { color: var(--series); }
 
 .bar-row {
   display: grid;
-  grid-template-columns: 140px minmax(220px, 1fr) auto;
+  grid-template-columns: minmax(0, 140px) minmax(80px, 1fr) auto;
   align-items: center;
   gap: 16px;
   padding: 5px 0;
 }
-.bar-name { font-size: 15px; font-weight: 600; }
+.bar-row > * { min-width: 0; }
+.bar-name { font-size: 15px; font-weight: 600; overflow-wrap: anywhere; }
 .bar-name .sub { display: block; font-size: 13px; font-weight: 400; color: var(--muted); }
 
 .track {
@@ -334,7 +335,7 @@ a { color: var(--series); }
 
 .axis {
   display: grid;
-  grid-template-columns: 140px minmax(220px, 1fr) auto;
+  grid-template-columns: minmax(0, 140px) minmax(80px, 1fr) auto;
   gap: 16px;
   margin-top: 6px;
 }
@@ -558,6 +559,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
   gap: 24px;
   align-items: start;
 }
+.two-col > * { min-width: 0; }
 
 .alert {
   display: flex;

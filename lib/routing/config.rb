@@ -18,7 +18,7 @@ module Routing
         "max_attempts" => 3,
         "fallback_provider" => "spacepayments",
         "seed" => 20_260_906,
-        "share_basis" => "selected"
+        "exhausted_pool_policy" => "retry_best"
       },
       "ingest" => {
         "field_aliases" => {},
@@ -60,15 +60,14 @@ module Routing
       },
       "goal_relaxation" => {
         "enabled" => true,
-        "reallocate_unreachable_share" => true,
-        "ladder" => %w[drop_tier_1 drop_soft_goals fallback_provider]
+        "reallocate_unreachable_share" => true
       },
       "simulation" => {
         "enabled" => true,
-        "decline_uses_conversion" => true,
-        "timeout_share_of_failures" => 0.25,
-        "expire_share_of_failures" => 0.25,
-        "latency" => { "base_sec" => 12.0, "jitter_sec" => 18.0, "timeout_sec" => 60.0 }
+        "cascade_on" => %w[rejected expired],
+        "expired_share_of_failures" => 0.5,
+        "history_weight" => 0.5,
+        "latency" => { "base_sec" => 30.0, "spread" => 0.4, "rejected_sec" => 46.0, "expired_sec" => 540.0 }
       },
       "analytics" => {
         "share_drift_alert_pct" => 10.0,
@@ -91,7 +90,21 @@ module Routing
       end
       raise ConfigError, "конфигурация #{path} должна быть словарём" unless loaded.is_a?(Hash)
 
-      new(deep_merge(DEFAULTS, stringify(loaded)), path: path)
+      merged = deep_merge(DEFAULTS, stringify(loaded))
+      check_version!(merged["version"], path)
+      new(merged, path: path)
+    end
+
+    # Версия схемы конфигурации. Проверяется, а не игнорируется: если файл
+    # написан под другую версию, лучше сказать об этом сразу, чем молча
+    # применить половину настроек и получить необъяснимый результат.
+    SUPPORTED_VERSIONS = [1].freeze
+
+    def self.check_version!(version, path)
+      return if version.nil? || SUPPORTED_VERSIONS.include?(version.to_i)
+
+      raise ConfigError, "конфигурация #{path} объявлена версией #{version}, " \
+                         "поддерживаются: #{SUPPORTED_VERSIONS.join(', ')}"
     end
 
     def self.stringify(value)

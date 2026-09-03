@@ -1,5 +1,4 @@
 *.log
 tmp/
-out/
 .DS_Store
 *.tmp
