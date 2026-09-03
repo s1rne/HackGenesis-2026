@@ -447,7 +447,7 @@ ruby bin/route run --profile conversion_first
 ## Тесты
 
 ```bash
-rake test     # 291 тест, 1815 проверок
+rake test     # 314 тестов, 1918 проверок
 rake check    # прогон + автопроверка организаторов + тесты
 ```
 
