@@ -142,7 +142,106 @@ class AchievabilityTest < Minitest::Test
     assert_empty result["bounds"]
   end
 
-  private
+# --- три независимых нижних границы -------------------------------------
+
+# Самая понятная граница и самая недооценённая: доля 35% от десяти заявок —
+# это три с половиной заявки, а половину выплаты отправить нельзя. Отклонение
+# в пять пунктов возникает здесь ещё до того, как мы вспомним хоть об одном
+# ограничении.
+def test_indivisible_operations_alone_make_the_target_unreachable
+  floors = analyse_case_data["floors"]
+
+  assert_in_delta 5.0, floors["rounding_pct"], 0.01,
+                  "35% от десяти заявок — 3.5 заявки, целым числом этого не добиться"
+end
+
+def test_structural_and_rounding_floors_are_computed_separately
+  floors = analyse_case_data["floors"]
+
+  assert_in_delta 5.0, floors["structural_pct"], 0.01
+  refute_equal floors.object_id, floors["rounding_pct"].object_id
+  refute_empty floors["note"].to_s
+end
+
+# Перебор отвечает окончательно: не «не ниже чем», а «вот столько».
+# На десяти заявках допустимых раскладок меньше сотни.
+def test_exhaustive_search_confirms_the_bound_on_the_case_queue
+  floors = analyse_case_data["floors"]
+
+  assert_in_delta 5.0, floors["exact_pct"], 0.01
+  assert_in_delta floors["exact_pct"], analyse_case_data["min_total_variation_distance"] * 100, 0.01,
+                  "когда перебор возможен, итоговым минимумом обязан быть именно он"
+end
+
+# Проверка самой проверки: перебор считаю здесь заново, в тесте, простым
+# циклом по всем сочетаниям. Если он разойдётся с тем, что говорит движок,
+# виноват движок.
+def test_engine_optimum_matches_a_brute_force_written_independently
+  queue = RoutingTest.queue_rows
+  providers = RoutingTest.providers_payload["providers"]
+  external = providers.reject { |p| p["payment_system"] == "spacepayments" }
+
+  eligible = queue.map do |op|
+    external.select do |p|
+      next false if p["limit_amount_min"] && op["amount"] < p["limit_amount_min"]
+      next false if p["limit_amount_max"] && op["amount"] > p["limit_amount_max"]
+
+      banks = p["banks"] || []
+      banks.empty? || (p["exclude_banks"] ? !banks.include?(op["bank"]) : banks.include?(op["bank"]))
+    end.map { |p| p["payment_system"] }
+  end
+
+  headroom = external.to_h do |p|
+    [p["payment_system"],
+     p["daily_amount_limit"] ? p["daily_amount_limit"] - p["daily_approved_amount"] : Float::INFINITY]
+  end
+  targets = external.to_h { |p| [p["payment_system"], p["traffic_percentage"].to_f / 100] }
+
+  best = nil
+  eligible.first.product(*eligible[1..]) do |combo|
+    counts = Hash.new(0)
+    spent = Hash.new(0)
+    combo.each_with_index { |id, i| counts[id] += 1; spent[id] += queue[i]["amount"] }
+    next if headroom.any? { |id, room| spent[id] > room }
+
+    deviation = targets.sum { |id, share| ((counts[id].to_f / queue.size) - share).abs } / 2.0
+    best = deviation if best.nil? || deviation < best
+  end
+
+  assert_in_delta best * 100, analyse_case_data["floors"]["exact_pct"], 0.01,
+                  "движок и независимый перебор обязаны дать одно число"
+end
+
+def test_exhaustive_search_is_skipped_when_the_space_is_too_large
+  operations = (1..40).map do |i|
+    build_operation(id: "big_#{i}", amount: 20_000, bank: "sberbank")
+  end
+  result = analyse(case_fleet, operations)
+
+  assert_nil result.dig("floors", "exact_pct"),
+             "на большой очереди перебор невозможен и обязан честно вернуть пусто"
+  refute_nil result["min_total_variation_distance"], "аналитические границы остаются"
+end
+
+def test_the_router_lands_on_the_proven_optimum
+  report = pipeline[:report]
+  actual = report["distribution"].reject { |id, _| id == "spacepayments" }
+                                 .sum { |_, row| (row["share_pct"] - row["target_pct"]).abs } / 200.0
+
+  assert_in_delta report.dig("target_achievability", "min_total_variation_distance"), actual, 1e-9,
+                  "роутер обязан попадать ровно в доказанный минимум, а не около него"
+end
+
+private
+
+def case_fleet
+  Routing::Fleet.new(
+    RoutingTest.providers_payload["providers"].each_with_index.map do |row, index|
+      build_provider(row.merge("payment_system" => row["payment_system"]))
+    end
+  )
+end
+
 
   def analyse_case_data = @analyse_case_data ||= pipeline[:report]["target_achievability"]
 

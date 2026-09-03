@@ -66,7 +66,8 @@ module Routing
           "structural_constraints" => @constraints.map(&:id),
           "bounds" => bounds.to_h { |bound| [bound.provider, bound_to_h(bound)] },
           "verdict" => overall_verdict(bounds),
-          "min_total_variation_distance" => min_tvd(bounds).round(4),
+          "min_total_variation_distance" => combined_floor(bounds, operations).round(4),
+          "floors" => floors(bounds, operations),
           "assumption" => "коридоры и минимальное отклонение верны в предположении, что каждая " \
                           "заявка уходит допустимому внешнему провайдеру. При политике " \
                           "exhausted_pool_policy: fallback часть заявок уходит на self-провайдера, " \
@@ -185,6 +186,86 @@ module Routing
 
       # Минимально возможное отклонение от целей: каждая цель подтягивается
       # к своему коридору, остаток отклонения уже неустраним.
+      # Три независимых способа посчитать, насколько близко к плану вообще можно
+      # подойти. Совпадение трёх ответов, полученных по-разному, — куда более
+      # сильное утверждение, чем один расчёт.
+      def floors(bounds, operations)
+        rounding = rounding_floor(operations.size)
+        structural = min_tvd(bounds)
+        exact = exact_optimum(operations)
+
+        {
+          "rounding_pct" => (rounding * 100).round(2),
+          "structural_pct" => (structural * 100).round(2),
+          "exact_pct" => exact && (exact * 100).round(2),
+          "note" => "нижняя граница отклонения от целевых долей, три расчёта. " \
+                    "«Округление» — сколько остаётся из-за того, что заявка неделима: " \
+                    "доля 35% от #{operations.size} заявок это #{(0.35 * operations.size).round(2)} заявки, " \
+                    "а половину выплаты отправить нельзя. «Структура» — сколько остаётся из-за " \
+                    "банковских списков, диапазонов сумм и дневных лимитов. «Перебор» — точный " \
+                    "минимум по всем допустимым раскладкам, считается когда их обозримо мало."
+        }.compact
+      end
+
+      def combined_floor(bounds, operations)
+        exact = exact_optimum(operations)
+        return exact if exact
+
+        [rounding_floor(operations.size), min_tvd(bounds)].max
+      end
+
+      # Отклонение, которое остаётся при идеальном распределении, если забыть про
+      # все ограничения и помнить только, что заявка неделима.
+      #
+      # Метод наибольших остатков для этой задачи оптимален: он минимизирует сумму
+      # модулей отклонений при целых числах, дающих в сумме N. Поэтому полученное
+      # им значение — не оценка, а точная нижняя граница.
+      def rounding_floor(total)
+        return 0.0 if total.zero?
+
+        targets = @fleet.routable.to_h { |provider| [provider.id, @fleet.count_target(provider.id)] }
+        return 0.0 if targets.values.sum <= 0
+
+        counts = Statistics.largest_remainder(targets, total)
+        targets.sum { |id, share| ((counts[id].to_f / total) - share).abs } / 2.0
+      end
+
+      # Точный минимум перебором всех допустимых раскладок.
+      #
+      # На десяти заявках вариантов меньше сотни, и перебор отвечает на вопрос
+      # окончательно: не «граница не ниже», а «вот столько, и вот такая раскладка».
+      # На больших очередях перебор невозможен, и тогда мы честно возвращаем nil,
+      # оставляя две аналитические границы.
+      MAX_ENUMERATION = 500_000
+
+      def exact_optimum(operations)
+        choices = operations.map { |operation| eligible_ids(operation) }
+        return nil if choices.any?(&:empty?)
+
+        space = choices.reduce(1) { |acc, list| acc * list.size }
+        return nil if space > MAX_ENUMERATION || space <= 0
+
+        targets = @fleet.routable.to_h { |provider| [provider.id, @fleet.count_target(provider.id)] }
+        headroom = @fleet.routable.to_h { |provider| [provider.id, initial_headroom(provider)] }
+        total = operations.size.to_f
+        best = nil
+
+        choices.first.product(*choices[1..]) do |combo|
+          counts = Hash.new(0)
+          spent = Hash.new { |hash, key| hash[key] = Money.zero }
+          combo.each_with_index do |id, index|
+            counts[id] += 1
+            spent[id] += operations[index].amount
+          end
+          next if headroom.any? { |id, room| room && spent[id] > room }
+
+          deviation = targets.sum { |id, share| ((counts[id].to_f / total) - share).abs } / 2.0
+          best = deviation if best.nil? || deviation < best
+        end
+
+        best
+      end
+
       def min_tvd(bounds)
         bounds.sum do |bound|
           if bound.target > bound.ceiling
