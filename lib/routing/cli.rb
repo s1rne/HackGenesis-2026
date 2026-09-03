@@ -25,7 +25,7 @@ module Routing
       quiet: false
     }.freeze
 
-    COMMANDS = %w[plan decisions report run compare replay validate finalize].freeze
+    COMMANDS = %w[plan decisions report run compare replay explain validate finalize].freeze
 
     def initialize(argv)
       @argv = argv.dup
@@ -152,6 +152,36 @@ module Routing
       view.issues(router.issues)
 
       report_delivery_checks(router, decisions, placeholder)
+    end
+
+    # Разбор одной заявки: почему она ушла именно туда.
+    #
+    # В проде это самый частый вопрос к роутеру, и задаёт его обычно не
+    # разработчик, а поддержка или партнёр. Поэтому команда читает готовую
+    # выгрузку, а не пересчитывает заново: разбирать надо именно то решение,
+    # которое было принято, а не похожее на него.
+    def cmd_explain
+      id = @argv.shift
+      unless id
+        warn "Укажите операцию: bin/route explain op_103"
+        return 1
+      end
+
+      path = @options[:decisions]
+      unless File.exist?(path)
+        warn "Выгрузка #{path} не найдена — сначала bin/route run"
+        return 2
+      end
+
+      decisions = JSON.parse(File.read(path))
+      decision = decisions.find { |item| item["operation_id"] == id }
+      unless decision
+        warn "В #{path} нет заявки #{id}. Есть: #{decisions.first(8).map { |i| i['operation_id'] }.join(', ')}…"
+        return 1
+      end
+
+      view.explanation(decision)
+      0
     end
 
     def cmd_validate

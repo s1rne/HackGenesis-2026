@@ -101,6 +101,98 @@ module Routing
       replay_drift(summary)
     end
 
+    # --- разбор одной заявки -------------------------------------------------
+
+    # Ответ на вопрос, который в проде задают чаще всего: «почему эта выплата
+    # ушла именно туда». Читается человеком, не разработчиком: сначала что за
+    # заявка, потом кого рассматривали и почему отсеяли, потом кто выбран и по
+    # какой причине, и только в конце — числа скоринга.
+    def explanation(decision)
+      operation = decision["operation_id"]
+      line "Заявка #{operation}"
+      line "  сумма #{decision['amount']} #{decision['currency'] || 'RUB'}, банк #{decision['bank'] || 'не указан'}"
+      line "  итог: #{decision['selected_provider'] || 'провайдер не найден'} — " \
+           "#{outcome_word(decision['simulated_result'])}, #{decision['latency_sec']} с"
+      line
+
+      line "Кого рассматривали:"
+      decision["attempts"].each { |attempt| explanation_attempt(attempt) }
+
+      explanation_choice(decision["selection"])
+      explanation_cascade(decision["cascade"], decision["attempts"])
+      explanation_events(decision["events"])
+    end
+
+    private
+
+    def explanation_attempt(attempt)
+      mark = attempt["decision"] == "selected" ? "-->" : "   "
+      # У записи об отсеве человеческая формулировка лежит рядом, у записи
+      # о выборе — нет: там причина выбора конкретна и складывается из решающего
+      # фактора. Берём её из каталога, чтобы обе строки читались одинаково.
+      wording = attempt["explanation"] || Routing::Reasons.text(attempt["reason"])
+      line format("  %s %-14s %s", mark, attempt["provider"], wording)
+      line format("      %s", attempt["details"]) if attempt["details"]
+    end
+
+    def explanation_choice(selection)
+      return if selection.nil?
+
+      line
+      line "Почему выбран именно он:"
+      line "  #{selection['details'] || selection['reason']}"
+
+      candidates = Array(selection["candidates"])
+      # При единственном кандидате все факторы нормализуются в нейтральные
+      # значения: сравнивать не с кем. Печатать такую таблицу — создавать
+      # видимость выбора, которого не было.
+      return if candidates.size <= 1
+
+      factors = Array(candidates.first["factors"])
+      return if factors.empty?
+
+      line
+      line "  Сравнивали с: #{candidates.drop(1).map { |c| c['provider'] }.join(', ')}"
+      line
+      line "  Разбор скоринга победителя (эшелон / вес / вклад):"
+      factors.sort_by { |factor| [factor["tier"], -factor["contribution"].to_f] }.each do |factor|
+        line format("    эшелон %d  %-22s вес %.2f  вклад %.3f", factor["tier"], factor["factor"],
+                    factor["weight"], factor["contribution"])
+        line format("               %s", factor["note"]) if factor["note"]
+      end
+    end
+
+    def explanation_cascade(cascade, attempts)
+      steps = Array(cascade && cascade["path"])
+      return if steps.size <= 1
+
+      line
+      line "Хронология попыток:"
+      steps.each do |step|
+        suffix = step["fallback"] ? "  (собственный провайдер)" : ""
+        line format("  %d. %-14s %-9s %4d с%s", step["attempt"], step["provider"],
+                    outcome_word(step["outcome"]), step["latency_sec"], suffix)
+      end
+      line "  Всего попыток: #{steps.size}, потрачено #{steps.sum { |step| step['latency_sec'].to_i }} с"
+      _ = attempts
+    end
+
+    def explanation_events(events)
+      events = Array(events)
+      return if events.empty?
+
+      line
+      line "События по заявке:"
+      events.each { |event| line "  #{event['type']}: #{event['note']}" }
+    end
+
+    def outcome_word(outcome)
+      { "approved" => "одобрено", "rejected" => "отказ", "expired" => "истёк срок" }
+        .fetch(outcome.to_s, outcome.to_s)
+    end
+
+    public
+
     def issues(collection)
       return if collection.nil? || collection.empty?
 
