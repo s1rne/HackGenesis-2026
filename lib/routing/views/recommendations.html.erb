@@ -1,0 +1,47 @@
+<% if present?("recommendations_detailed") || present?("recommendations") -%>
+<section class="card" id="rekomendacii">
+  <div class="card-head">
+    <h2>Рекомендации по настройке роутинга</h2>
+<% if present?("recommendations_detailed") -%>
+    <span class="badge flat">пунктов: <%= h(num(section("recommendations_detailed").size)) %></span>
+<% end -%>
+  </div>
+  <p class="card-note">
+    Каждая рекомендация указывает конкретный параметр конфигурации, его текущее и предлагаемое значение
+    и основание — число из этого же прогона.
+  </p>
+
+<% if present?("recommendations_detailed") -%>
+  <div class="cards">
+<% section("recommendations_detailed").each do |rec| -%>
+<%    status = priority_status(rec["priority"]) -%>
+    <div class="rec <%= h(status) %>">
+      <div class="rec-head">
+        <span class="badge <%= h(status) %>">приоритет: <%= h(priority_label(rec["priority"])) %></span>
+<% if rec["parameter"] -%>
+        <code><%= h(rec["parameter"]) %></code>
+<% end -%>
+      </div>
+      <div class="rec-text"><%= h(rec["text"]) %></div>
+<% if rec.key?("current") || rec.key?("suggested") -%>
+      <div class="rec-param">
+        <span>сейчас <b><%= h(num(rec["current"], 2)) %></b></span>
+        <span class="arrow">&rarr;</span>
+        <span>предлагается <b><%= h(num(rec["suggested"], 2)) %></b></span>
+      </div>
+<% end -%>
+<% if rec["evidence"] -%>
+      <div class="rec-evidence">основание: <%= h(rec["evidence"]) %></div>
+<% end -%>
+    </div>
+<% end -%>
+  </div>
+<% else -%>
+  <ul class="list">
+<% section("recommendations").each do |text| -%>
+    <li><%= h(text) %></li>
+<% end -%>
+  </ul>
+<% end -%>
+</section>
+<% end -%>

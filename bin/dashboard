@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Статический HTML-дашборд по результатам роутинга.
+#
+#   bin/dashboard
+#   bin/dashboard --decisions routing_decisions.json --report routing_report.json --out out/dashboard.html
+#
+# На выход — один самодостаточный файл: стили и скрипты внутри, внешних
+# запросов нет, открывается с диска без сети.
+
+require_relative "../lib/routing/dashboard"
+
+exit(Routing::Dashboard::CLI.new(ARGV).run)

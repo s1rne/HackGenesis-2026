@@ -1,0 +1,227 @@
+<% unless decisions.empty? -%>
+<section class="card" id="resheniya">
+  <div class="card-head">
+    <h2>Решения по заявкам</h2>
+    <span class="badge flat">строк: <%= h(num(decisions.size)) %></span>
+  </div>
+  <p class="card-note">
+    Строка раскрывается по клику: внутри — почему выбран этот провайдер, почему отсеяны остальные,
+    хронология попыток при отказе и полный разбор скоринга по факторам.
+  </p>
+
+  <div class="controls">
+    <input type="search" id="op-search" placeholder="Поиск по id, провайдеру, банку" aria-label="Поиск по решениям">
+    <select id="op-outcome" aria-label="Фильтр по исходу">
+      <option value="">Любой исход</option>
+      <option value="approved">одобрено</option>
+      <option value="rejected">отказ</option>
+      <option value="expired">истекло</option>
+    </select>
+    <select id="op-provider" aria-label="Фильтр по провайдеру">
+      <option value="">Любой провайдер</option>
+<% decisions.map { |d| d["selected_provider"] }.compact.uniq.sort.each do |id| -%>
+      <option value="<%= h(id) %>"><%= h(id) %></option>
+<% end -%>
+    </select>
+    <button type="button" id="op-expand">Развернуть все</button>
+    <button type="button" id="op-collapse">Свернуть все</button>
+    <span class="count" id="op-count"></span>
+  </div>
+
+  <div class="table-scroll">
+  <table id="op-table">
+    <thead>
+      <tr>
+        <th>Операция</th>
+        <th class="num">Сумма</th>
+        <th>Банк</th>
+        <th>Провайдер</th>
+        <th>Исход</th>
+        <th class="num">Задержка</th>
+        <th class="num">Каскад</th>
+        <th>Причина выбора</th>
+      </tr>
+    </thead>
+    <tbody>
+<% decisions.each_with_index do |decision, index| -%>
+<%
+      chosen = selected_attempt(decision)
+      outcome = decision["simulated_result"].to_s
+      reason_code = decision.dig("selection", "reason") || chosen&.dig("reason")
+      provider = decision["selected_provider"].to_s
+      bank = decision["bank"].to_s
+      depth = cascade_depth(decision)
+      search = [decision["operation_id"], provider, bank].join(" ").downcase
+      detail_id = "op-detail-#{index}"
+-%>
+      <tr class="op" tabindex="0" role="button" aria-expanded="false" aria-controls="<%= h(detail_id) %>"
+          data-detail="<%= h(detail_id) %>" data-search="<%= h(search) %>"
+          data-outcome="<%= h(outcome) %>" data-provider="<%= h(provider) %>">
+        <td><span class="chev">&#9656;</span> <%= h(decision["operation_id"]) %></td>
+        <td class="num"><%= h(decision["amount"] ? money(decision["amount"]) : "—") %></td>
+        <td><%= h(blank?(bank) ? "—" : bank) %></td>
+        <td><b><%= h(blank?(provider) ? "—" : provider) %></b></td>
+        <td><span class="badge <%= h(outcome_status(outcome)) %>"><%= h(outcome_label(outcome)) %></span></td>
+        <td class="num"><%= h(seconds(decision["latency_sec"])) %></td>
+        <td class="num"><%= h(num(depth)) %></td>
+        <td style="color:var(--ink-2);font-size:14px"><%= h(reason_code ? reason_text(reason_code) : "—") %></td>
+      </tr>
+      <tr class="detail" id="<%= h(detail_id) %>" hidden>
+        <td colspan="8">
+          <div class="detail-inner">
+
+<% if reason_code -%>
+            <div class="detail-block">
+              <h4>Почему выбран</h4>
+              <div class="why">
+                <b><%= h(blank?(provider) ? "—" : provider) %></b> — <%= h(reason_text(reason_code)) %>
+                <span class="tag"><%= h(reason_code) %></span>
+<% if decision.dig("selection", "profile") -%>
+                <span class="tag">профиль: <%= h(decision.dig("selection", "profile")) %></span>
+<% end -%>
+<% if decision.dig("selection", "details") -%>
+                <div class="details"><%= h(decision.dig("selection", "details")) %></div>
+<% elsif chosen && chosen["details"] -%>
+                <div class="details"><%= h(chosen["details"]) %></div>
+<% end -%>
+              </div>
+            </div>
+<% end -%>
+
+<% unless blank?(decision.dig("cascade", "path")) -%>
+            <div class="detail-block">
+              <h4>Хронология попыток</h4>
+              <div class="steps">
+<% decision.dig("cascade", "path").each_with_index do |step, step_index| -%>
+<% if step_index.positive? -%>
+                <span class="arrow">&rarr;</span>
+<% end -%>
+                <span class="step">
+                  <span class="n">попытка <%= h(num(step["attempt"])) %></span>
+                  <b><%= h(step["provider"]) %></b>
+                  <span class="badge <%= h(outcome_status(step["outcome"])) %>"><%= h(outcome_label(step["outcome"])) %></span>
+                  <span class="n"><%= h(seconds(step["latency_sec"])) %></span>
+<% if step["fallback"] -%>
+                  <span class="tag">fallback</span>
+<% end -%>
+                </span>
+<% end -%>
+              </div>
+            </div>
+<% end -%>
+
+<% unless blank?(decision["attempts"]) -%>
+            <div class="detail-block">
+              <h4>Рассмотренные провайдеры</h4>
+              <div class="attempts">
+<% decision["attempts"].each do |attempt| -%>
+<%            selected = attempt["decision"] == "selected" -%>
+                <div class="attempt <%= selected ? "selected" : "skipped" %>">
+                  <div class="seq"><%= h(attempt["sequence"] ? "##{attempt["sequence"]}" : "") %></div>
+                  <div class="who">
+                    <%= h(attempt["provider"]) %>
+                    <span class="stage"><%= h(selected ? "выбран" : "отсеян") %><%= attempt["stage"] ? " · #{h(attempt["stage"])}" : "" %></span>
+                  </div>
+                  <div class="why-line">
+                    <%= h(attempt["explanation"] || reason_text(attempt["reason"])) %>
+                    <span class="code">(<%= h(attempt["reason"]) %> · <%= h(reason_category(attempt["reason"])) %>)</span>
+<% if attempt["details"] -%>
+                    <div class="details"><%= h(attempt["details"]) %></div>
+<% end -%>
+<% if attempt["score"] -%>
+                    <div class="details">итоговый скоринг <b class="mono"><%= h(num(attempt["score"], 4)) %></b></div>
+<% end -%>
+                  </div>
+                </div>
+<% end -%>
+              </div>
+            </div>
+<% end -%>
+
+<% if chosen && !blank?(chosen["factors"]) -%>
+<%    max_weight = chosen["factors"].map { |f| f["weight"].to_f.abs }.max -%>
+            <div class="detail-block">
+              <h4>Разбор скоринга выбранного провайдера</h4>
+              <table class="factors">
+                <thead>
+                  <tr>
+                    <th>Фактор</th>
+                    <th class="num">Эшелон</th>
+                    <th class="num">Вес</th>
+                    <th class="num">Норм.</th>
+                    <th>Вклад</th>
+                    <th class="num">Вклад</th>
+                    <th>Пояснение</th>
+                  </tr>
+                </thead>
+                <tbody>
+<% chosen["factors"].each do |factor| -%>
+                  <tr>
+                    <td><b><%= h(factor["factor"]) %></b></td>
+                    <td class="num <%= factor["tier"].to_i == 1 ? "tier-1" : "" %>"><%= h(num(factor["tier"])) %></td>
+                    <td class="num"><%= h(num(factor["weight"], 2)) %></td>
+                    <td class="num"><%= h(num(factor["normalized"], 3)) %></td>
+                    <td>
+                      <span class="minibar-track">
+                        <span class="minibar" style="width:<%= h(scale(factor["contribution"], max_weight)) %>%"></span>
+                      </span>
+                    </td>
+                    <td class="num"><%= h(num(factor["contribution"], 3)) %></td>
+                    <td class="note"><%= h(factor["note"]) %></td>
+                  </tr>
+<% end -%>
+                </tbody>
+              </table>
+            </div>
+<% end -%>
+
+<% unless blank?(decision.dig("selection", "candidates")) -%>
+<%    candidates = decision.dig("selection", "candidates") -%>
+<%    tier_keys = candidates.flat_map { |c| (c["tiers"] || {}).keys }.uniq.sort -%>
+            <div class="detail-block">
+              <h4>Сравнение кандидатов по скорингу</h4>
+              <table class="factors">
+                <thead>
+                  <tr>
+                    <th>Провайдер</th>
+                    <th class="num">Итог</th>
+<% tier_keys.each do |tier| -%>
+                    <th class="num">эшелон <%= h(tier) %></th>
+<% end -%>
+                  </tr>
+                </thead>
+                <tbody>
+<% candidates.each do |candidate| -%>
+                  <tr>
+                    <td><b><%= h(candidate["provider"]) %></b><%= candidate["provider"] == provider ? " <span class=\"tag\">выбран</span>" : "" %></td>
+                    <td class="num"><%= h(num(candidate["score"], 4)) %></td>
+<% tier_keys.each do |tier| -%>
+                    <td class="num"><%= h(num((candidate["tiers"] || {})[tier], 3)) %></td>
+<% end -%>
+                  </tr>
+<% end -%>
+                </tbody>
+              </table>
+            </div>
+<% end -%>
+
+<% unless blank?(decision["events"]) -%>
+            <div class="detail-block">
+              <h4>Уступки и события по этой заявке</h4>
+              <ul class="list">
+<% decision["events"].each do |event| -%>
+                <li><span class="tag"><%= h(event["type"]) %></span> <%= h(event["note"]) %></li>
+<% end -%>
+              </ul>
+            </div>
+<% end -%>
+
+          </div>
+        </td>
+      </tr>
+<% end -%>
+    </tbody>
+  </table>
+  </div>
+</section>
+<% end -%>

@@ -1,0 +1,98 @@
+<% if present?("distribution") -%>
+<%
+  rows = section("distribution")
+  count_domain = nice_domain(rows.flat_map { |_, r| [r["share_pct"], r["target_pct"]] })
+  volume_domain = nice_domain(rows.flat_map { |_, r| [r["volume_share_pct"], r["target_volume_pct"]] })
+  has_volume = rows.any? { |_, r| r["target_volume_pct"] || r["volume_share_pct"] }
+-%>
+<section class="card" id="raspredelenie">
+  <div class="card-head">
+    <h2>Распределение: план и факт</h2>
+    <span class="badge flat">порог подсветки <%= h(num(options[:drift_pct], 0)) %> п.п.</span>
+  </div>
+  <p class="card-note">
+    Столбик — фактическая доля провайдера, вертикальная засечка — целевая доля из настроек.
+    Справа отклонение в процентных пунктах; отклонение от порога и выше подсвечено.
+  </p>
+
+  <div class="two-col">
+
+    <div>
+      <h3 style="font-size:16px;margin-bottom:10px">По количеству заявок</h3>
+      <div class="chart-legend">
+        <span><i class="swatch"></i>факт</span>
+        <span><i class="swatch tick"></i>цель</span>
+      </div>
+      <div class="chart">
+<% rows.each do |id, row| -%>
+<%      status = deviation_status(row["deviation_pct"]) -%>
+        <div class="bar-row">
+          <div class="bar-name"><%= h(id) %><span class="sub"><%= h(num(row["count"])) %> заявок</span></div>
+          <div class="track">
+<% ticks(count_domain).each do |tick| -%>
+            <i class="gridline" style="left:<%= h(scale(tick, count_domain)) %>%"></i>
+<% end -%>
+            <div class="fill" style="width:<%= h(scale(row["share_pct"], count_domain)) %>%"></div>
+            <i class="marker" style="left:<%= h(scale(row["target_pct"], count_domain)) %>%"></i>
+          </div>
+          <div class="bar-values">
+            <span class="v"><%= h(pct(row["share_pct"])) %></span>
+            <span class="t">цель <%= h(pct(row["target_pct"])) %></span>
+            <span class="d <%= h(status) %>"><%= h(signed(row["deviation_pct"], 1, " п.п.")) %></span>
+          </div>
+        </div>
+<% end -%>
+        <div class="axis">
+          <div></div>
+          <div class="axis-ticks">
+<% ticks(count_domain).each do |tick| -%>
+            <span style="left:<%= h(scale(tick, count_domain)) %>%"><%= h(num(tick, 0)) %>%</span>
+<% end -%>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+<% if has_volume -%>
+    <div>
+      <h3 style="font-size:16px;margin-bottom:10px">По объёму выплат</h3>
+      <div class="chart-legend">
+        <span><i class="swatch"></i>факт</span>
+        <span><i class="swatch tick"></i>цель</span>
+      </div>
+      <div class="chart">
+<% rows.each do |id, row| -%>
+<%      status = deviation_status(row["volume_deviation_pct"]) -%>
+        <div class="bar-row">
+          <div class="bar-name"><%= h(id) %><span class="sub"><%= h(money(row["volume"])) %></span></div>
+          <div class="track">
+<% ticks(volume_domain).each do |tick| -%>
+            <i class="gridline" style="left:<%= h(scale(tick, volume_domain)) %>%"></i>
+<% end -%>
+            <div class="fill" style="width:<%= h(scale(row["volume_share_pct"], volume_domain)) %>%"></div>
+            <i class="marker" style="left:<%= h(scale(row["target_volume_pct"], volume_domain)) %>%"></i>
+          </div>
+          <div class="bar-values">
+            <span class="v"><%= h(pct(row["volume_share_pct"])) %></span>
+            <span class="t">цель <%= h(pct(row["target_volume_pct"])) %></span>
+            <span class="d <%= h(status) %>"><%= h(signed(row["volume_deviation_pct"], 1, " п.п.")) %></span>
+          </div>
+        </div>
+<% end -%>
+        <div class="axis">
+          <div></div>
+          <div class="axis-ticks">
+<% ticks(volume_domain).each do |tick| -%>
+            <span style="left:<%= h(scale(tick, volume_domain)) %>%"><%= h(num(tick, 0)) %>%</span>
+<% end -%>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+<% end -%>
+
+  </div>
+</section>
+<% end -%>

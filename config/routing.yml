@@ -163,7 +163,8 @@ simulation:
   # Какие исходы считаются отказом в приёме и продолжают каскад.
   cascade_on: [rejected, expired]
   # Доля отказов, приходящаяся на истечение срока (остальное — отказ).
-  expired_share_of_failures: 0.35
+  # 0.50 — факт по operations_history.csv: 16 expired против 16 rejected.
+  expired_share_of_failures: 0.50
   # Вес наблюдённой по истории конверсии против заявленной. 0 — верим только
   # заявленной, 1 — только истории.
   history_weight: 0.5

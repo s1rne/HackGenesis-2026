@@ -21,7 +21,8 @@ module Routing
     # Если цель выше потолка или ниже пола, она недостижима — и это
     # доказывается пересчётом, а не обсуждается.
     class Achievability
-      Bound = Struct.new(:provider, :target, :floor, :ceiling, :verdict, :blocking_reasons, keyword_init: true)
+      Bound = Struct.new(:provider, :target, :floor, :ceiling, :capacity_ceiling, :binding_limit,
+                         :verdict, :blocking_reasons, keyword_init: true)
 
       def initialize(fleet:, constraints:, config:)
         @fleet = fleet
@@ -46,8 +47,17 @@ module Routing
           forced[ids.first] += 1 if ids.size == 1
         end
 
+        eligible_by_provider = Hash.new { |hash, key| hash[key] = [] }
+        operations.each_with_index do |operation, index|
+          eligibility[index].each { |id| eligible_by_provider[id] << operation }
+        end
+
         bounds = @fleet.routable.map do |provider|
-          build_bound(provider, forced[provider.id] / total, capacity[provider.id] / total, operations)
+          build_bound(provider,
+                      forced[provider.id] / total,
+                      capacity[provider.id] / total,
+                      capacity_ceiling(provider, eligible_by_provider[provider.id]) / total,
+                      operations)
         end
 
         {
@@ -73,8 +83,11 @@ module Routing
         end
       end
 
-      def build_bound(provider, floor, ceiling, operations)
+      def build_bound(provider, floor, structural_ceiling, capacity_ceiling, operations)
         target = @fleet.count_target(provider.id)
+        ceiling = [structural_ceiling, capacity_ceiling].min
+        binding_limit = capacity_ceiling < structural_ceiling ? "дневной лимит оборота" : "структурные ограничения"
+
         verdict = if target > ceiling + 1e-9
                     "недостижима сверху"
                   elsif target < floor - 1e-9
@@ -84,8 +97,44 @@ module Routing
                   end
 
         Bound.new(provider: provider.id, target: target, floor: floor, ceiling: ceiling,
-                  verdict: verdict,
+                  capacity_ceiling: capacity_ceiling, binding_limit: binding_limit, verdict: verdict,
                   blocking_reasons: verdict == "недостижима сверху" ? blocking_reasons(provider, operations) : {})
+      end
+
+      # Сколько заявок из этой очереди провайдер способен принять по деньгам.
+      #
+      # Структурные ограничения говорят, какие заявки он имеет ПРАВО взять;
+      # свободный дневной лимит — сколько он их ФИЗИЧЕСКИ вместит. Берём самые
+      # дешёвые из допустимых, пока хватает остатка: это и есть максимум по числу
+      # операций, больше не получится ни при какой стратегии.
+      #
+      # Именно здесь чаще всего и ломается цель по доле: провайдер проходит все
+      # фильтры, но у него осталось денег на две заявки из десяти.
+      # Свободный лимит НА НАЧАЛО прогона, а не на конец.
+      #
+      # Брать текущее состояние здесь нельзя: к моменту сборки отчёта провайдер
+      # уже потратил часть лимита на те самые заявки, вместимость которых мы
+      # считаем. Получилась бы бессмыслица — «максимум три заявки» при фактически
+      # обработанных трёх и нулевом остатке, то есть потолок ниже факта.
+      def initial_headroom(provider)
+        caps = [provider.daily_amount_limit, provider.daily_turnover_max].compact
+        return nil if caps.empty?
+
+        remaining = caps.min - (provider.initial_daily_amount || Money.zero)
+        remaining.negative? ? Money.zero : remaining
+      end
+
+      def capacity_ceiling(provider, eligible_operations)
+        headroom = initial_headroom(provider)
+        return eligible_operations.size.to_f if headroom.nil?
+
+        spent = Money.zero
+        eligible_operations.map(&:amount).sort.count do |amount|
+          next false if spent + amount > headroom
+
+          spent += amount
+          true
+        end.to_f
       end
 
       # Чем именно провайдера отсекает: агрегат причин по всем заявкам,
@@ -110,6 +159,8 @@ module Routing
           "target_pct" => (bound.target * 100).round(1),
           "floor_pct" => (bound.floor * 100).round(1),
           "ceiling_pct" => (bound.ceiling * 100).round(1),
+          "capacity_ceiling_pct" => (bound.capacity_ceiling * 100).round(1),
+          "binding_limit" => bound.binding_limit,
           "verdict" => bound.verdict,
           "blocking_reasons" => bound.blocking_reasons.empty? ? nil : bound.blocking_reasons
         }.compact
@@ -121,7 +172,8 @@ module Routing
 
         broken.map do |bound|
           "цель #{(bound.target * 100).round(1)}% на #{bound.provider} #{bound.verdict}: " \
-            "коридор #{(bound.floor * 100).round(1)}..#{(bound.ceiling * 100).round(1)}%" \
+            "коридор #{(bound.floor * 100).round(1)}..#{(bound.ceiling * 100).round(1)}%, " \
+            "ограничивает — #{bound.binding_limit}" \
             "#{bound.blocking_reasons.empty? ? '' : ", причина — #{bound.blocking_reasons.keys.first}"}"
         end.join("; ")
       end

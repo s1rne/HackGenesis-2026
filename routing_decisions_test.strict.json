@@ -100,8 +100,8 @@
         "details": "следующий в каскаде после отказа предыдущего"
       }
     ],
-    "simulated_result": "rejected",
-    "latency_sec": 114
+    "simulated_result": "expired",
+    "latency_sec": 856
   },
   {
     "operation_id": "op_105",
@@ -235,7 +235,7 @@
   },
   {
     "operation_id": "op_110",
-    "selected_provider": "quickpay",
+    "selected_provider": "payflow",
     "attempts": [
       {
         "provider": "vipay",
@@ -245,18 +245,18 @@
       },
       {
         "provider": "payflow",
-        "decision": "skipped",
-        "reason": "daily_turnover_max_exceeded",
-        "details": "2988800 > daily_turnover_max 2950000"
+        "decision": "selected",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки; решающий фактор против quickpay — count_share"
       },
       {
         "provider": "quickpay",
-        "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "следующий в каскаде после отказа предыдущего"
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял payflow, стоявший выше по скорингу"
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 121
+    "latency_sec": 103
   }
 ]

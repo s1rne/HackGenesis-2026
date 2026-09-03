@@ -1,0 +1,98 @@
+(function () {
+  "use strict";
+
+  // --- тема ---------------------------------------------------------------
+  var root = document.documentElement;
+  var toggle = document.getElementById("theme-toggle");
+  if (toggle) {
+    toggle.addEventListener("click", function () {
+      var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var current = root.getAttribute("data-theme") || (dark ? "dark" : "light");
+      root.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+    });
+  }
+
+  // --- раскрытие строк решений --------------------------------------------
+  var table = document.getElementById("op-table");
+  if (!table) { return; }
+
+  function detailOf(row) {
+    return document.getElementById(row.getAttribute("data-detail"));
+  }
+
+  function setOpen(row, open) {
+    var detail = detailOf(row);
+    row.setAttribute("aria-expanded", open ? "true" : "false");
+    if (detail) { detail.hidden = !open; }
+  }
+
+  function toggleRow(row) {
+    setOpen(row, row.getAttribute("aria-expanded") !== "true");
+  }
+
+  var rows = Array.prototype.slice.call(table.querySelectorAll("tr.op"));
+
+  table.addEventListener("click", function (event) {
+    var row = event.target.closest("tr.op");
+    if (row) { toggleRow(row); }
+  });
+
+  table.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter" && event.key !== " ") { return; }
+    var row = event.target.closest("tr.op");
+    if (!row) { return; }
+    event.preventDefault();
+    toggleRow(row);
+  });
+
+  var expandAll = document.getElementById("op-expand");
+  var collapseAll = document.getElementById("op-collapse");
+  if (expandAll) {
+    expandAll.addEventListener("click", function () {
+      rows.forEach(function (row) { if (!row.hidden) { setOpen(row, true); } });
+    });
+  }
+  if (collapseAll) {
+    collapseAll.addEventListener("click", function () {
+      rows.forEach(function (row) { setOpen(row, false); });
+    });
+  }
+
+  // --- фильтры ------------------------------------------------------------
+  var search = document.getElementById("op-search");
+  var outcome = document.getElementById("op-outcome");
+  var provider = document.getElementById("op-provider");
+  var counter = document.getElementById("op-count");
+
+  function apply() {
+    var query = search ? search.value.trim().toLowerCase() : "";
+    var wantOutcome = outcome ? outcome.value : "";
+    var wantProvider = provider ? provider.value : "";
+    var shown = 0;
+
+    rows.forEach(function (row) {
+      var ok = true;
+      if (query && row.getAttribute("data-search").indexOf(query) === -1) { ok = false; }
+      if (ok && wantOutcome && row.getAttribute("data-outcome") !== wantOutcome) { ok = false; }
+      if (ok && wantProvider && row.getAttribute("data-provider") !== wantProvider) { ok = false; }
+
+      row.hidden = !ok;
+      var detail = detailOf(row);
+      if (detail) {
+        detail.hidden = !ok || row.getAttribute("aria-expanded") !== "true";
+      }
+      if (ok) { shown += 1; }
+    });
+
+    if (counter) {
+      counter.textContent = shown === rows.length
+        ? "показаны все " + rows.length
+        : "показано " + shown + " из " + rows.length;
+    }
+  }
+
+  if (search) { search.addEventListener("input", apply); }
+  if (outcome) { outcome.addEventListener("change", apply); }
+  if (provider) { provider.addEventListener("change", apply); }
+  apply();
+})();

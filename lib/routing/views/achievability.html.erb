@@ -1,0 +1,93 @@
+<% if present?("target_achievability") -%>
+<%
+  ach = section("target_achievability")
+  bounds = ach["bounds"] || {}
+  overall = ach["verdict"].to_s
+  overall_ok = bounds.values.all? { |b| verdict_status(b["verdict"]) == :good }
+-%>
+<section class="card" id="dostizhimost">
+  <div class="card-head">
+    <h2>Достижимость целевых долей</h2>
+    <span class="badge flat">заявок в разборе: <%= h(num(ach["operations"])) %></span>
+  </div>
+  <p class="card-note">
+    Отклонение от цели бывает двух разных природ: политика распределяет плохо — это чинится настройками,
+    либо цель недостижима структурно — тогда никакая политика не поможет. Здесь считается второе.
+    Полоса — коридор «пол..потолок»: пол — доля заявок, где провайдер единственный допустимый,
+    потолок — доля заявок, которые он вообще имеет право взять. Засечка — цель.
+    Цель вне коридора недостижима при текущих банковских списках, диапазонах сумм, марже и валюте.
+  </p>
+
+  <div class="alert <%= overall_ok ? "warn" : "" %>" style="<%= overall_ok ? "background:var(--good-wash);border-color:var(--good)" : "" %>">
+    <span class="badge <%= overall_ok ? "good" : "crit" %>"><%= overall_ok ? "цели достижимы" : "цель недостижима" %></span>
+    <span><%= h(overall) %></span>
+  </div>
+
+  <div class="chart-legend">
+    <span><i class="swatch corridor"></i>достижимый коридор</span>
+    <span><i class="swatch tick"></i>цель</span>
+  </div>
+
+  <div class="chart">
+<% bounds.each do |id, bound| -%>
+<%
+    status = verdict_status(bound["verdict"])
+    floor_pct = bound["floor_pct"].to_f
+    ceiling_pct = bound["ceiling_pct"].to_f
+    width = [ceiling_pct - floor_pct, 0].max
+-%>
+    <div class="bar-row">
+      <div class="bar-name"><%= h(id) %><span class="sub">коридор <%= h(num(floor_pct, 1)) %>..<%= h(num(ceiling_pct, 1)) %>%</span></div>
+      <div class="track">
+<% ticks(100.0).each do |tick| -%>
+        <i class="gridline" style="left:<%= h(scale(tick, 100.0)) %>%"></i>
+<% end -%>
+        <div class="corridor" style="left:<%= h(scale(floor_pct, 100.0)) %>%;width:<%= h(scale(width, 100.0)) %>%"></div>
+        <i class="marker" style="left:<%= h(scale(bound["target_pct"], 100.0)) %>%"></i>
+      </div>
+      <div class="bar-values">
+        <span class="t">цель <%= h(pct(bound["target_pct"])) %></span>
+        <span class="badge <%= h(status) %>"><%= h(bound["verdict"]) %></span>
+      </div>
+    </div>
+<% if !blank?(bound["blocking_reasons"]) -%>
+    <div class="bar-row" style="padding-top:0">
+      <div></div>
+      <div style="grid-column:2 / -1;font-size:14px;color:var(--ink-2)">
+        что отсекает:
+<% bound["blocking_reasons"].each do |code, count| -%>
+        <span class="tag"><%= h(reason_text(code)) %> — <%= h(num(count)) %></span>
+<% end -%>
+      </div>
+    </div>
+<% end -%>
+<% end -%>
+    <div class="axis">
+      <div></div>
+      <div class="axis-ticks">
+<% ticks(100.0).each do |tick| -%>
+        <span style="left:<%= h(scale(tick, 100.0)) %>%"><%= h(num(tick, 0)) %>%</span>
+<% end -%>
+      </div>
+      <div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:26px;flex-wrap:wrap;margin-top:20px;font-size:14px;color:var(--ink-2)">
+<% if ach["min_total_variation_distance"] -%>
+    <span>Неустранимое отклонение от целей:
+      <b class="mono"><%= h(num(ach["min_total_variation_distance"].to_f * 100, 1)) %>%</b></span>
+<% end -%>
+<% if ach["unroutable"] -%>
+    <span>Заявок без единого допустимого провайдера: <b class="mono"><%= h(num(ach["unroutable"])) %></b></span>
+<% end -%>
+<% if !blank?(ach["structural_constraints"]) -%>
+    <span>Учтённые структурные ограничения:
+<% ach["structural_constraints"].each do |name| -%>
+      <span class="tag"><%= h(name) %></span>
+<% end -%>
+    </span>
+<% end -%>
+  </div>
+</section>
+<% end -%>

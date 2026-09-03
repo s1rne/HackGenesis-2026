@@ -1,0 +1,44 @@
+<% if present?("skip_reasons") -%>
+<%
+  reasons = section("skip_reasons").sort_by { |code, count| [-count.to_i, code.to_s] }
+  domain = nice_domain(reasons.map { |_, count| count }, minimum: 1.0)
+  total_skips = reasons.sum { |_, count| count.to_i }
+-%>
+<section class="card" id="otsev">
+  <div class="card-head">
+    <h2>Причины отсева</h2>
+    <span class="badge flat">всего отсевов: <%= h(num(total_skips)) %></span>
+  </div>
+  <p class="card-note">
+    Сколько раз каждая причина сработала за прогон. Формулировки берутся из каталога причин решения,
+    поэтому агрегат всегда сходится с попытками в решениях. Жёсткое ограничение — провайдер не имел
+    права взять заявку; выбор среди допустимых — имел право, но уступил.
+  </p>
+
+  <div class="chart">
+<% reasons.each do |code, count| -%>
+    <div class="bar-row" style="grid-template-columns:minmax(280px,380px) minmax(180px,1fr) auto">
+      <div class="bar-name"><%= h(reason_text(code)) %><span class="sub"><%= h(code) %> · <%= h(reason_category(code)) %></span></div>
+      <div class="track">
+<% ticks(domain).each do |tick| -%>
+        <i class="gridline" style="left:<%= h(scale(tick, domain)) %>%"></i>
+<% end -%>
+        <div class="fill" style="width:<%= h(scale(count, domain)) %>%"></div>
+      </div>
+      <div class="bar-values">
+        <span class="v"><%= h(num(count)) %></span>
+      </div>
+    </div>
+<% end -%>
+    <div class="axis" style="grid-template-columns:minmax(280px,380px) minmax(180px,1fr) auto">
+      <div></div>
+      <div class="axis-ticks">
+<% ticks(domain).each do |tick| -%>
+        <span style="left:<%= h(scale(tick, domain)) %>%"><%= h(num(tick, 0)) %></span>
+<% end -%>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</section>
+<% end -%>
