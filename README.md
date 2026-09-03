@@ -191,6 +191,34 @@ ruby scripts/validate_10.rb routing_decisions.json    # автопроверка
 после такой подмены перестала бы что-либо значить. На self-провайдера роутер
 уходит тогда, когда допустимых нет вовсе.
 
+### Как увидеть fallback своими глазами
+
+На публичной очереди у каждой заявки есть хотя бы один допустимый провайдер —
+это подтверждается эталоном организаторов, — поэтому пул ни разу не остаётся
+пустым и `fallback_used` в отчёте равен нулю. Это не значит, что механизм не
+работает: ему просто не на чем сработать.
+
+```bash
+ruby bin/route run --profile failover_demo \
+  --decisions out/routing_decisions.failover.json \
+  --report out/routing_report.failover.json
+```
+
+В этом профиле провайдеры отказывают часто, и каскад виден целиком:
+
+```
+op_101 -> spacepayments (approved)
+  1  vipay          skipped   provider_timeout        ответ expired за 512 с
+  2  payflow        skipped   provider_declined       ответ rejected за 85 с
+  3  quickpay       skipped   provider_declined       других допустимых нет
+  4  spacepayments  selected  fallback_self_provider  внешний пул пуст
+```
+
+Пять заявок из десяти уходят на self-провайдера. Готовая выгрузка лежит в
+`out/routing_decisions.failover.json`.
+
+---
+
 ---
 
 ## Объяснимость

@@ -66,7 +66,12 @@ module Routing
           "structural_constraints" => @constraints.map(&:id),
           "bounds" => bounds.to_h { |bound| [bound.provider, bound_to_h(bound)] },
           "verdict" => overall_verdict(bounds),
-          "min_total_variation_distance" => min_tvd(bounds).round(4)
+          "min_total_variation_distance" => min_tvd(bounds).round(4),
+          "assumption" => "коридоры и минимальное отклонение верны в предположении, что каждая " \
+                          "заявка уходит допустимому внешнему провайдеру. При политике " \
+                          "exhausted_pool_policy: fallback часть заявок уходит на self-провайдера, " \
+                          "и доли внешних могут опуститься ниже пола — это другая постановка задачи, " \
+                          "а не противоречие"
         }
       end
 
