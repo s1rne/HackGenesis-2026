@@ -1,0 +1,832 @@
+[
+  {
+    "operation_id": "pay-2001",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "amount_band_match",
+        "details": "сумма 34500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 33
+  },
+  {
+    "operation_id": "pay-2002",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Халык не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "12400 < limit_amount_min 20000"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 42
+  },
+  {
+    "operation_id": "pay-2003",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "780 < limit_amount_min 2000"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "780 < limit_amount_min 20000"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "780 < limit_amount_min 1000"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 62
+  },
+  {
+    "operation_id": "pay-2004",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "1250000 > limit_amount_max 400000"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Halyk Bank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "1250000 > limit_amount_max 250000"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 25
+  },
+  {
+    "operation_id": "pay-2005",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 32
+  },
+  {
+    "operation_id": "pay-2006",
+    "selected_provider": "internal_settlement",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Monobank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Monobank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "bank_excluded",
+        "details": "Monobank в списке исключений (freedom, monobank, privatbank)"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Monobank не входит в banks (kaspi, halyk, otbasy)"
+      },
+      {
+        "provider": "internal_settlement",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 89
+  },
+  {
+    "operation_id": "pay-2007",
+    "selected_provider": "internal_settlement",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Privatbank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Privatbank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "bank_excluded",
+        "details": "Privatbank в списке исключений (freedom, monobank, privatbank)"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Privatbank не входит в banks (kaspi, halyk, otbasy)"
+      },
+      {
+        "provider": "internal_settlement",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 114
+  },
+  {
+    "operation_id": "pay-2008",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Jusan Bank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 452 с, заявка передана следующему кандидату"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Jusan Bank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 481
+  },
+  {
+    "operation_id": "pay-2009",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Bereke Bank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "3400 < limit_amount_min 20000"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Bereke Bank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 44
+  },
+  {
+    "operation_id": "pay-2010",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Freedom Bank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "bank_excluded",
+        "details": "Freedom Bank в списке исключений (freedom, monobank, privatbank)"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Freedom Bank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 72
+  },
+  {
+    "operation_id": "pay-2011",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Freedom Bank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "bank_excluded",
+        "details": "Freedom Bank в списке исключений (freedom, monobank, privatbank)"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Freedom Bank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 52
+  },
+  {
+    "operation_id": "pay-2012",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 56 с, заявка передана следующему кандидату"
+      },
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "ForteBank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 2: ответ rejected за 51 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "ForteBank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 149
+  },
+  {
+    "operation_id": "pay-2013",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Otbasy Bank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Otbasy Bank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 383 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 408
+  },
+  {
+    "operation_id": "pay-2014",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "amount_band_match",
+        "details": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 45
+  },
+  {
+    "operation_id": "pay-2015",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "amount_band_match",
+        "details": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 48
+  },
+  {
+    "operation_id": "pay-2016",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 56 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Halyk Bank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "7200 < limit_amount_min 20000"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 98
+  },
+  {
+    "operation_id": "pay-2017",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 83.0%, в прогоне 6 из 8; нижняя граница 58.8% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против orbita_gate — conversion"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "320000 > limit_amount_max 150000"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "320000 > limit_amount_max 250000"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 46
+  },
+  {
+    "operation_id": "pay-2018",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "480000 > limit_amount_max 400000"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "480000 > limit_amount_max 150000"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "480000 > limit_amount_max 250000"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 37
+  },
+  {
+    "operation_id": "pay-2019",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Жусан не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "2600 < limit_amount_min 20000"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Жусан не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 47
+  },
+  {
+    "operation_id": "pay-2020",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Bereke Bank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, в прогоне 5 из 6; нижняя граница 67.1% при доверии 90.0% на 14 эффективных наблюдениях; решающий фактор против orbita_gate — conversion"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Bereke Bank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 54
+  },
+  {
+    "operation_id": "pay-2021",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 71 с, заявка передана следующему кандидату"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Halyk Bank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 104
+  },
+  {
+    "operation_id": "pay-2022",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Forte Bank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "2400 < limit_amount_min 20000"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Forte Bank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 33
+  },
+  {
+    "operation_id": "pay-2023",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, halyk, forte)"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, jusan, bereke, freedom)"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, halyk, otbasy)"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 30
+  },
+  {
+    "operation_id": "pay-2024",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, в прогоне 6 из 7; нижняя граница 68.9% при доверии 90.0% на 15 эффективных наблюдениях; решающий фактор против tenge_rail — conversion"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "15000 < limit_amount_min 20000"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 45
+  },
+  {
+    "operation_id": "pay-2025",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против tenge_rail — conversion"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\""
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 50
+  }
+]

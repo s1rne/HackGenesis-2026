@@ -1,0 +1,165 @@
+# Конфигурация маршрутизации для второго набора данных.
+#
+# Другой шлюз (выплаты на карты и счета в тенге), другие партнёры, другие
+# правила предпочтения. Ни одной строки кода под этот набор не написано:
+# отличается только этот файл и два файла с данными рядом.
+#
+#   rake alt
+#   ruby bin/route plan --config test/fixtures/alt_dataset/config.yml \
+#                       --providers test/fixtures/alt_dataset/providers.json
+
+version: 1
+profile: kzt_card_payout
+
+run:
+  period: null
+  # Каскад длиннее: партнёров меньше, а отказ одного не должен сразу
+  # выталкивать заявку на собственный шлюз.
+  max_attempts: 4
+  fallback_provider: internal_settlement
+  exhausted_pool_policy: retry_best
+  seed: 77012345
+
+ingest:
+  # Синонимы сверх встроенных: выгрузка шлюза называет банк получателя
+  # «beneficiary_bank», а время приёма — «accepted_at».
+  field_aliases:
+    bank: [beneficiary_bank, receiver_bank]
+    created_at: [accepted_at]
+  bank_aliases:
+    каспи: kaspi
+    kaspi_bank: kaspi
+    халык: halyk
+    народный: halyk
+    fortebank: forte
+    форте: forte
+    жусан: jusan
+    береке: bereke
+    фридом: freedom
+    алтын: altyn
+    отбасы: otbasy
+  defaults:
+    conversion_24h: 0.72
+    avg_latency_sec: 45
+
+# ---------------------------------------------------------------------------
+# Жёсткие ограничения. Порядок другой: сначала отсекаем по банку и валюте —
+# на этом шлюзе это самая частая причина отказа, и именно её должен увидеть
+# человек в отчёте.
+# ---------------------------------------------------------------------------
+hard_constraints:
+  bank_filter:
+    enabled: true
+    # Заявку без банка к провайдеру с белым списком не пропускаем:
+    # на карточных выплатах банк получателя известен всегда, а его отсутствие
+    # означает битую запись, а не «любой банк подойдёт».
+    unknown_bank_policy: deny
+  currency:             { enabled: true }
+  amount_range:         { enabled: true }
+  provider_status:      { enabled: true }
+  traffic_share:        { enabled: true }
+  in_progress_limits:   { enabled: true }
+  daily_amount_limit:   { enabled: true }
+  daily_turnover_max:   { enabled: true }
+  requisites:           { enabled: true }
+  margin:               { enabled: true }
+  rate_limit:
+    enabled: true
+    window_sec: 120
+
+# ---------------------------------------------------------------------------
+# Цели. Здесь другая политика: у шлюза жёсткое соглашение по одобрениям,
+# поэтому конверсия и специализация по сумме стоят в первом эшелоне,
+# а целевые доли согласуются во втором.
+# ---------------------------------------------------------------------------
+strategies:
+  conversion:
+    enabled: true
+    tier: 1
+    weight: 1.4
+    estimator: wilson
+    confidence: 0.9
+    prior_weight: 8
+  amount_band:
+    enabled: true
+    tier: 1
+    weight: 0.8
+    bands:
+      - { min: 100,    max: 20000,   prefer: [altair_pay],              preference: 0.9, penalty: 0.4 }
+      - { min: 20001,  max: 400000,  prefer: [tenge_rail, orbita_gate], preference: 0.5, penalty: 0.2 }
+      - { min: 400001, max: null,    prefer: [orbita_gate],             preference: 1.0, penalty: 0.6 }
+
+  count_share:
+    enabled: true
+    tier: 2
+    weight: 1.1
+  volume_share:
+    enabled: true
+    tier: 2
+    weight: 0.5
+  cascade_priority:
+    enabled: true
+    tier: 2
+    weight: 0.4
+    default_priority: 500
+  margin:
+    enabled: true
+    tier: 2
+    weight: 0.3
+
+  load_balance:
+    enabled: true
+    tier: 3
+    weight: 1.0
+  turnover_commitment:
+    enabled: true
+    tier: 3
+    weight: 0.5
+    urgency_exponent: 0.75
+
+scoring:
+  mode: lexicographic_weighted
+  # Эпсилон больше: партнёров мало, и спор по третьему знаку конверсии
+  # должен уходить вниз, к долям и загрузке.
+  tier_epsilon: 0.12
+  tie_break: [conversion, load, provider_id]
+
+goal_relaxation:
+  enabled: true
+  reallocate_unreachable_share: true
+
+simulation:
+  enabled: true
+  cascade_on: [rejected, expired]
+  expired_share_of_failures: 0.35
+  # Истории по этому шлюзу нет: верим только заявленной конверсии.
+  history_weight: 0.0
+  latency:
+    base_sec: 44
+    spread: 0.25
+    rejected_sec: 61
+    expired_sec: 420
+
+analytics:
+  share_drift_alert_pct: 6.0
+  utilization_alert_pct: 70.0
+  conversion_alert: 0.7
+  max_recommendations: 8
+
+profiles:
+  # Сначала выбрать самого дешёвого партнёра, доли — потом.
+  fee_first:
+    strategies:
+      margin:      { tier: 1, weight: 1.6 }
+      conversion:  { tier: 2, weight: 0.8 }
+      count_share: { tier: 2, weight: 0.8 }
+
+  # Ровное распределение по партнёрам.
+  spread_even:
+    scoring:
+      tier_epsilon: 0.02
+    strategies:
+      count_share:  { tier: 1, weight: 1.5 }
+      volume_share: { tier: 1, weight: 1.0 }
+      conversion:   { tier: 3, weight: 0.4 }
+      amount_band:  { tier: 3, weight: 0.3 }
