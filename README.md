@@ -339,7 +339,7 @@ ruby bin/route run --profile conversion_first
 ## Тесты
 
 ```bash
-rake test     # 249 тестов, 1664 проверки
+rake test     # 291 тест, 1815 проверок
 rake check    # прогон + автопроверка организаторов + тесты
 ```
 
@@ -418,14 +418,14 @@ hard-constraints — с файлом реализации и тестом, ко�
 | Обновление метрик после каждой заявки | `lib/routing/provider_state.rb` | `test/provider_state_test.rb`: 16 тестов, включая `test_decline_returns_everything_back_to_the_initial_values` и `test_a_long_chain_of_declines_leaves_no_leaked_limits` |
 | Поведение при невыполнимой цели | `Cascade#relaxation_events`, `Fleet#count_target(among:)` | `test/cascade_test.rb`: `test_unreachable_target_share_produces_a_goal_relaxation_event`, `test_target_shares_are_recomputed_on_the_available_providers`, `test_reallocation_switch_changes_the_target_the_survivor_is_measured_against` |
 
-### Чего тестами не покрыто
+### Аналитика
 
-Честно, без выдумывания: собственных модульных тестов нет у
-`lib/routing/analytics/achievability.rb` (расчёт коридоров достижимости) и
-`lib/routing/analytics/replay.rb` (контрфактический реплей истории). Оба
-считаются на каждом прогоне и проверяются только глазами по разделам
-`target_achievability` и выводу `ruby bin/route replay`; `test/report_test.rb`
-проверяет структуру отчёта, но не сами эти числа.
+| Что | Реализация | Тест |
+|---|---|---|
+| Коридоры достижимости, пол, потолок по правилам и по деньгам | `lib/routing/analytics/achievability.rb` | `test/achievability_test.rb`: 11 тестов. Коридоры кейса сверяются с известными значениями, минимум проверяется на согласованность с фактическим отклонением, потолок по ёмкости — на то, что он берётся от запаса **на начало** прогона |
+| Контрфактический реплей истории | `lib/routing/analytics/replay.rb` | `test/replay_test.rb`: 9 тестов. Полнота покрытия истории, интервальность оценки, совпавшие решения от фактического исхода, воспроизводимость, отказ работать на пустой истории |
+| Расширяемость: новое правило и новая цель без правок ядра | реестры в `constraints/base.rb`, `strategies/base.rb` | `test/extensibility_test.rb`: 6 тестов. Классы объявляются прямо в тесте, включаются через конфигурацию и обязаны изменить маршрут и попасть в раскладку скоринга |
+| Независимость от набора входных данных | весь конвейер | `test/alt_dataset_test.rb`: 16 тестов на втором наборе — другой шлюз, другие имена полей, другая валюта и банки, своя конфигурация |
 
 ---
 
@@ -468,12 +468,71 @@ lib/routing/
   statistics.rb              Вильсон, наибольшие остатки, EWMA
   money.rb                   деньги целым числом копеек
 test/                        тесты на minitest из стандартной библиотеки
+docs/decision-policy.md      политика принятия решения: формулы, эшелоны,
+                             тай-брейк, достижимость целей
 docs/                        ТЗ, калибровка, исследование домена, критерии
+WORKPLAN.md                  состояние работы, принятые решения и их причины
 ```
 
 Деньги хранятся целым числом копеек не из педантизма: суммы лимитов и оборотов
 складываются сотни раз за прогон, и на Float сравнение «оборот + сумма больше
 дневного лимита» начинает врать ровно на границе — там, где это дороже всего.
+
+---
+
+## Зависимости и лицензии
+
+**Внешних зависимостей нет ни одной.** В репозитории нет ни `Gemfile`, ни
+`*.gemspec`, ни `vendor/`; `bundle install` не нужен и не предусмотрен. Всё,
+что используется помимо самого языка, — модули стандартной библиотеки Ruby,
+которые поставляются вместе с интерпретатором под лицензией Ruby / BSD-2-Clause.
+Проприетарных компонентов и решений с закрытым исходным кодом в поставке нет,
+как и обучаемых моделей: вся статистика классическая и проверяется на бумаге
+(`lib/routing/statistics.rb`).
+
+| Модуль | Где | Зачем |
+|---|---|---|
+| `json` | `lib/routing.rb`, `scripts/validate_10.rb` | чтение `providers.json` и очереди, запись `routing_decisions*.json` и `routing_report*.json` |
+| `csv` | `lib/routing.rb` | разбор `data/operations_history.csv` для калибровки и реплея |
+| `yaml` | `lib/routing.rb` | `config/routing.yml` и `config/provider_overlays.yml` |
+| `time`, `date` | `lib/routing.rb` | отметки времени заявок, отчётный период, границы суток для обязательства по обороту |
+| `digest` | `lib/routing/simulator.rb` | MD5 как детерминированный источник зерна: зерно зависит только от пары «заявка + провайдер + номер попытки», поэтому перестановка заявок не меняет исход. Не криптография |
+| `fileutils` | `lib/routing/cli.rb`, `dashboard.rb` | создание каталога `out/` перед записью выгрузок |
+| `rbconfig` | `lib/routing/cli.rb` | путь к текущему интерпретатору, чтобы `bin/route validate` запускал скрипт организаторов тем же Ruby, а не системным 2.6 |
+| `erb` | `lib/routing/dashboard.rb` | шаблоны HTML-дашборда из `lib/routing/views/` |
+| `optparse` | `bin/route`, `lib/routing/dashboard.rb` | разбор флагов командной строки |
+| `minitest/autorun` | `test/test_helper.rb` | тесты |
+| `tmpdir` | `test/test_helper.rb` | временные каталоги в тестах |
+
+### Доля Ruby в репозитории
+
+Считаются строки исходников: `*.rb`, `bin/route`, `bin/dashboard`, `Rakefile`
+как Ruby; ERB-шаблоны дашборда и YAML-конфигурация — отдельно. Каталоги
+`docs/`, `data/` и сгенерированные выгрузки в `out/` исключены, как и JSON —
+это данные, а не код.
+
+| Тип | Файлов | Строк | Доля |
+|---|---:|---:|---:|
+| Ruby (`*.rb`, `bin/route`, `bin/dashboard`, `Rakefile`) | 70 | 9027 | **81.9%** |
+| ERB-шаблоны дашборда (`lib/routing/views/`) | 11 | 1539 | 14.0% |
+| YAML-конфигурация | 3 | 451 | 4.1% |
+| Итого | 84 | 11 017 | 100% |
+
+ERB-шаблоны — это тоже Ruby с разметкой внутри; если считать их Ruby, доля
+получается 95.9%. Мы приводим строгий вариант — он ниже и честнее. Из 9027
+строк Ruby 212 приходятся на `scripts/validate_10.rb` — автопроверку
+организаторов; без неё доля 81.6%, то есть на результат это не влияет.
+
+Пересчитать самому:
+
+```bash
+ruby -e 'h=Hash.new(0); Dir.glob("**/*").each{|p| next unless File.file?(p);
+  next if p.start_with?("docs/","data/","out/");
+  k = (File.extname(p)==".rb" || %w[bin/route bin/dashboard Rakefile].include?(p)) ? "ruby" :
+      File.extname(p)==".erb" ? "erb" : File.extname(p)==".yml" ? "yaml" : next;
+  h[k] += File.readlines(p).size}; t=h.values.sum;
+  h.each{|k,v| puts format("%-5s %6d %5.1f%%", k, v, 100.0*v/t)}'
+```
 
 ---
 
