@@ -10,9 +10,9 @@ module Routing
   class Fleet
     attr_reader :providers, :states, :issues
 
-    def initialize(providers, issues: Ingest::Issues.new)
+    def initialize(providers, issues: Ingest::Issues.new, zeroed: false)
       @providers = providers
-      @states = providers.to_h { |provider| [provider.id, ProviderState.new(provider)] }
+      @states = providers.to_h { |provider| [provider.id, ProviderState.new(provider, zeroed: zeroed)] }
       @issues = issues
       @count_targets = normalize_targets(:traffic_percentage, "traffic_percentage")
       @volume_targets = normalize_targets(:volume_share_pct, "volume_share_pct", fallback: @count_targets)

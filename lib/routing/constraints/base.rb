@@ -16,6 +16,12 @@ module Routing
       class << self
         def id = name.split("::").last.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
 
+        # Зависит ли правило от текущего состояния провайдера (оборот,
+        # заявки в работе, реквизиты, интенсивность) или только от
+        # неизменной конфигурации. Структурные правила определяют, какие
+        # цели достижимы в принципе, а какие — нет ни при какой политике.
+        def stateful? = false
+
         def inherited(subclass)
           super
           Registry.register(subclass)

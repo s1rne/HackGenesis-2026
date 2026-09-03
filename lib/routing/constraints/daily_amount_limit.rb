@@ -6,6 +6,8 @@ module Routing
     # Проверяем «оборот + сумма», а не «оборот», иначе последняя заявка дня
     # спокойно перевалит за лимит.
     class DailyAmountLimit < Base
+      def self.stateful? = true
+
       def check(context)
         limit = context.provider.daily_amount_limit
         return skip if limit.nil?

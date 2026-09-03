@@ -7,7 +7,7 @@
         "provider": "vipay",
         "decision": "selected",
         "reason": "traffic_share_deficit",
-        "details": "доля по количеству 0.0% при цели 40.0% (0 из 0), недобор 0.4 заявки; решающий фактор против payflow — count_share"
+        "details": "цель 40.0% по количеству, это первая заявка прогона — весь недобор 0.4 ещё впереди; решающий фактор против payflow — count_share"
       },
       {
         "provider": "payflow",
@@ -39,7 +39,7 @@
         "provider": "payflow",
         "decision": "selected",
         "reason": "traffic_share_deficit",
-        "details": "доля по количеству 0.0% при цели 58.3% (0 из 1), недобор 1.17 заявки; решающий фактор против quickpay — count_share"
+        "details": "доля по количеству 0.0% при цели 58.3% (0 из 1 уже распределённых), недобор 1.17 заявки; решающий фактор против quickpay — count_share"
       },
       {
         "provider": "quickpay",
@@ -111,7 +111,7 @@
         "provider": "vipay",
         "decision": "selected",
         "reason": "traffic_share_deficit",
-        "details": "доля по количеству 25.0% при цели 61.5% (1 из 4), недобор 2.08 заявки; решающий фактор против quickpay — count_share"
+        "details": "доля по количеству 25.0% при цели 61.5% (1 из 4 уже распределённых), недобор 2.08 заявки; решающий фактор против quickpay — count_share"
       },
       {
         "provider": "payflow",
@@ -137,7 +137,7 @@
         "provider": "vipay",
         "decision": "selected",
         "reason": "traffic_share_deficit",
-        "details": "доля по количеству 40.0% при цели 61.5% (2 из 5), недобор 1.69 заявки; решающий фактор против quickpay — count_share"
+        "details": "доля по количеству 40.0% при цели 61.5% (2 из 5 уже распределённых), недобор 1.69 заявки; решающий фактор против quickpay — count_share"
       },
       {
         "provider": "payflow",
@@ -215,7 +215,7 @@
         "provider": "vipay",
         "decision": "selected",
         "reason": "traffic_share_deficit",
-        "details": "доля по количеству 37.5% при цели 61.5% (3 из 8), недобор 2.54 заявки; решающий фактор против quickpay — count_share"
+        "details": "доля по количеству 37.5% при цели 61.5% (3 из 8 уже распределённых), недобор 2.54 заявки; решающий фактор против quickpay — count_share"
       },
       {
         "provider": "payflow",
@@ -247,7 +247,7 @@
         "provider": "payflow",
         "decision": "selected",
         "reason": "traffic_share_deficit",
-        "details": "доля по количеству 22.2% при цели 58.3% (2 из 9), недобор 3.83 заявки; решающий фактор против quickpay — count_share"
+        "details": "доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки; решающий фактор против quickpay — count_share"
       },
       {
         "provider": "quickpay",

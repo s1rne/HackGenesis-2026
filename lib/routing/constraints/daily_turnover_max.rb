@@ -6,6 +6,8 @@ module Routing
     # Отдельное правило от дневного лимита: лимит — техническая ёмкость гейта,
     # обязательство — условие соглашения, и нарушаются они по разным причинам.
     class DailyTurnoverMax < Base
+      def self.stateful? = true
+
       def check(context)
         cap = context.provider.daily_turnover_max
         return skip if cap.nil?

@@ -4,6 +4,8 @@ module Routing
   module Constraints
     # Должен остаться хотя бы один свободный реквизит (терминал).
     class Requisites < Base
+      def self.stateful? = true
+
       def check(context)
         available = context.state.available_requisites
         return skip if available.nil?

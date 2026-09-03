@@ -28,11 +28,15 @@ module Routing
         state = context.state
         finished = state.approved_count + state.declined_count + state.expired_count
         estimate = raw_score(context)
-        base = "конверсия #{pct(context.provider.conversion_24h || 0)}% заявлена"
-        return "#{base}, оценка #{pct(estimate || 0)}%" if finished.zero?
+        declared = pct(context.provider.conversion_24h || 0)
+        effective = (prior_weight + finished).round
+        return "заявлено #{declared}%, наблюдений пока нет — берём нижнюю границу " \
+               "#{pct(estimate || 0)}% при доверии #{pct(confidence)}% и весе априорной оценки " \
+               "#{prior_weight.round} наблюдений" if finished.zero?
 
-        "#{base}, в прогоне #{state.approved_count} из #{finished}, " \
-          "нижняя граница #{pct(estimate || 0)}% при доверии #{pct(confidence)}%"
+        "заявлено #{declared}%, в прогоне #{state.approved_count} из #{finished}; " \
+          "нижняя граница #{pct(estimate || 0)}% при доверии #{pct(confidence)}% " \
+          "на #{effective} эффективных наблюдениях"
       end
 
       private

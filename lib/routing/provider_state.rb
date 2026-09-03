@@ -14,11 +14,14 @@ module Routing
                 :attempt_count, :approved_count, :approved_amount,
                 :declined_count, :expired_count, :skipped_count, :request_times
 
-    def initialize(provider)
+    # zeroed: начать сутки с нуля вместо снимка из входных данных.
+    # Нужно для контрфактического реплея истории: она относится к другому дню,
+    # и стартовать с сегодняшнего оборота значило бы сравнивать несравнимое.
+    def initialize(provider, zeroed: false)
       @provider = provider
-      @daily_amount = provider.initial_daily_amount || Money.zero
-      @in_progress_count = provider.initial_in_progress_count || 0
-      @in_progress_amount = provider.initial_in_progress_amount || Money.zero
+      @daily_amount = zeroed ? Money.zero : (provider.initial_daily_amount || Money.zero)
+      @in_progress_count = zeroed ? 0 : (provider.initial_in_progress_count || 0)
+      @in_progress_amount = zeroed ? Money.zero : (provider.initial_in_progress_amount || Money.zero)
       @available_requisites = provider.initial_requisites
       @selected_count = 0
       @selected_amount = Money.zero

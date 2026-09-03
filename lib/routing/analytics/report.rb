@@ -10,7 +10,8 @@ module Routing
     # вывода: отклонение факта от цели, исходы и конверсия по провайдерам,
     # глубина каскада, уступки по недостижимым целям и качество входных данных.
     class Report
-      def initialize(decisions:, fleet:, config:, period:, calibration: nil, issues: nil, meta: {}, describe: {})
+      def initialize(decisions:, fleet:, config:, period:, calibration: nil, issues: nil, meta: {},
+                     describe: {}, constraints: [])
         @decisions = decisions
         @fleet = fleet
         @config = config
@@ -19,6 +20,7 @@ module Routing
         @issues = issues
         @meta = meta || {}
         @describe = describe || {}
+        @constraints = constraints
         @thresholds = config.section("analytics")
       end
 
@@ -35,6 +37,7 @@ module Routing
           "cascade" => cascade_stats,
           "goal_relaxations" => goal_relaxations,
           "limits_at_risk" => limits_at_risk,
+          "target_achievability" => target_achievability,
           "history_baseline" => history_baseline,
           "recommendations_detailed" => recommendations,
           "routing_setup" => @describe,
@@ -207,6 +210,16 @@ module Routing
           decisions: @decisions, fleet: @fleet, config: @config,
           calibration: @calibration, report: self
         ).build
+      end
+
+      # Достижима ли вообще целевая доля при текущих банковских списках,
+      # диапазонах сумм и марже. Без этого раздела отклонение от цели выглядит
+      # как недоработка политики, хотя нередко оно неустранимо в принципе.
+      def target_achievability
+        return nil if @constraints.empty? || @decisions.empty?
+
+        Achievability.new(fleet: @fleet, constraints: @constraints, config: @config)
+                     .analyse(@decisions.map(&:operation))
       end
 
       private

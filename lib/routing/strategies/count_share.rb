@@ -25,8 +25,12 @@ module Routing
         deficit = raw_score(context)
         return "целевая доля по количеству не задана" if deficit.nil?
 
+        routed = context.fleet.total_selected_count
+        return "цель #{pct(target)}% по количеству, это первая заявка прогона — " \
+               "весь недобор #{deficit.round(2)} ещё впереди" if routed.zero?
+
         "доля по количеству #{pct(actual)}% при цели #{pct(target)}% " \
-          "(#{context.state.selected_count} из #{context.fleet.total_selected_count}), " \
+          "(#{context.state.selected_count} из #{routed} уже распределённых), " \
           "недобор #{deficit.round(2)} заявки"
       end
     end

@@ -319,6 +319,40 @@
       "worst": "дневной оборот"
     }
   ],
+  "target_achievability": {
+    "operations": 10,
+    "unroutable": 0,
+    "structural_constraints": [
+      "provider_status",
+      "traffic_share",
+      "amount_range",
+      "bank_filter",
+      "margin",
+      "currency"
+    ],
+    "bounds": {
+      "vipay": {
+        "target_pct": 40.0,
+        "floor_pct": 0.0,
+        "ceiling_pct": 40.0,
+        "verdict": "достижима"
+      },
+      "payflow": {
+        "target_pct": 35.0,
+        "floor_pct": 10.0,
+        "ceiling_pct": 40.0,
+        "verdict": "достижима"
+      },
+      "quickpay": {
+        "target_pct": 25.0,
+        "floor_pct": 30.0,
+        "ceiling_pct": 90.0,
+        "verdict": "недостижима снизу"
+      }
+    },
+    "verdict": "цель 25.0% на quickpay недостижима снизу: коридор 30.0..90.0%",
+    "min_total_variation_distance": 0.025
+  },
   "history_baseline": {
     "operations": 100,
     "providers": {

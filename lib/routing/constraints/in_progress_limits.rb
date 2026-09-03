@@ -4,6 +4,8 @@ module Routing
   module Constraints
     # Лимиты на одновременно обрабатываемые заявки — по количеству и по сумме.
     class InProgressLimits < Base
+      def self.stateful? = true
+
       def check(context)
         count_limit = context.provider.in_progress_count_limit
         if count_limit && context.state.in_progress_count + 1 > count_limit

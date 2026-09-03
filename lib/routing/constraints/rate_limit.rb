@@ -6,6 +6,8 @@ module Routing
     # Окно скользящее и считается по времени заявки, а не по номеру в очереди,
     # поэтому разрежённый поток не упирается в лимит искусственно.
     class RateLimit < Base
+      def self.stateful? = true
+
       def check(context)
         limit = context.provider.requests_per_minute_limit
         return skip if limit.nil?

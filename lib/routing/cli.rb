@@ -15,12 +15,13 @@ module Routing
       history: "data/operations_history.csv",
       decisions: "routing_decisions.json",
       report: "routing_report.json",
+      replay: "docs/replay_summary.json",
       profile: nil,
       strict: false,
       quiet: false
     }.freeze
 
-    COMMANDS = %w[plan decisions report run compare validate].freeze
+    COMMANDS = %w[plan decisions report run compare replay validate].freeze
 
     def initialize(argv)
       @argv = argv.dup
@@ -120,6 +121,44 @@ module Routing
       0
     end
 
+    # Прогон истории через нашу политику: с чем мы согласились, где разошлись
+    # и что это дало бы по одобрениям. Оценка честная — интервалом, а не одним
+    # числом, потому что исход по неслучившемуся выбору никому не известен.
+    def cmd_replay
+      router = build_router
+      if router.calibration.empty?
+        warn "История пуста: реплей нечем делать"
+        return 2
+      end
+
+      result = Analytics::Replay.new(router: router, config: router.config).run
+      summary = result.summary
+      estimate = summary["estimated_approval_rate"]
+
+      say "Реплей истории: #{summary['operations']} операций"
+      say "Совпало с историческим выбором: #{summary['agreement_with_history']} " \
+          "(#{summary['agreement_pct']}%)"
+      say ""
+      say format("Одобрения по факту истории:  %.1f%%", summary["baseline_approval_rate"] * 100)
+      say format("Наша политика, оценка:       %.1f%% .. %.1f%%",
+                 estimate["lower"] * 100, estimate["upper"] * 100)
+      say ""
+      say format("%-14s %8s %8s %8s", "провайдер", "цель", "история", "реплей")
+      summary["share_comparison"].each do |id, row|
+        say format("%-14s %7.1f%% %7.1f%% %7.1f%%",
+                   id, row["target_pct"], row["history_pct"], row["replay_pct"])
+      end
+      tvd = summary["total_variation_distance"]
+      say ""
+      say format("Отклонение от целевых долей: история %.3f -> реплей %.3f",
+                 tvd["history_vs_target"], tvd["replay_vs_target"])
+
+      write_json(@options[:replay], summary)
+      say ""
+      say "Сводка: #{@options[:replay]}"
+      0
+    end
+
     def cmd_validate
       script = "scripts/validate_10.rb"
       unless File.exist?(script)
@@ -178,7 +217,8 @@ module Routing
       report = Analytics::Report.new(
         decisions: decisions, fleet: router.fleet, config: router.config,
         period: router.period, calibration: router.calibration,
-        issues: router.issues, meta: router.meta, describe: router.describe
+        issues: router.issues, meta: router.meta, describe: router.describe,
+        constraints: router.constraints
       )
       write_json(@options[:report], report.to_h)
       say "Отчёт:    #{@options[:report]}"
@@ -242,6 +282,7 @@ module Routing
         opts.on("--history PATH", "история операций") { |v| @options[:history] = v }
         opts.on("--decisions PATH", "куда писать решения") { |v| @options[:decisions] = v }
         opts.on("--report PATH", "куда писать отчёт") { |v| @options[:report] = v }
+        opts.on("--replay PATH", "куда писать сводку реплея") { |v| @options[:replay] = v }
         opts.on("--profile NAME", "профиль стратегии") { |v| @options[:profile] = v }
         opts.on("--strict", "ненулевой код возврата при ошибках в данных") { @options[:strict] = true }
         opts.on("--quiet", "меньше вывода") { @options[:quiet] = true }

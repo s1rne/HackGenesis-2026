@@ -26,8 +26,11 @@ module Routing
         actual = context.fleet.actual_volume_share(context.provider.id)
         return "целевая доля по объёму не задана" if target.zero?
 
+        routed = context.fleet.total_selected_amount
+        return "цель #{pct(target)}% по объёму, распределённого объёма пока нет" if routed.zero?
+
         "доля по объёму #{pct(actual)}% при цели #{pct(target)}% " \
-          "(#{context.state.selected_amount} из #{context.fleet.total_selected_amount})"
+          "(#{context.state.selected_amount} из #{routed})"
       end
     end
   end
