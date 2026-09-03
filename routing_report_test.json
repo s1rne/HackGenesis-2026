@@ -602,7 +602,7 @@
         "severity": "info",
         "source": "providers.json[3]",
         "field": "",
-        "message": "поля из накладки: requests_per_minute_limit, volume_share_pct"
+        "message": "поля из накладки: volume_share_pct"
       },
       {
         "severity": "info",

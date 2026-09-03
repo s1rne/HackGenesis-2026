@@ -349,4 +349,26 @@ class CascadeTest < Minitest::Test
 
     assert_equal 38, decision.latency_sec, "задержка складывается по всем попыткам, а не только по последней"
   end
+# «Маршрута нет» — законный ответ, но он обязан объяснять себя. Раньше здесь
+# молча возвращалось «не нашлось ни одного провайдера, включая fallback»,
+# и разобраться, почему не подошёл провайдер последней надежды, было не по чему.
+def test_rejected_fallback_explains_itself_like_any_other_provider
+  fleet = standard_fleet(first: { "banks" => %w[tinkoff], "exclude_banks" => false },
+                         second: { "banks" => %w[tinkoff], "exclude_banks" => false },
+                         fallback: { "available_requisites" => 0 })
+  cascade = build_cascade(fleet: fleet, simulator: Stub.new { :approved })
+  decision = cascade.route(build_operation(bank: "sberbank"))
+
+  assert_nil decision.selected_provider
+  fallback_record = decision.attempts.find { |attempt| attempt["provider"] == "spacepayments" }
+  refute_nil fallback_record, "отсев fallback обязан попасть в attempts"
+  assert_equal "no_available_requisites", fallback_record["reason"]
+  assert_equal "fallback", fallback_record["stage"]
+
+  no_route = decision.events.find { |event| event["type"] == "no_route" }
+  refute_nil no_route
+  assert_match(/spacepayments: no_available_requisites/, no_route["note"],
+               "событие обязано называть причину, а не ограничиваться словом «нет»")
+end
+
 end

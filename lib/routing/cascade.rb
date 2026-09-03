@@ -207,12 +207,33 @@ module Routing
     end
 
     def use_fallback(operation, at, records, path, events)
-      provider = @fleet.self_providers.find { |candidate| first_violation(context_for(candidate, operation, at)).nil? }
+      provider = nil
+      blocked = {}
+
+      # Почему не подошёл провайдер последней надежды — такой же законный вопрос,
+      # как и почему не подошёл любой другой. Раньше здесь молча возвращалось
+      # «маршрута нет», и разобраться было не по чему.
+      @fleet.self_providers.each do |candidate|
+        violation = first_violation(context_for(candidate, operation, at))
+        if violation.nil?
+          provider = candidate
+          break
+        end
+        blocked[candidate] = violation
+      end
 
       if provider.nil?
-        events << { "type" => "no_route", "note" => "не нашлось ни одного провайдера, включая fallback" }
+        blocked.each do |candidate, violation|
+          @fleet[candidate.id].record_skip
+          records << skip_record(candidate, violation, stage: "fallback")
+        end
+        reasons = blocked.map { |candidate, violation| "#{candidate.id}: #{violation.reason}" }
+        events << { "type" => "no_route",
+                    "note" => "не нашлось ни одного провайдера; " +
+                              (reasons.empty? ? "self-провайдер не настроен" : "fallback тоже отсеян — #{reasons.join(', ')}") }
         return { selected: nil, response: nil, ranking: [],
-                 reason_pair: ["no_provider_available", "пул пуст и fallback недоступен"],
+                 reason_pair: ["no_provider_available",
+                               reasons.empty? ? "пул пуст, а self-провайдер не настроен" : "пул пуст, и #{reasons.join(', ')}"],
                  latency: path.sum { |step| step["latency_sec"] } }
       end
 
