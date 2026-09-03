@@ -669,11 +669,19 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
     </div>
 
     <div class="tile">
-      <div class="tile-label">Макс. отклонение от цели</div>
+      <div class="tile-label">Отклонение по количеству</div>
       <div class="tile-value mono">-5,0<span class="unit"> п.п.</span></div>
       <div class="tile-sub">
         <span class="badge good">в норме</span>
-        порог подсветки 10 п.п.
+        сильнее всех у payflow; порог 10 п.п.
+      </div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Отклонение по объёму</div>
+      <div class="tile-value mono">-20,0<span class="unit"> п.п.</span></div>
+      <div class="tile-sub">
+        <span class="badge crit">критично</span>
+        сильнее всех у vipay; цель по объёму выведена нами
       </div>
     </div>
 
@@ -3627,7 +3635,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
 
 <footer class="footer">
   <span>HackGenesis 2026 · Умный роутинг выплат</span>
-  <span>собрано 04.09.2026 01:50 из routing_decisions.json, routing_report.json</span>
+  <span>собрано 04.09.2026 02:18 из routing_decisions.json, routing_report.json</span>
 </footer>
 
 <script>

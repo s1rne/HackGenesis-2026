@@ -1,8 +1,24 @@
 <%
   outcomes = section("outcomes") || {}
   cascade = section("cascade") || {}
-  deviations = (section("distribution") || {}).map { |_, row| row["deviation_pct"].to_f }
-  worst = deviations.max_by { |value| value.abs }
+
+  # Худшее отклонение считается отдельно по количеству и по объёму.
+  #
+  # Раньше плитка была одна и брала только количество, а «в норме» на ней
+  # стояло даже когда отклонение по объёму вдвое превышало порог: сводка
+  # успокаивала, а диаграмма ниже говорила обратное.
+  #
+  # И второе: при ничьей (−5 у одного и +5 у другого) max_by возвращал тот,
+  # что встретился в данных первым, поэтому знак выглядел случайным.
+  # Теперь рядом со значением стоит имя провайдера — знак стало к чему отнести.
+  distribution = section("distribution") || {}
+  worst_by = lambda do |field|
+    pair = distribution.map { |id, row| [id, row[field].to_f] }
+                       .max_by { |_, value| value.abs }
+    pair && pair.last.abs.positive? ? pair : nil
+  end
+  worst_count = worst_by.call("deviation_pct")
+  worst_volume = worst_by.call("volume_deviation_pct")
 -%>
 <section id="svodka">
   <div class="tiles">
@@ -64,13 +80,23 @@
     </div>
 <% end -%>
 
-<% if worst -%>
+<% if worst_count -%>
     <div class="tile">
-      <div class="tile-label">Макс. отклонение от цели</div>
-      <div class="tile-value mono"><%= h(signed(worst, 1)) %><span class="unit"> п.п.</span></div>
+      <div class="tile-label">Отклонение по количеству</div>
+      <div class="tile-value mono"><%= h(signed(worst_count.last, 1)) %><span class="unit"> п.п.</span></div>
       <div class="tile-sub">
-        <span class="badge <%= h(deviation_status(worst)) %>"><%= h(status_word(deviation_status(worst))) %></span>
-        порог подсветки <%= h(num(options[:drift_pct], 0)) %> п.п.
+        <span class="badge <%= h(deviation_status(worst_count.last)) %>"><%= h(status_word(deviation_status(worst_count.last))) %></span>
+        сильнее всех у <%= h(worst_count.first) %>; порог <%= h(num(options[:drift_pct], 0)) %> п.п.
+      </div>
+    </div>
+<% end -%>
+<% if worst_volume -%>
+    <div class="tile">
+      <div class="tile-label">Отклонение по объёму</div>
+      <div class="tile-value mono"><%= h(signed(worst_volume.last, 1)) %><span class="unit"> п.п.</span></div>
+      <div class="tile-sub">
+        <span class="badge <%= h(deviation_status(worst_volume.last)) %>"><%= h(status_word(deviation_status(worst_volume.last))) %></span>
+        сильнее всех у <%= h(worst_volume.first) %>; цель по объёму выведена нами
       </div>
     </div>
 <% end -%>
