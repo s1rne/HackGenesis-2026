@@ -49,7 +49,10 @@ ruby scripts/validate_10.rb routing_decisions.json    # автопроверка
 
 ## Как принимается решение
 
-Порядок шагов один и тот же независимо от выбранной стратегии.
+Порядок шагов один и тот же независимо от выбранной стратегии. Ниже — обзор;
+формальное описание с формулами, разбором расчёта до последней цифры и
+доказательством достижимости целей — в
+[docs/decision-policy.md](docs/decision-policy.md).
 
 ```
 заявка
@@ -356,6 +359,73 @@ Minitest из стандартной библиотеки, без гемов и 
 коммитов: потерянная запись об отказе при повторной попытке, коллизия
 синонимов полей и недетерминированность часов при отсутствии времени
 во входных данных.
+
+---
+
+## Матрица покрытия
+
+Обе таблицы ТЗ построчно: семь стратегий распределения и восемь
+hard-constraints — с файлом реализации и тестом, который это проверяет.
+Имена тестов настоящие, их печатает `rake test`.
+
+### Стратегии распределения
+
+| № | Стратегия ТЗ | Реализация | Тест |
+|---:|---|---|---|
+| 1 | Процент от количества заявок (`traffic_percentage`) | `lib/routing/strategies/count_share.rb` | `test/strategies_test.rb`: 4 теста `test_count_share_*`, в том числе `..._follows_the_configured_target_not_the_current_count`; фактические доли прогона — `test/report_test.rb: test_distribution_counts_match_the_selected_providers_in_decisions` |
+| 2 | Процент от объёма (`volume_share_pct`) | `lib/routing/strategies/volume_share.rb` | `test/strategies_test.rb`: 3 теста `test_volume_share_*`, в том числе `..._differs_from_count_share_on_the_same_history` |
+| 3 | Очередь в каскаде (`priority`) | `lib/routing/strategies/cascade_priority.rb`, механизм попыток — `lib/routing/cascade.rb`, профиль `cascade_only` | `test/strategies_test.rb`: 3 теста `test_cascade_priority_*`; переход при отказе — `test/cascade_test.rb: test_refusal_of_the_first_provider_hands_the_operation_to_the_next` |
+| 4 | По сумме чека | предпочтение — `lib/routing/strategies/amount_band.rb`, допуск — `lib/routing/constraints/amount_range.rb` | `test/strategies_test.rb`: 5 тестов `test_amount_band_*`, в том числе `..._is_a_preference_and_not_a_hard_limit` |
+| 5 | Приоритизация по конверсии (`conversion_24h`) | `lib/routing/strategies/conversion.rb`, оценка — `lib/routing/statistics.rb` | `test/strategies_test.rb`: 4 теста `test_conversion_*`, в том числе `..._uses_the_lower_bound_so_a_small_sample_does_not_win`; сама формула — `test/statistics_test.rb`: 5 тестов `test_wilson_*` |
+| 6 | По интенсивности (`requests_per_minute_limit`) | лимит — `lib/routing/constraints/rate_limit.rb`, предпочтение по загрузке — `lib/routing/strategies/load_balance.rb` | `test/constraints_test.rb`: 4 теста `test_rate_limit_*`, в том числе `..._forgets_requests_outside_the_window`; `test/strategies_test.rb`: 3 теста `test_load_balance_*`; `test/provider_state_test.rb: test_load_factor_includes_intensity_when_time_is_known` |
+| 7 | По фин. обязательствам (`daily_turnover_min/max`) | нижнее — `lib/routing/strategies/turnover_commitment.rb`, верхнее — `lib/routing/constraints/daily_turnover_max.rb` | `test/strategies_test.rb`: 7 тестов `test_turnover_commitment_*`, в том числе `..._wakes_up_when_the_day_is_running_out`; `test/constraints_test.rb`: 3 теста `test_daily_turnover_max_*` |
+
+Комбинация стратегий — не отдельный режим: все восемь целей работают
+одновременно, конфликт разрешается эшелонами и весами. Механизм согласования
+покрыт `test/scorer_test.rb` (эшелоны, `tier_epsilon`, цепочка тай-брейка,
+воспроизводимость — 19 тестов).
+
+### Hard-constraints
+
+| Проверка ТЗ | Реализация | Тест |
+|---|---|---|
+| Статус провайдера | `lib/routing/constraints/provider_status.rb` | `test/constraints_test.rb`: 2 теста `test_provider_status_*` |
+| Диапазон суммы чека | `lib/routing/constraints/amount_range.rb` | `test/constraints_test.rb`: 4 теста `test_amount_range_*` |
+| Дневной max | `lib/routing/constraints/daily_amount_limit.rb` | `test/constraints_test.rb`: 4 теста `test_daily_amount_limit_*`, в том числе `..._does_not_lie_on_the_float_boundary` |
+| In-progress count/amount | `lib/routing/constraints/in_progress_limits.rb` | `test/constraints_test.rb`: 5 тестов `test_in_progress_limits_*` |
+| Банковский фильтр | `lib/routing/constraints/bank_filter.rb` | `test/constraints_test.rb`: 9 тестов `test_bank_filter_*` (белый список, чёрный список, оба прочтения `exclude_banks`, нормализация названий, политика для неизвестного банка) |
+| Маржа | `lib/routing/constraints/margin.rb` | `test/constraints_test.rb`: 4 теста `test_margin_*`, включая `allow_negative_agreement` |
+| Реквизиты | `lib/routing/constraints/requisites.rb` | `test/constraints_test.rb`: 3 теста `test_requisites_*` |
+| Интенсивность | `lib/routing/constraints/rate_limit.rb` | `test/constraints_test.rb`: 4 теста `test_rate_limit_*` |
+
+Все восемь дополнительно проверяются против эталона организаторов:
+`test/acceptance_test.rb: test_hard_constraints_reproduce_the_reference_list_of_eligible_providers`
+и `..._reproduce_the_reference_skip_reasons` — движок обязан воспроизвести
+`data/reference_decisions.json` один в один.
+
+Сверх таблицы ТЗ реализованы ещё три правила: `traffic_share` (3 теста),
+`daily_turnover_max` (3 теста), `currency` (3 теста) — все в
+`test/constraints_test.rb`. Состав и порядок реестра закреплены
+`test_registry_knows_every_hard_constraint_of_the_case` и
+`test_registry_builds_constraints_in_configuration_order`.
+
+### Fallback и обновление метрик
+
+| Требование ТЗ | Реализация | Тест |
+|---|---|---|
+| При отказе исключить провайдера и выбрать следующего | `lib/routing/cascade.rb` | `test/cascade_test.rb`: `test_refusal_of_the_first_provider_hands_the_operation_to_the_next`, `test_timeout_is_distinguished_from_a_decline_in_the_reason_code`, `test_max_attempts_bounds_the_cascade` |
+| Если пул пуст — fallback на self-провайдера | `Cascade#use_fallback`, `run.exhausted_pool_policy` | `test/cascade_test.rb`: `test_empty_pool_falls_back_to_the_self_provider`, `test_fallback_is_used_when_hard_constraints_leave_nobody`, `test_no_route_at_all_is_reported_and_does_not_crash`, обе политики — `test_retry_best_policy_...`, `test_fallback_policy_...`, `test_the_two_policies_give_different_answers_on_the_same_input` |
+| Обновление метрик после каждой заявки | `lib/routing/provider_state.rb` | `test/provider_state_test.rb`: 16 тестов, включая `test_decline_returns_everything_back_to_the_initial_values` и `test_a_long_chain_of_declines_leaves_no_leaked_limits` |
+| Поведение при невыполнимой цели | `Cascade#relaxation_events`, `Fleet#count_target(among:)` | `test/cascade_test.rb`: `test_unreachable_target_share_produces_a_goal_relaxation_event`, `test_target_shares_are_recomputed_on_the_available_providers`, `test_reallocation_switch_changes_the_target_the_survivor_is_measured_against` |
+
+### Чего тестами не покрыто
+
+Честно, без выдумывания: собственных модульных тестов нет у
+`lib/routing/analytics/achievability.rb` (расчёт коридоров достижимости) и
+`lib/routing/analytics/replay.rb` (контрфактический реплей истории). Оба
+считаются на каждом прогоне и проверяются только глазами по разделам
+`target_achievability` и выводу `ruby bin/route replay`; `test/report_test.rb`
+проверяет структуру отчёта, но не сами эти числа.
 
 ---
 

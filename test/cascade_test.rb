@@ -262,8 +262,8 @@ class CascadeTest < Minitest::Test
   end
 
   def count_share_raw(decision)
-    factors = decision.ranking.first[:factors]
-    factors.find { |factor| factor[:factor] == "count_share" }[:raw]
+    factors = decision.ranking.first["factors"]
+    factors.find { |factor| factor["factor"] == "count_share" }["raw"]
   end
 
   def test_goal_relaxation_can_be_switched_off_in_configuration

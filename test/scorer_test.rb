@@ -186,12 +186,14 @@ class ScorerTest < Minitest::Test
                   Stub.new("conversion", tier: 2, weight: 1.0, scores: { "alpha" => 0.0, "bravo" => 1.0, "charlie" => 0.5 })]
     row = scorer(strategies).rank(contexts).first.to_h
 
-    assert_equal %i[provider score tiers factors], row.keys
-    assert_equal %w[count_share conversion], row[:factors].map { |f| f[:factor] }
-    row[:factors].each do |factor|
-      assert_includes factor.keys, :normalized
-      assert_includes factor.keys, :contribution
-      assert_includes factor.keys, :note, "у фактора должно быть человеческое пояснение"
+    # Ключи строковые: раскладка кладётся внутрь записи попытки, где все
+    # ключи строковые, и смешивать символы со строками в одной структуре нельзя.
+    assert_equal %w[provider score tiers factors], row.keys
+    assert_equal %w[count_share conversion], row["factors"].map { |f| f["factor"] }
+    row["factors"].each do |factor|
+      assert_includes factor.keys, "normalized"
+      assert_includes factor.keys, "contribution"
+      assert_includes factor.keys, "note", "у фактора должно быть человеческое пояснение"
     end
   end
 

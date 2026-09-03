@@ -1,0 +1,5800 @@
+[
+  {
+    "operation_id": "pay-2001",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "amount_band_match",
+        "details": "сумма 34500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.6888,
+        "outcome": "approved",
+        "latency_sec": 33,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.5402,
+            "normalized": 0.5017,
+            "contribution": 0.7024,
+            "note": "заявлено 83.0%, наблюдений пока нет — берём нижнюю границу 54.0% при доверии 90.0% и весе априорной оценки 8 наблюдений"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.75,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "сумма 34500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 0.4839,
+            "normalized": 1.0,
+            "contribution": 1.1,
+            "note": "цель 48.4% по количеству, это первая заявка прогона — весь недобор 0.48 ещё впереди"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.4839,
+            "normalized": 1.0,
+            "contribution": 0.5,
+            "note": "цель 48.4% по объёму, распределённого объёма пока нет"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.4,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 0.5,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.6542,
+            "normalized": 0.3803,
+            "contribution": 0.3803,
+            "note": "загрузка 34.6%, узкое место — дневной оборот (34.6%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 4,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 33,
+    "amount": 34500,
+    "bank": "Kaspi Bank",
+    "selection": {
+      "reason": "amount_band_match",
+      "details": "сумма 34500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "tenge_rail",
+          "score": 0.6888,
+          "tiers": {
+            "1": 0.6829,
+            "2": 0.8696,
+            "3": 0.4202
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5402,
+              "normalized": 0.5017,
+              "contribution": 0.7024,
+              "note": "заявлено 83.0%, наблюдений пока нет — берём нижнюю границу 54.0% при доверии 90.0% и весе априорной оценки 8 наблюдений"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 34500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 0.4839,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "цель 48.4% по количеству, это первая заявка прогона — весь недобор 0.48 ещё впереди"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.4839,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "цель 48.4% по объёму, распределённого объёма пока нет"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6542,
+              "normalized": 0.3803,
+              "contribution": 0.3803,
+              "note": "загрузка 34.6%, узкое место — дневной оборот (34.6%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "altair_pay",
+          "score": 0.6235,
+          "tiers": {
+            "1": 0.6364,
+            "2": 0.4744,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6291,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 91.0%, наблюдений пока нет — берём нижнюю границу 62.9% при доверии 90.0% и весе априорной оценки 8 наблюдений"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 34500 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 0.3226,
+              "normalized": 0.4444,
+              "contribution": 0.4889,
+              "note": "цель 32.3% по количеству, это первая заявка прогона — весь недобор 0.32 ещё впереди"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.3226,
+              "normalized": 0.4444,
+              "contribution": 0.2222,
+              "note": "цель 32.3% по объёму, распределённого объёма пока нет"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.6,
+              "contribution": 0.18,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.7033,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "orbita_gate",
+          "score": 0.225,
+          "tiers": {
+            "1": 0.3636,
+            "2": 0.1304,
+            "3": 0.1667
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.4506,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "заявлено 74.0%, наблюдений пока нет — берём нижнюю границу 45.1% при доверии 90.0% и весе априорной оценки 8 наблюдений"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 34500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 0.1935,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "цель 19.4% по количеству, это первая заявка прогона — весь недобор 0.19 ещё впереди"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.1935,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "цель 19.4% по объёму, распределённого объёма пока нет"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 0.3,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.624,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 37.6%, узкое место — дневной оборот (37.6%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 33
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 11.4,
+        "reallocated_to": [
+          "tenge_rail",
+          "altair_pay",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (nordwind_pay) перераспределена между tenge_rail, altair_pay, orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2002",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 42
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Халык не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "12400 < limit_amount_min 20000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 42,
+    "amount": 12400,
+    "bank": "Халык",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "tenge_rail",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5781,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 83.0%, в прогоне 1 из 1; нижняя граница 57.8% при доверии 90.0% на 9 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.3,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 12400 в полосе 100..20000 -> не в списке предпочтения (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 100.0% при цели 100.0% (1 из 1 уже распределённых), недобор 1.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.2644,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 100.0% при цели 100.0% (34500 из 34500)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6513,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 34.9%, узкое место — дневной оборот (34.9%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 42
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "altair_pay": 28.6,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 57.1,
+        "reallocated_to": [
+          "tenge_rail"
+        ],
+        "note": "целевая доля недоступных провайдеров (altair_pay, orbita_gate, nordwind_pay) перераспределена между tenge_rail"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2003",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "780 < limit_amount_min 2000",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 62
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "780 < limit_amount_min 20000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "780 < limit_amount_min 1000",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "сумма меньше минимального чека провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 62,
+    "amount": 780,
+    "bank": "Kaspi Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "altair_pay",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6291,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 91.0%, наблюдений пока нет — берём нижнюю границу 62.9% при доверии 90.0% и весе априорной оценки 8 наблюдений"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.95,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 780 в полосе 100..20000 -> предпочтителен (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 3.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 0.0% при цели 100.0% (0 из 2 уже распределённых), недобор 3.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 0.0% при цели 100.0% (0 из 46900)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.7033,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 62
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 71.4,
+        "reallocated_to": [
+          "altair_pay"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2004",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "1250000 > limit_amount_max 400000",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "сумма больше максимального чека провайдера"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Halyk Bank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 25
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "1250000 > limit_amount_max 250000",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "сумма больше максимального чека провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 25,
+    "amount": 1250000,
+    "bank": "Halyk Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "orbita_gate",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.4506,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 74.0%, наблюдений пока нет — берём нижнюю границу 45.1% при доверии 90.0% и весе априорной оценки 8 наблюдений"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 1250000 в полосе 400001..+ -> предпочтителен (orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 4.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 0.0% при цели 100.0% (0 из 3 уже распределённых), недобор 4.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 0.0% при цели 100.0% (0 из 47680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.624,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 37.6%, узкое место — дневной оборот (37.6%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "orbita_gate",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 25
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "altair_pay": 28.6,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 82.9,
+        "reallocated_to": [
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2005",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 32
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 32,
+    "amount": 2850000,
+    "bank": "Altyn Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "orbita_gate",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.4948,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 74.0%, в прогоне 1 из 1; нижняя граница 49.5% при доверии 90.0% на 9 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 2850000 в полосе 400001..+ -> предпочтителен (orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 4.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 25.0% при цели 100.0% (1 из 4 уже распределённых), недобор 4.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.6986,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 96.3% при цели 100.0% (1250000 из 1297680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.574,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 42.6%, узкое место — дневной оборот (42.6%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "orbita_gate",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 32
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "altair_pay": 28.6,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 82.9,
+        "reallocated_to": [
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2006",
+    "selected_provider": "internal_settlement",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Monobank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Monobank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "bank_excluded",
+        "details": "Monobank в списке исключений (freedom, monobank, privatbank)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки в списке исключений провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Monobank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 4,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "internal_settlement",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера",
+        "stage": "fallback",
+        "sequence": 5,
+        "attempt_no": 1,
+        "outcome": "approved",
+        "latency_sec": 89
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 89,
+    "amount": 46000,
+    "bank": "Monobank",
+    "selection": {
+      "reason": "fallback_self_provider",
+      "details": "внешний пул пуст, ушли на собственного провайдера",
+      "profile": "kzt_card_payout",
+      "candidates": []
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "internal_settlement",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 89,
+          "fallback": true
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "altair_pay": 28.6,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 100.0,
+        "reallocated_to": [],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, orbita_gate, nordwind_pay) перераспределена между никем: пул пуст"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2007",
+    "selected_provider": "internal_settlement",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Privatbank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Privatbank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "bank_excluded",
+        "details": "Privatbank в списке исключений (freedom, monobank, privatbank)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки в списке исключений провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Privatbank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 4,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "internal_settlement",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера",
+        "stage": "fallback",
+        "sequence": 5,
+        "attempt_no": 1,
+        "outcome": "approved",
+        "latency_sec": 114
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 114,
+    "amount": 9900,
+    "bank": "Privatbank",
+    "selection": {
+      "reason": "fallback_self_provider",
+      "details": "внешний пул пуст, ушли на собственного провайдера",
+      "profile": "kzt_card_payout",
+      "candidates": []
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "internal_settlement",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 114,
+          "fallback": true
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "altair_pay": 28.6,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 100.0,
+        "reallocated_to": [],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, orbita_gate, nordwind_pay) перераспределена между никем: пул пуст"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2008",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Jusan Bank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 452 с, заявка передана следующему кандидату",
+        "stage": "cascade_attempt",
+        "sequence": 3,
+        "attempt_no": 1,
+        "outcome": "expired",
+        "latency_sec": 452,
+        "explanation": "провайдер не ответил вовремя"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 2,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 29,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.5325,
+            "normalized": 0.5,
+            "contribution": 0.7,
+            "note": "заявлено 74.0%, в прогоне 2 из 2; нижняя граница 53.2% при доверии 90.0% на 10 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.75,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "сумма 25000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 6.0,
+            "normalized": 0.5,
+            "contribution": 0.55,
+            "note": "доля по количеству 28.6% при цели 100.0% (2 из 7 уже распределённых), недобор 6.0 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.0304,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "доля по объёму 97.5% при цели 100.0% (4100000 из 4203580)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -3.0,
+            "normalized": 0.5,
+            "contribution": 0.2,
+            "note": "приоритет в каскаде 3"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 1.0,
+            "normalized": 0.5,
+            "contribution": 0.15,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.46,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "загрузка 54.0%, узкое место — дневной оборот (54.0%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Jusan Bank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 481,
+    "amount": 25000,
+    "bank": "Jusan Bank",
+    "selection": {
+      "reason": "cascade_retry",
+      "details": "следующий в каскаде после отказа предыдущего",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "orbita_gate",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5325,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 74.0%, в прогоне 2 из 2; нижняя граница 53.2% при доверии 90.0% на 10 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 25000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 6.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 28.6% при цели 100.0% (2 из 7 уже распределённых), недобор 6.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.0304,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 97.5% при цели 100.0% (4100000 из 4203580)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.46,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 54.0%, узкое место — дневной оборот (54.0%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "expired",
+          "latency_sec": 452
+        },
+        {
+          "provider": "orbita_gate",
+          "attempt": 2,
+          "outcome": "approved",
+          "latency_sec": 29
+        }
+      ],
+      "attempts_made": 2
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 54.3,
+        "reallocated_to": [
+          "altair_pay",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, nordwind_pay) перераспределена между altair_pay, orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2009",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Bereke Bank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 44
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "3400 < limit_amount_min 20000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Bereke Bank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 44,
+    "amount": 3400,
+    "bank": "Bereke Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "altair_pay",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5705,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 91.0%, в прогоне 1 из 2; нижняя граница 57.1% при доверии 90.0% на 10 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.95,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 3400 в полосе 100..20000 -> предпочтителен (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 8.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 12.5% при цели 100.0% (1 из 8 уже распределённых), недобор 8.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.9998,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 0.0% при цели 100.0% (780 из 4228580)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.7032,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 44
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 71.4,
+        "reallocated_to": [
+          "altair_pay"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2010",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Freedom Bank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 72
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "bank_excluded",
+        "details": "Freedom Bank в списке исключений (freedom, monobank, privatbank)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки в списке исключений провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Freedom Bank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 72,
+    "amount": 18700,
+    "bank": "Freedom Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "altair_pay",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6007,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 91.0%, в прогоне 2 из 3; нижняя граница 60.1% при доверии 90.0% на 11 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.95,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 18700 в полосе 100..20000 -> предпочтителен (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 8.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 22.2% при цели 100.0% (2 из 9 уже распределённых), недобор 8.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.999,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 0.1% при цели 100.0% (4180 из 4231980)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.7026,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 72
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 71.4,
+        "reallocated_to": [
+          "altair_pay"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2011",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Freedom Bank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 52
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "bank_excluded",
+        "details": "Freedom Bank в списке исключений (freedom, monobank, privatbank)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки в списке исключений провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Freedom Bank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 52,
+    "amount": 120000,
+    "bank": "Freedom Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "altair_pay",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.627,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 91.0%, в прогоне 3 из 4; нижняя граница 62.7% при доверии 90.0% на 12 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 120000 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 8.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 30.0% при цели 100.0% (3 из 10 уже распределённых), недобор 8.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.9948,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 0.5% при цели 100.0% (22880 из 4250680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6995,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 30.0%, узкое место — дневной оборот (30.0%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 52
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 71.4,
+        "reallocated_to": [
+          "altair_pay"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2012",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 56 с, заявка передана следующему кандидату",
+        "stage": "cascade_attempt",
+        "sequence": 3,
+        "attempt_no": 1,
+        "outcome": "rejected",
+        "latency_sec": 56,
+        "explanation": "провайдер отказал в обработке"
+      },
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
+        "stage": "cascade_attempt",
+        "sequence": 5,
+        "attempt_no": 3,
+        "score": 0.8417,
+        "outcome": "approved",
+        "latency_sec": 42,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.5382,
+            "normalized": 1.0,
+            "contribution": 1.4,
+            "note": "заявлено 83.0%, в прогоне 2 из 3; нижняя граница 53.8% при доверии 90.0% на 11 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.75,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "сумма 210000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 6.5714,
+            "normalized": 1.0,
+            "contribution": 1.1,
+            "note": "доля по количеству 18.2% при цели 71.4% (2 из 11 уже распределённых), недобор 6.57 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.704,
+            "normalized": 1.0,
+            "contribution": 0.5,
+            "note": "доля по объёму 1.1% при цели 71.4% (46900 из 4370680)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.4,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 0.5,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.6503,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "загрузка 35.0%, узкое место — дневной оборот (35.0%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "ForteBank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 2: ответ rejected за 51 с, других допустимых кандидатов нет",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 2,
+        "outcome": "rejected",
+        "latency_sec": 51,
+        "explanation": "провайдер отказал в обработке"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "ForteBank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 149,
+    "amount": 210000,
+    "bank": "ForteBank",
+    "selection": {
+      "reason": "cascade_retry",
+      "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "tenge_rail",
+          "score": 0.8417,
+          "tiers": {
+            "1": 0.8182,
+            "2": 0.8696,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5382,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 83.0%, в прогоне 2 из 3; нижняя граница 53.8% при доверии 90.0% на 11 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 210000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 6.5714,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "доля по количеству 18.2% при цели 71.4% (2 из 11 уже распределённых), недобор 6.57 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.704,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "доля по объёму 1.1% при цели 71.4% (46900 из 4370680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6503,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 35.0%, узкое место — дневной оборот (35.0%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "orbita_gate",
+          "score": 0.1583,
+          "tiers": {
+            "1": 0.1818,
+            "2": 0.1304,
+            "3": 0.1667
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5059,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "заявлено 74.0%, в прогоне 3 из 4; нижняя граница 50.6% при доверии 90.0% на 12 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 210000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 0.4286,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 27.3% при цели 28.6% (3 из 11 уже распределённых), недобор 0.43 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": -0.6148,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 94.4% при цели 28.6% (4125000 из 4370680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 0.3,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.459,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 54.1%, узкое место — дневной оборот (54.1%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "rejected",
+          "latency_sec": 56
+        },
+        {
+          "provider": "orbita_gate",
+          "attempt": 2,
+          "outcome": "rejected",
+          "latency_sec": 51
+        },
+        {
+          "provider": "tenge_rail",
+          "attempt": 3,
+          "outcome": "approved",
+          "latency_sec": 42,
+          "final": true
+        }
+      ],
+      "attempts_made": 3
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "altair_pay": 28.6,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 40.0,
+        "reallocated_to": [
+          "tenge_rail",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (altair_pay, nordwind_pay) перераспределена между tenge_rail, orbita_gate"
+      },
+      {
+        "type": "pool_exhausted",
+        "policy": "retry_best",
+        "refused": [
+          "tenge_rail",
+          "orbita_gate"
+        ],
+        "note": "все допустимые провайдеры отказали в приёме"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2013",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Otbasy Bank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Otbasy Bank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 383 с, других допустимых кандидатов нет",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "outcome": "expired",
+        "latency_sec": 383,
+        "explanation": "провайдер не ответил вовремя"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
+        "stage": "cascade_attempt",
+        "sequence": 5,
+        "attempt_no": 2,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 25
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 408,
+    "amount": 55000,
+    "bank": "Otbasy Bank",
+    "selection": {
+      "reason": "cascade_retry",
+      "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "orbita_gate",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.4588,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 74.0%, в прогоне 3 из 5; нижняя граница 45.9% при доверии 90.0% на 13 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 55000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 10.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 25.0% при цели 100.0% (3 из 12 уже распределённых), недобор 10.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.1102,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 90.1% при цели 100.0% (4125000 из 4580680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.459,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 54.1%, узкое место — дневной оборот (54.1%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "orbita_gate",
+          "attempt": 1,
+          "outcome": "expired",
+          "latency_sec": 383
+        },
+        {
+          "provider": "orbita_gate",
+          "attempt": 2,
+          "outcome": "approved",
+          "latency_sec": 25,
+          "final": true
+        }
+      ],
+      "attempts_made": 2
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "altair_pay": 28.6,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 82.9,
+        "reallocated_to": [
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate"
+      },
+      {
+        "type": "pool_exhausted",
+        "policy": "retry_best",
+        "refused": [
+          "orbita_gate"
+        ],
+        "note": "все допустимые провайдеры отказали в приёме"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2014",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "amount_band_match",
+        "details": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.7547,
+        "outcome": "approved",
+        "latency_sec": 45,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.5681,
+            "normalized": 0.4917,
+            "contribution": 0.6884,
+            "note": "заявлено 83.0%, в прогоне 3 из 4; нижняя граница 56.8% при доверии 90.0% на 12 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.75,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 3.7742,
+            "normalized": 1.0,
+            "contribution": 1.1,
+            "note": "доля по количеству 23.1% при цели 48.4% (3 из 13 уже распределённых), недобор 3.77 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.4296,
+            "normalized": 1.0,
+            "contribution": 0.5,
+            "note": "доля по объёму 5.5% при цели 48.4% (256900 из 4635680)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.4,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 0.5,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.6328,
+            "normalized": 0.79,
+            "contribution": 0.79,
+            "note": "загрузка 36.7%, узкое место — дневной оборот (36.7%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 4,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 45,
+    "amount": 99000,
+    "bank": "Каспи",
+    "selection": {
+      "reason": "amount_band_match",
+      "details": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "tenge_rail",
+          "score": 0.7547,
+          "tiers": {
+            "1": 0.6765,
+            "2": 0.8696,
+            "3": 0.6934
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5681,
+              "normalized": 0.4917,
+              "contribution": 0.6884,
+              "note": "заявлено 83.0%, в прогоне 3 из 4; нижняя граница 56.8% при доверии 90.0% на 12 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 3.7742,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "доля по количеству 23.1% при цели 48.4% (3 из 13 уже распределённых), недобор 3.77 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.4296,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "доля по объёму 5.5% при цели 48.4% (256900 из 4635680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6328,
+              "normalized": 0.79,
+              "contribution": 0.79,
+              "note": "загрузка 36.7%, узкое место — дневной оборот (36.7%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "altair_pay",
+          "score": 0.6435,
+          "tiers": {
+            "1": 0.6364,
+            "2": 0.5265,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6501,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 91.0%, в прогоне 4 из 5; нижняя граница 65.0% при доверии 90.0% на 13 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 99000 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 0.5161,
+              "normalized": 0.3567,
+              "contribution": 0.3924,
+              "note": "доля по количеству 30.8% при цели 32.3% (4 из 13 уже распределённых), недобор 0.52 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.2924,
+              "normalized": 0.8774,
+              "contribution": 0.4387,
+              "note": "доля по объёму 3.1% при цели 32.3% (142880 из 4635680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.6,
+              "contribution": 0.18,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6795,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 32.0%, узкое место — дневной оборот (32.0%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "orbita_gate",
+          "score": 0.225,
+          "tiers": {
+            "1": 0.3636,
+            "2": 0.1304,
+            "3": 0.1667
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.4888,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "заявлено 74.0%, в прогоне 4 из 6; нижняя граница 48.9% при доверии 90.0% на 14 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": -1.2903,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 30.8% при цели 19.4% (4 из 13 уже распределённых), недобор -1.29 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": -0.6893,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 90.2% при цели 19.4% (4180000 из 4635680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 0.3,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.4568,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 54.3%, узкое место — дневной оборот (54.3%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 45
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 11.4,
+        "reallocated_to": [
+          "tenge_rail",
+          "altair_pay",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (nordwind_pay) перераспределена между tenge_rail, altair_pay, orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2015",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "amount_band_match",
+        "details": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.7867,
+        "outcome": "approved",
+        "latency_sec": 48,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.5945,
+            "normalized": 0.655,
+            "contribution": 0.917,
+            "note": "заявлено 83.0%, в прогоне 4 из 5; нижняя граница 59.4% при доверии 90.0% на 13 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.75,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 3.2581,
+            "normalized": 1.0,
+            "contribution": 1.1,
+            "note": "доля по количеству 28.6% при цели 48.4% (4 из 14 уже распределённых), недобор 3.26 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.411,
+            "normalized": 1.0,
+            "contribution": 0.5,
+            "note": "доля по объёму 7.5% при цели 48.4% (355900 из 4734680)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.4,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 0.5,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.6245,
+            "normalized": 0.753,
+            "contribution": 0.753,
+            "note": "загрузка 37.5%, узкое место — дневной оборот (37.5%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 4,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 48,
+    "amount": 149999,
+    "bank": "Kaspi Bank",
+    "selection": {
+      "reason": "amount_band_match",
+      "details": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "tenge_rail",
+          "score": 0.7867,
+          "tiers": {
+            "1": 0.7805,
+            "2": 0.8696,
+            "3": 0.6687
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5945,
+              "normalized": 0.655,
+              "contribution": 0.917,
+              "note": "заявлено 83.0%, в прогоне 4 из 5; нижняя граница 59.4% при доверии 90.0% на 13 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 3.2581,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "доля по количеству 28.6% при цели 48.4% (4 из 14 уже распределённых), недобор 3.26 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.411,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "доля по объёму 7.5% при цели 48.4% (355900 из 4734680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6245,
+              "normalized": 0.753,
+              "contribution": 0.753,
+              "note": "загрузка 37.5%, узкое место — дневной оборот (37.5%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "altair_pay",
+          "score": 0.6607,
+          "tiers": {
+            "1": 0.6364,
+            "2": 0.5713,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6501,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 91.0%, в прогоне 4 из 5; нижняя граница 65.0% при доверии 90.0% на 13 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 149999 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 0.8387,
+              "normalized": 0.4444,
+              "contribution": 0.4889,
+              "note": "доля по количеству 28.6% при цели 32.3% (4 из 14 уже распределённых), недобор 0.84 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.2933,
+              "normalized": 0.8903,
+              "contribution": 0.4452,
+              "note": "доля по объёму 3.0% при цели 32.3% (142880 из 4734680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.6,
+              "contribution": 0.18,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6795,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 32.0%, узкое место — дневной оборот (32.0%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "orbita_gate",
+          "score": 0.225,
+          "tiers": {
+            "1": 0.3636,
+            "2": 0.1304,
+            "3": 0.1667
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.4888,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "заявлено 74.0%, в прогоне 4 из 6; нижняя граница 48.9% при доверии 90.0% на 14 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": -1.0968,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 28.6% при цели 19.4% (4 из 14 уже распределённых), недобор -1.1 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": -0.6622,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 88.3% при цели 19.4% (4180000 из 4734680)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 0.3,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.4568,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 54.3%, узкое место — дневной оборот (54.3%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 48
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 11.4,
+        "reallocated_to": [
+          "tenge_rail",
+          "altair_pay",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (nordwind_pay) перераспределена между tenge_rail, altair_pay, orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2016",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 56 с, других допустимых кандидатов нет",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "outcome": "rejected",
+        "latency_sec": 56,
+        "explanation": "провайдер отказал в обработке"
+      },
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
+        "stage": "cascade_attempt",
+        "sequence": 5,
+        "attempt_no": 2,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 42
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Halyk Bank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "7200 < limit_amount_min 20000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 98,
+    "amount": 7200,
+    "bank": "Halyk Bank",
+    "selection": {
+      "reason": "cascade_retry",
+      "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "tenge_rail",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5655,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 83.0%, в прогоне 5 из 7; нижняя граница 56.5% при доверии 90.0% на 15 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.3,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 7200 в полосе 100..20000 -> не в списке предпочтения (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 11.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 33.3% при цели 100.0% (5 из 15 уже распределённых), недобор 11.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.8966,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 10.4% при цели 100.0% (505899 из 4884679)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.612,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 38.8%, узкое место — дневной оборот (38.8%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "rejected",
+          "latency_sec": 56
+        },
+        {
+          "provider": "tenge_rail",
+          "attempt": 2,
+          "outcome": "approved",
+          "latency_sec": 42,
+          "final": true
+        }
+      ],
+      "attempts_made": 2
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "altair_pay": 28.6,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 57.1,
+        "reallocated_to": [
+          "tenge_rail"
+        ],
+        "note": "целевая доля недоступных провайдеров (altair_pay, orbita_gate, nordwind_pay) перераспределена между tenge_rail"
+      },
+      {
+        "type": "pool_exhausted",
+        "policy": "retry_best",
+        "refused": [
+          "tenge_rail"
+        ],
+        "note": "все допустимые провайдеры отказали в приёме"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2017",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 83.0%, в прогоне 6 из 8; нижняя граница 58.8% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против orbita_gate — conversion",
+        "stage": "cascade_attempt",
+        "sequence": 3,
+        "attempt_no": 1,
+        "score": 0.8417,
+        "outcome": "approved",
+        "latency_sec": 46,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.5876,
+            "normalized": 1.0,
+            "contribution": 1.4,
+            "note": "заявлено 83.0%, в прогоне 6 из 8; нижняя граница 58.8% при доверии 90.0% на 16 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.75,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "сумма 320000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 6.1429,
+            "normalized": 1.0,
+            "contribution": 1.1,
+            "note": "доля по количеству 37.5% при цели 71.4% (6 из 16 уже распределённых), недобор 6.14 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.6158,
+            "normalized": 1.0,
+            "contribution": 0.5,
+            "note": "доля по объёму 10.5% при цели 71.4% (513099 из 4891879)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.4,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 0.5,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.6114,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "загрузка 38.9%, узкое место — дневной оборот (38.9%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "320000 > limit_amount_max 150000",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "сумма больше максимального чека провайдера"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 4,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "320000 > limit_amount_max 250000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма больше максимального чека провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 46,
+    "amount": 320000,
+    "bank": "Kaspi Bank",
+    "selection": {
+      "reason": "highest_conversion",
+      "details": "заявлено 83.0%, в прогоне 6 из 8; нижняя граница 58.8% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против orbita_gate — conversion",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "tenge_rail",
+          "score": 0.8417,
+          "tiers": {
+            "1": 0.8182,
+            "2": 0.8696,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5876,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 83.0%, в прогоне 6 из 8; нижняя граница 58.8% при доверии 90.0% на 16 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 320000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 6.1429,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "доля по количеству 37.5% при цели 71.4% (6 из 16 уже распределённых), недобор 6.14 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.6158,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "доля по объёму 10.5% при цели 71.4% (513099 из 4891879)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6114,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 38.9%, узкое место — дневной оборот (38.9%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "orbita_gate",
+          "score": 0.1583,
+          "tiers": {
+            "1": 0.1818,
+            "2": 0.1304,
+            "3": 0.1667
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.4888,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "заявлено 74.0%, в прогоне 4 из 6; нижняя граница 48.9% при доверии 90.0% на 14 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 320000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 0.8571,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 25.0% при цели 28.6% (4 из 16 уже распределённых), недобор 0.86 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": -0.5163,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 85.4% при цели 28.6% (4180000 из 4891879)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 0.3,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.4568,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 54.3%, узкое место — дневной оборот (54.3%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 46
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "altair_pay": 28.6,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 40.0,
+        "reallocated_to": [
+          "tenge_rail",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (altair_pay, nordwind_pay) перераспределена между tenge_rail, orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2018",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "480000 > limit_amount_max 400000",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "сумма больше максимального чека провайдера"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "480000 > limit_amount_max 150000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма больше максимального чека провайдера"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 37
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "480000 > limit_amount_max 250000",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "сумма больше максимального чека провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 37,
+    "amount": 480000,
+    "bank": "Kaspi Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "orbita_gate",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.4888,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 74.0%, в прогоне 4 из 6; нижняя граница 48.9% при доверии 90.0% на 14 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 480000 в полосе 400001..+ -> предпочтителен (orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 14.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 23.5% при цели 100.0% (4 из 17 уже распределённых), недобор 14.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.2656,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 80.2% при цели 100.0% (4180000 из 5211879)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.4568,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 54.3%, узкое место — дневной оборот (54.3%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "orbita_gate",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 37
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "altair_pay": 28.6,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 82.9,
+        "reallocated_to": [
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2019",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Жусан не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 47
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "2600 < limit_amount_min 20000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Жусан не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 47,
+    "amount": 2600,
+    "bank": "Жусан",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "altair_pay",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6501,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 91.0%, в прогоне 4 из 5; нижняя граница 65.0% при доверии 90.0% на 13 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.95,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 2600 в полосе 100..20000 -> предпочтителен (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 15.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 22.2% при цели 100.0% (4 из 18 уже распределённых), недобор 15.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.9749,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 2.5% при цели 100.0% (142880 из 5691879)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6795,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 32.0%, узкое место — дневной оборот (32.0%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 47
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 71.4,
+        "reallocated_to": [
+          "altair_pay"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2020",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Bereke Bank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, в прогоне 5 из 6; нижняя граница 67.1% при доверии 90.0% на 14 эффективных наблюдениях; решающий фактор против orbita_gate — conversion",
+        "stage": "cascade_attempt",
+        "sequence": 3,
+        "attempt_no": 1,
+        "score": 0.775,
+        "outcome": "approved",
+        "latency_sec": 54,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.6705,
+            "normalized": 1.0,
+            "contribution": 1.4,
+            "note": "заявлено 91.0%, в прогоне 5 из 6; нижняя граница 67.1% при доверии 90.0% на 14 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.4,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "сумма 64000 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 7.5,
+            "normalized": 1.0,
+            "contribution": 1.1,
+            "note": "доля по количеству 26.3% при цели 62.5% (5 из 19 уже распределённых), недобор 7.5 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.5997,
+            "normalized": 1.0,
+            "contribution": 0.5,
+            "note": "доля по объёму 2.6% при цели 62.5% (145480 из 5694479)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -2.0,
+            "normalized": 1.0,
+            "contribution": 0.4,
+            "note": "приоритет в каскаде 2"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 0.8,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.6791,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "загрузка 32.1%, узкое место — дневной оборот (32.1%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 4,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Bereke Bank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 54,
+    "amount": 64000,
+    "bank": "Bereke Bank",
+    "selection": {
+      "reason": "highest_conversion",
+      "details": "заявлено 91.0%, в прогоне 5 из 6; нижняя граница 67.1% при доверии 90.0% на 14 эффективных наблюдениях; решающий фактор против orbita_gate — conversion",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "altair_pay",
+          "score": 0.775,
+          "tiers": {
+            "1": 0.6364,
+            "2": 0.8696,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6705,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 91.0%, в прогоне 5 из 6; нижняя граница 67.1% при доверии 90.0% на 14 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 64000 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 7.5,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "доля по количеству 26.3% при цели 62.5% (5 из 19 уже распределённых), недобор 7.5 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.5997,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "доля по объёму 2.6% при цели 62.5% (145480 из 5694479)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6791,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 32.1%, узкое место — дневной оборот (32.1%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "orbita_gate",
+          "score": 0.225,
+          "tiers": {
+            "1": 0.3636,
+            "2": 0.1304,
+            "3": 0.1667
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5157,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "заявлено 74.0%, в прогоне 5 из 7; нижняя граница 51.6% при доверии 90.0% на 15 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 64000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 2.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 26.3% при цели 37.5% (5 из 19 уже распределённых), недобор 2.5 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": -0.4342,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 81.8% при цели 37.5% (4660000 из 5694479)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 0.3,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.4376,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 56.2%, узкое место — дневной оборот (56.2%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 54
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 54.3,
+        "reallocated_to": [
+          "altair_pay",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, nordwind_pay) перераспределена между altair_pay, orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2021",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 71 с, заявка передана следующему кандидату",
+        "stage": "cascade_attempt",
+        "sequence": 3,
+        "attempt_no": 1,
+        "outcome": "rejected",
+        "latency_sec": 71,
+        "explanation": "провайдер отказал в обработке"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Halyk Bank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 2,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 33,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.5157,
+            "normalized": 0.5,
+            "contribution": 0.7,
+            "note": "заявлено 74.0%, в прогоне 5 из 7; нижняя граница 51.6% при доверии 90.0% на 15 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.75,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "сумма 31500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 16.0,
+            "normalized": 0.5,
+            "contribution": 0.55,
+            "note": "доля по количеству 25.0% при цели 100.0% (5 из 20 уже распределённых), недобор 16.0 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.1952,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "доля по объёму 80.9% при цели 100.0% (4660000 из 5758479)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -3.0,
+            "normalized": 0.5,
+            "contribution": 0.2,
+            "note": "приоритет в каскаде 3"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 1.0,
+            "normalized": 0.5,
+            "contribution": 0.15,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.4376,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "загрузка 56.2%, узкое место — дневной оборот (56.2%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 104,
+    "amount": 31500,
+    "bank": "Halyk Bank",
+    "selection": {
+      "reason": "cascade_retry",
+      "details": "следующий в каскаде после отказа предыдущего",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "orbita_gate",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5157,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 74.0%, в прогоне 5 из 7; нижняя граница 51.6% при доверии 90.0% на 15 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 31500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 16.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 25.0% при цели 100.0% (5 из 20 уже распределённых), недобор 16.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.1952,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 80.9% при цели 100.0% (4660000 из 5758479)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.4376,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 56.2%, узкое место — дневной оборот (56.2%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "rejected",
+          "latency_sec": 71
+        },
+        {
+          "provider": "orbita_gate",
+          "attempt": 2,
+          "outcome": "approved",
+          "latency_sec": 33
+        }
+      ],
+      "attempts_made": 2
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "altair_pay": 28.6,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 40.0,
+        "reallocated_to": [
+          "tenge_rail",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (altair_pay, nordwind_pay) перераспределена между tenge_rail, orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2022",
+    "selected_provider": "tenge_rail",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 33
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Forte Bank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "2400 < limit_amount_min 20000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Forte Bank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 33,
+    "amount": 2400,
+    "bank": "Forte Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "tenge_rail",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5656,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 83.0%, в прогоне 7 из 10; нижняя граница 56.6% при доверии 90.0% на 18 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.3,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 2400 в полосе 100..20000 -> не в списке предпочтения (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 15.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 33.3% при цели 100.0% (7 из 21 уже распределённых), недобор 15.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.8562,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 14.4% при цели 100.0% (833099 из 5789979)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.5847,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 41.5%, узкое место — дневной оборот (41.5%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "tenge_rail",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 33
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "altair_pay": 28.6,
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 57.1,
+        "reallocated_to": [
+          "tenge_rail"
+        ],
+        "note": "целевая доля недоступных провайдеров (altair_pay, orbita_gate, nordwind_pay) перераспределена между tenge_rail"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2023",
+    "selected_provider": "orbita_gate",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, halyk, forte)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, jusan, bereke, freedom)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 30
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "Altyn Bank не входит в banks (kaspi, halyk, otbasy)",
+        "stage": "hard_filter",
+        "sequence": 3,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 30,
+    "amount": 890000,
+    "bank": "Altyn Bank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "orbita_gate",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.54,
+              "normalized": 0.5,
+              "contribution": 0.7,
+              "note": "заявлено 74.0%, в прогоне 6 из 8; нижняя граница 54.0% при доверии 90.0% на 16 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "сумма 890000 в полосе 400001..+ -> предпочтителен (orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 17.0,
+              "normalized": 0.5,
+              "contribution": 0.55,
+              "note": "доля по количеству 27.3% при цели 100.0% (6 из 22 уже распределённых), недобор 17.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.2979,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "доля по объёму 81.0% при цели 100.0% (4691500 из 5792379)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.15,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.4363,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "загрузка 56.4%, узкое место — дневной оборот (56.4%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "orbita_gate",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 30
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "tenge_rail": 42.9,
+          "altair_pay": 28.6,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 82.9,
+        "reallocated_to": [
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2024",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 4,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, в прогоне 6 из 7; нижняя граница 68.9% при доверии 90.0% на 15 эффективных наблюдениях; решающий фактор против tenge_rail — conversion",
+        "stage": "cascade_attempt",
+        "sequence": 3,
+        "attempt_no": 1,
+        "score": 0.625,
+        "outcome": "approved",
+        "latency_sec": 45,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.6887,
+            "normalized": 1.0,
+            "contribution": 1.4,
+            "note": "заявлено 91.0%, в прогоне 6 из 7; нижняя граница 68.9% при доверии 90.0% на 15 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.95,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "сумма 15000 в полосе 100..20000 -> предпочтителен (altair_pay)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 3.6,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "доля по количеству 26.1% при цели 40.0% (6 из 23 уже распределённых), недобор 3.6 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.3687,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "доля по объёму 3.1% при цели 40.0% (209480 из 6682379)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -2.0,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "приоритет в каскаде 2"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 0.8,
+            "normalized": 1.0,
+            "contribution": 0.3,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.6684,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "загрузка 33.2%, узкое место — дневной оборот (33.2%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "15000 < limit_amount_min 20000",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 45,
+    "amount": 15000,
+    "bank": "Kaspi Bank",
+    "selection": {
+      "reason": "highest_conversion",
+      "details": "заявлено 91.0%, в прогоне 6 из 7; нижняя граница 68.9% при доверии 90.0% на 15 эффективных наблюдениях; решающий фактор против tenge_rail — conversion",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "altair_pay",
+          "score": 0.625,
+          "tiers": {
+            "1": 1.0,
+            "2": 0.1304,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6887,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 91.0%, в прогоне 6 из 7; нижняя граница 68.9% при доверии 90.0% на 15 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.95,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 15000 в полосе 100..20000 -> предпочтителен (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 3.6,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 26.1% при цели 40.0% (6 из 23 уже распределённых), недобор 3.6 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.3687,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 3.1% при цели 40.0% (209480 из 6682379)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 1.0,
+              "contribution": 0.3,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6684,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 33.2%, узкое место — дневной оборот (33.2%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "tenge_rail",
+          "score": 0.375,
+          "tiers": {
+            "1": 0.0,
+            "2": 0.8696,
+            "3": 0.1667
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5846,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "заявлено 83.0%, в прогоне 8 из 11; нижняя граница 58.5% при доверии 90.0% на 19 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.3,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 15000 в полосе 100..20000 -> не в списке предпочтения (altair_pay)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 6.4,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "доля по количеству 34.8% при цели 60.0% (8 из 23 уже распределённых), недобор 6.4 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.4752,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "доля по объёму 12.5% при цели 60.0% (835499 из 6682379)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.5845,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 41.5%, узкое место — дневной оборот (41.5%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 45
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "orbita_gate": 17.1,
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 28.6,
+        "reallocated_to": [
+          "tenge_rail",
+          "altair_pay"
+        ],
+        "note": "целевая доля недоступных провайдеров (orbita_gate, nordwind_pay) перераспределена между tenge_rail, altair_pay"
+      }
+    ]
+  },
+  {
+    "operation_id": "pay-2025",
+    "selected_provider": "altair_pay",
+    "attempts": [
+      {
+        "provider": "tenge_rail",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против tenge_rail — conversion",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.6769,
+        "outcome": "approved",
+        "latency_sec": 50,
+        "factors": [
+          {
+            "factor": "conversion",
+            "tier": 1,
+            "weight": 1.4,
+            "raw": 0.705,
+            "normalized": 1.0,
+            "contribution": 1.4,
+            "note": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 1,
+            "weight": 0.8,
+            "raw": 0.4,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "сумма 25000.50 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.1,
+            "raw": 1.0645,
+            "normalized": 0.5155,
+            "contribution": 0.567,
+            "note": "доля по количеству 29.2% при цели 32.3% (7 из 24 уже распределённых), недобор 1.06 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.5,
+            "raw": 0.2892,
+            "normalized": 0.9293,
+            "contribution": 0.4647,
+            "note": "доля по объёму 3.4% при цели 32.3% (224480 из 6697379)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 2,
+            "weight": 0.4,
+            "raw": -2.0,
+            "normalized": 0.5,
+            "contribution": 0.2,
+            "note": "приоритет в каскаде 2"
+          },
+          {
+            "factor": "margin",
+            "tier": 2,
+            "weight": 0.3,
+            "raw": 0.8,
+            "normalized": 0.6,
+            "contribution": 0.18,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 1.0,
+            "raw": 0.6659,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "загрузка 33.4%, узкое место — дневной оборот (33.4%)"
+          },
+          {
+            "factor": "turnover_commitment",
+            "tier": 3,
+            "weight": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.25,
+            "note": "обязательство по минимальному обороту не задано"
+          }
+        ]
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 4,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "nordwind_pay",
+        "decision": "skipped",
+        "reason": "provider_inactive",
+        "details": "status = \"suspended\", ожидался \"active\"",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "провайдер не в статусе active"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 50,
+    "amount": 25000.5,
+    "bank": "Kaspi Bank",
+    "selection": {
+      "reason": "highest_conversion",
+      "details": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против tenge_rail — conversion",
+      "profile": "kzt_card_payout",
+      "candidates": [
+        {
+          "provider": "altair_pay",
+          "score": 0.6769,
+          "tiers": {
+            "1": 0.6364,
+            "2": 0.6138,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.705,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 25000.50 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 1.0645,
+              "normalized": 0.5155,
+              "contribution": 0.567,
+              "note": "доля по количеству 29.2% при цели 32.3% (7 из 24 уже распределённых), недобор 1.06 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.2892,
+              "normalized": 0.9293,
+              "contribution": 0.4647,
+              "note": "доля по объёму 3.4% при цели 32.3% (224480 из 6697379)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.6,
+              "contribution": 0.18,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6659,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 33.4%, узкое место — дневной оборот (33.4%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "tenge_rail",
+          "score": 0.6606,
+          "tiers": {
+            "1": 0.4638,
+            "2": 0.8696,
+            "3": 0.6287
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5846,
+              "normalized": 0.1574,
+              "contribution": 0.2204,
+              "note": "заявлено 83.0%, в прогоне 8 из 11; нижняя граница 58.5% при доверии 90.0% на 19 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 25000.50 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 4.0968,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "доля по количеству 33.3% при цели 48.4% (8 из 24 уже распределённых), недобор 4.1 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.3596,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "доля по объёму 12.5% при цели 48.4% (835499 из 6697379)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.5845,
+              "normalized": 0.6931,
+              "contribution": 0.6931,
+              "note": "загрузка 41.5%, узкое место — дневной оборот (41.5%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        },
+        {
+          "provider": "orbita_gate",
+          "score": 0.225,
+          "tiers": {
+            "1": 0.3636,
+            "2": 0.1304,
+            "3": 0.1667
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.5621,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "заявлено 74.0%, в прогоне 7 из 9; нижняя граница 56.2% при доверии 90.0% на 17 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.75,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "сумма 25000.50 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": -2.1613,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 29.2% при цели 19.4% (7 из 24 уже распределённых), недобор -2.16 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": -0.6367,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 83.3% при цели 19.4% (5581500 из 6697379)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 0.3,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.4007,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 59.9%, узкое место — дневной оборот (59.9%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "altair_pay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 50
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "nordwind_pay": 11.4
+        },
+        "released_share_pct": 11.4,
+        "reallocated_to": [
+          "tenge_rail",
+          "altair_pay",
+          "orbita_gate"
+        ],
+        "note": "целевая доля недоступных провайдеров (nordwind_pay) перераспределена между tenge_rail, altair_pay, orbita_gate"
+      }
+    ]
+  }
+]

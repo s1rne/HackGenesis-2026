@@ -22,15 +22,18 @@ module Routing
   class Scorer
     Contribution = Struct.new(:strategy, :raw, :normalized, :weight, :tier, :contribution, :explanation,
                               keyword_init: true) do
+      # Ключи строковые: этот хеш кладётся внутрь записи попытки, где все ключи
+      # строковые, и смешивать символы со строками в одной структуре — способ
+      # получить незаметную ошибку. В JSON разница не видна, в коде — видна сразу.
       def to_h
         {
-          factor: strategy,
-          tier: tier,
-          weight: weight.round(3),
-          raw: raw.nil? ? nil : raw.round(4),
-          normalized: normalized.round(4),
-          contribution: contribution.round(4),
-          note: explanation
+          "factor" => strategy,
+          "tier" => tier,
+          "weight" => weight.round(3),
+          "raw" => raw.nil? ? nil : raw.round(4),
+          "normalized" => normalized.round(4),
+          "contribution" => contribution.round(4),
+          "note" => explanation
         }.compact
       end
     end
@@ -42,10 +45,10 @@ module Routing
 
       def to_h
         {
-          provider: provider_id,
-          score: total.round(4),
-          tiers: tier_scores.transform_keys(&:to_s).transform_values { |v| v.round(4) },
-          factors: contributions.map(&:to_h)
+          "provider" => provider_id,
+          "score" => total.round(4),
+          "tiers" => tier_scores.transform_keys(&:to_s).transform_values { |value| value.round(4) },
+          "factors" => contributions.map(&:to_h)
         }
       end
     end

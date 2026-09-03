@@ -3,7 +3,7 @@
 module Routing
   module Constraints
     Violation = Struct.new(:reason, :details, keyword_init: true) do
-      def to_h = { reason: reason, details: details }.compact
+      def to_h = { "reason" => reason, "details" => details }.compact
     end
 
     # Жёсткое ограничение отвечает ровно на один вопрос: «можно ли вообще

@@ -1,0 +1,856 @@
+{
+  "period": "2026-09-02",
+  "total_operations": 25,
+  "distribution": {
+    "tenge_rail": {
+      "count": 8,
+      "share_pct": 32.0,
+      "target_pct": 42.9,
+      "deviation_pct": -10.9,
+      "volume": 835499.0,
+      "volume_share_pct": 12.4,
+      "target_volume_pct": 42.9,
+      "volume_deviation_pct": -30.4
+    },
+    "altair_pay": {
+      "count": 8,
+      "share_pct": 32.0,
+      "target_pct": 28.6,
+      "deviation_pct": 3.4,
+      "volume": 249480.5,
+      "volume_share_pct": 3.7,
+      "target_volume_pct": 28.6,
+      "volume_deviation_pct": -24.9
+    },
+    "orbita_gate": {
+      "count": 7,
+      "share_pct": 28.0,
+      "target_pct": 17.1,
+      "deviation_pct": 10.9,
+      "volume": 5581500.0,
+      "volume_share_pct": 83.0,
+      "target_volume_pct": 17.1,
+      "volume_deviation_pct": 65.9
+    },
+    "nordwind_pay": {
+      "count": 0,
+      "share_pct": 0.0,
+      "target_pct": 11.4,
+      "deviation_pct": -11.4,
+      "volume": 0,
+      "volume_share_pct": 0.0,
+      "target_volume_pct": 11.4,
+      "volume_deviation_pct": -11.4
+    },
+    "internal_settlement": {
+      "count": 2,
+      "share_pct": 8.0,
+      "target_pct": 0.0,
+      "deviation_pct": 8.0,
+      "volume": 55900.0,
+      "volume_share_pct": 0.8,
+      "target_volume_pct": 0.0,
+      "volume_deviation_pct": 0.8
+    }
+  },
+  "skip_reasons": {
+    "bank_not_in_list": 34,
+    "not_reached_in_cascade": 11,
+    "amount_below_minimum": 9,
+    "provider_inactive": 9,
+    "amount_exceeds_limit": 7,
+    "bank_excluded": 4,
+    "provider_declined": 4,
+    "provider_timeout": 2
+  },
+  "skip_reasons_by_category": {
+    "по жёстким ограничениям": {
+      "bank_not_in_list": 34,
+      "amount_below_minimum": 9,
+      "provider_inactive": 9,
+      "amount_exceeds_limit": 7,
+      "bank_excluded": 4
+    },
+    "по отказу провайдера": {
+      "provider_declined": 4,
+      "provider_timeout": 2
+    },
+    "не понадобились": {
+      "not_reached_in_cascade": 11
+    }
+  },
+  "projected_daily_utilization": {
+    "tenge_rail": {
+      "used": 4985499,
+      "limit": 12000000,
+      "utilization_pct": 41.5,
+      "headroom": 7014501,
+      "added_this_run": 835499
+    },
+    "altair_pay": {
+      "used": 2029480.5,
+      "limit": 6000000,
+      "utilization_pct": 33.8,
+      "headroom": 3970519.5,
+      "added_this_run": 249480.5
+    },
+    "orbita_gate": {
+      "used": 14981500,
+      "limit": 25000000,
+      "utilization_pct": 59.9,
+      "headroom": 10018500,
+      "added_this_run": 5581500
+    },
+    "nordwind_pay": {
+      "used": 25000.5,
+      "limit": 4000000,
+      "utilization_pct": 0.6,
+      "headroom": 3974999.5,
+      "added_this_run": 0
+    },
+    "internal_settlement": {
+      "used": 55900,
+      "utilization_pct": 0.0,
+      "added_this_run": 55900
+    }
+  },
+  "recommendations": [
+    "fallback на собственного провайдера сработал 2 раз — расширить пул внешних провайдеров под эти заявки, каждое такое срабатывание означает, что маршрута не нашлось",
+    "nordwind_pay отсеян 12 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, halyk, otbasy",
+    "tenge_rail отсеян 11 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, halyk, forte",
+    "altair_pay отсеян 11 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, jusan, bereke, freedom",
+    "orbita_gate перебирает по объёму: факт 83.0% против цели 17.1% (65.9 п.п. выше) при доле по количеству 28.0% — привести volume_share_pct к 83.0% или пересмотреть долю по количеству",
+    "tenge_rail недобирает по объёму: факт 12.4% против цели 42.9% (30.4 п.п. ниже) при доле по количеству 32.0% — привести volume_share_pct к 12.4% или пересмотреть долю по количеству",
+    "altair_pay недобирает по объёму: факт 3.7% против цели 28.6% (24.9 п.п. ниже) при доле по количеству 32.0% — заявок он получает ровно свою долю, расходятся размеры чеков: настроить полосы сумм в amount_band",
+    "nordwind_pay недобирает долю: факт 0.0% против цели 11.4% (отклонение -11.4 п.п.) — привести traffic_percentage к 5.7% или снять ограничение, из-за которого он выпадает"
+  ],
+  "outcomes": {
+    "approved": 25,
+    "rejected": 0,
+    "expired": 0,
+    "approval_rate": 1.0,
+    "avg_latency_sec": 89.6,
+    "total_latency_sec": 2240
+  },
+  "provider_performance": {
+    "tenge_rail": {
+      "attempts": 11,
+      "selected": 8,
+      "approved": 8,
+      "declined": 3,
+      "expired": 0,
+      "skipped": 16,
+      "declared_conversion": 0.83,
+      "observed_conversion": 0.7273,
+      "conversion_gap": -0.1027,
+      "load_factor": 0.4155,
+      "available_requisites": 18
+    },
+    "altair_pay": {
+      "attempts": 9,
+      "selected": 8,
+      "approved": 8,
+      "declined": 0,
+      "expired": 1,
+      "skipped": 16,
+      "declared_conversion": 0.91,
+      "observed_conversion": 0.8889,
+      "conversion_gap": -0.0211,
+      "load_factor": 0.3382,
+      "available_requisites": 7
+    },
+    "orbita_gate": {
+      "attempts": 9,
+      "selected": 7,
+      "approved": 7,
+      "declined": 1,
+      "expired": 1,
+      "skipped": 17,
+      "declared_conversion": 0.74,
+      "observed_conversion": 0.7778,
+      "conversion_gap": 0.0378,
+      "load_factor": 0.5993,
+      "available_requisites": 25
+    },
+    "nordwind_pay": {
+      "attempts": 0,
+      "selected": 0,
+      "approved": 0,
+      "declined": 0,
+      "expired": 0,
+      "skipped": 25,
+      "declared_conversion": 0.88,
+      "load_factor": 0.0063,
+      "available_requisites": 4
+    },
+    "internal_settlement": {
+      "attempts": 2,
+      "selected": 2,
+      "approved": 2,
+      "declined": 0,
+      "expired": 0,
+      "skipped": 0,
+      "declared_conversion": 0.62,
+      "observed_conversion": 1.0,
+      "conversion_gap": 0.38,
+      "load_factor": 0.0,
+      "available_requisites": 999
+    }
+  },
+  "cascade": {
+    "avg_depth": 1.24,
+    "max_depth": 3,
+    "single_attempt": 20,
+    "multi_attempt": 5,
+    "rescued_by_cascade": 5,
+    "cascade_uplift_pct": 20.0,
+    "fallback_used": 2
+  },
+  "goal_relaxation_summary": {
+    "operations_with_relaxation": 25,
+    "of_total": 25,
+    "by_provider": {
+      "nordwind_pay": {
+        "operations": 25,
+        "unreachable_share_pct": 11.4,
+        "of_operations_pct": 100.0
+      },
+      "tenge_rail": {
+        "operations": 14,
+        "unreachable_share_pct": 42.9,
+        "of_operations_pct": 56.0
+      },
+      "altair_pay": {
+        "operations": 13,
+        "unreachable_share_pct": 28.6,
+        "of_operations_pct": 52.0
+      },
+      "orbita_gate": {
+        "operations": 11,
+        "unreachable_share_pct": 17.1,
+        "of_operations_pct": 44.0
+      }
+    },
+    "note": "цель считается невыполнимой, когда провайдер не прошёл жёсткие ограничения; его доля перераспределяется между теми, кто может принять заявку"
+  },
+  "goal_relaxations": [
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 11.4,
+      "reallocated_to": [
+        "tenge_rail",
+        "altair_pay",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (nordwind_pay) перераспределена между tenge_rail, altair_pay, orbita_gate",
+      "operation_id": "pay-2001"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "altair_pay": 28.6,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 57.1,
+      "reallocated_to": [
+        "tenge_rail"
+      ],
+      "note": "целевая доля недоступных провайдеров (altair_pay, orbita_gate, nordwind_pay) перераспределена между tenge_rail",
+      "operation_id": "pay-2002"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 71.4,
+      "reallocated_to": [
+        "altair_pay"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay",
+      "operation_id": "pay-2003"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "altair_pay": 28.6,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 82.9,
+      "reallocated_to": [
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate",
+      "operation_id": "pay-2004"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "altair_pay": 28.6,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 82.9,
+      "reallocated_to": [
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate",
+      "operation_id": "pay-2005"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "altair_pay": 28.6,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 100.0,
+      "reallocated_to": [],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, orbita_gate, nordwind_pay) перераспределена между никем: пул пуст",
+      "operation_id": "pay-2006"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "altair_pay": 28.6,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 100.0,
+      "reallocated_to": [],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, orbita_gate, nordwind_pay) перераспределена между никем: пул пуст",
+      "operation_id": "pay-2007"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 54.3,
+      "reallocated_to": [
+        "altair_pay",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, nordwind_pay) перераспределена между altair_pay, orbita_gate",
+      "operation_id": "pay-2008"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 71.4,
+      "reallocated_to": [
+        "altair_pay"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay",
+      "operation_id": "pay-2009"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 71.4,
+      "reallocated_to": [
+        "altair_pay"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay",
+      "operation_id": "pay-2010"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 71.4,
+      "reallocated_to": [
+        "altair_pay"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay",
+      "operation_id": "pay-2011"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "altair_pay": 28.6,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 40.0,
+      "reallocated_to": [
+        "tenge_rail",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (altair_pay, nordwind_pay) перераспределена между tenge_rail, orbita_gate",
+      "operation_id": "pay-2012"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "altair_pay": 28.6,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 82.9,
+      "reallocated_to": [
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate",
+      "operation_id": "pay-2013"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 11.4,
+      "reallocated_to": [
+        "tenge_rail",
+        "altair_pay",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (nordwind_pay) перераспределена между tenge_rail, altair_pay, orbita_gate",
+      "operation_id": "pay-2014"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 11.4,
+      "reallocated_to": [
+        "tenge_rail",
+        "altair_pay",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (nordwind_pay) перераспределена между tenge_rail, altair_pay, orbita_gate",
+      "operation_id": "pay-2015"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "altair_pay": 28.6,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 57.1,
+      "reallocated_to": [
+        "tenge_rail"
+      ],
+      "note": "целевая доля недоступных провайдеров (altair_pay, orbita_gate, nordwind_pay) перераспределена между tenge_rail",
+      "operation_id": "pay-2016"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "altair_pay": 28.6,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 40.0,
+      "reallocated_to": [
+        "tenge_rail",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (altair_pay, nordwind_pay) перераспределена между tenge_rail, orbita_gate",
+      "operation_id": "pay-2017"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "altair_pay": 28.6,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 82.9,
+      "reallocated_to": [
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate",
+      "operation_id": "pay-2018"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 71.4,
+      "reallocated_to": [
+        "altair_pay"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, orbita_gate, nordwind_pay) перераспределена между altair_pay",
+      "operation_id": "pay-2019"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 54.3,
+      "reallocated_to": [
+        "altair_pay",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, nordwind_pay) перераспределена между altair_pay, orbita_gate",
+      "operation_id": "pay-2020"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "altair_pay": 28.6,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 40.0,
+      "reallocated_to": [
+        "tenge_rail",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (altair_pay, nordwind_pay) перераспределена между tenge_rail, orbita_gate",
+      "operation_id": "pay-2021"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "altair_pay": 28.6,
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 57.1,
+      "reallocated_to": [
+        "tenge_rail"
+      ],
+      "note": "целевая доля недоступных провайдеров (altair_pay, orbita_gate, nordwind_pay) перераспределена между tenge_rail",
+      "operation_id": "pay-2022"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "tenge_rail": 42.9,
+        "altair_pay": 28.6,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 82.9,
+      "reallocated_to": [
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate",
+      "operation_id": "pay-2023"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "orbita_gate": 17.1,
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 28.6,
+      "reallocated_to": [
+        "tenge_rail",
+        "altair_pay"
+      ],
+      "note": "целевая доля недоступных провайдеров (orbita_gate, nordwind_pay) перераспределена между tenge_rail, altair_pay",
+      "operation_id": "pay-2024"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "nordwind_pay": 11.4
+      },
+      "released_share_pct": 11.4,
+      "reallocated_to": [
+        "tenge_rail",
+        "altair_pay",
+        "orbita_gate"
+      ],
+      "note": "целевая доля недоступных провайдеров (nordwind_pay) перераспределена между tenge_rail, altair_pay, orbita_gate",
+      "operation_id": "pay-2025"
+    }
+  ],
+  "routing_events": [
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "tenge_rail",
+        "orbita_gate"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "pay-2012"
+    },
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "orbita_gate"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "pay-2013"
+    },
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "tenge_rail"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "pay-2016"
+    }
+  ],
+  "limits_at_risk": [],
+  "target_achievability": {
+    "operations": 25,
+    "unroutable": 2,
+    "structural_constraints": [
+      "bank_filter",
+      "currency",
+      "amount_range",
+      "provider_status",
+      "traffic_share",
+      "margin"
+    ],
+    "bounds": {
+      "tenge_rail": {
+        "target_pct": 42.9,
+        "floor_pct": 12.0,
+        "ceiling_pct": 44.0,
+        "capacity_ceiling_pct": 44.0,
+        "binding_limit": "структурные ограничения",
+        "verdict": "достижима"
+      },
+      "altair_pay": {
+        "target_pct": 28.6,
+        "floor_pct": 20.0,
+        "ceiling_pct": 48.0,
+        "capacity_ceiling_pct": 48.0,
+        "binding_limit": "структурные ограничения",
+        "verdict": "достижима"
+      },
+      "orbita_gate": {
+        "target_pct": 17.1,
+        "floor_pct": 20.0,
+        "ceiling_pct": 56.0,
+        "capacity_ceiling_pct": 56.0,
+        "binding_limit": "структурные ограничения",
+        "verdict": "недостижима снизу"
+      },
+      "nordwind_pay": {
+        "target_pct": 11.4,
+        "floor_pct": 0.0,
+        "ceiling_pct": 0.0,
+        "capacity_ceiling_pct": 0.0,
+        "binding_limit": "структурные ограничения",
+        "verdict": "недостижима сверху",
+        "blocking_reasons": {
+          "bank_not_in_list": 12,
+          "provider_inactive": 9,
+          "amount_exceeds_limit": 3,
+          "amount_below_minimum": 1
+        }
+      }
+    },
+    "verdict": "цель 17.1% на orbita_gate недостижима снизу: коридор 20.0..56.0%, ограничивает — структурные ограничения; цель 11.4% на nordwind_pay недостижима сверху: коридор 0.0..0.0%, ограничивает — структурные ограничения, причина — bank_not_in_list",
+    "min_total_variation_distance": 0.0714,
+    "assumption": "коридоры и минимальное отклонение верны в предположении, что каждая заявка уходит допустимому внешнему провайдеру. При политике exhausted_pool_policy: fallback часть заявок уходит на self-провайдера, и доли внешних могут опуститься ниже пола — это другая постановка задачи, а не противоречие"
+  },
+  "recommendations_detailed": [
+    {
+      "text": "fallback на собственного провайдера сработал 2 раз — расширить пул внешних провайдеров под эти заявки, каждое такое срабатывание означает, что маршрута не нашлось",
+      "parameter": "run.max_attempts",
+      "current": 4,
+      "evidence": "средняя глубина каскада 1.24",
+      "priority": "high",
+      "impact": 40
+    },
+    {
+      "text": "nordwind_pay отсеян 12 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, halyk, otbasy",
+      "parameter": "providers.nordwind_pay.banks",
+      "evidence": "доминирующая причина отсева bank_not_in_list",
+      "priority": "medium",
+      "impact": 120
+    },
+    {
+      "text": "tenge_rail отсеян 11 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, halyk, forte",
+      "parameter": "providers.tenge_rail.banks",
+      "evidence": "доминирующая причина отсева bank_not_in_list",
+      "priority": "medium",
+      "impact": 110
+    },
+    {
+      "text": "altair_pay отсеян 11 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, jusan, bereke, freedom",
+      "parameter": "providers.altair_pay.banks",
+      "evidence": "доминирующая причина отсева bank_not_in_list",
+      "priority": "medium",
+      "impact": 110
+    },
+    {
+      "text": "orbita_gate перебирает по объёму: факт 83.0% против цели 17.1% (65.9 п.п. выше) при доле по количеству 28.0% — привести volume_share_pct к 83.0% или пересмотреть долю по количеству",
+      "parameter": "providers.orbita_gate.volume_share_pct",
+      "current": 17.1,
+      "suggested": 83.0,
+      "evidence": "объём 5581500.0 из общего по прогону",
+      "priority": "medium",
+      "impact": 65.9
+    },
+    {
+      "text": "tenge_rail недобирает по объёму: факт 12.4% против цели 42.9% (30.4 п.п. ниже) при доле по количеству 32.0% — привести volume_share_pct к 12.4% или пересмотреть долю по количеству",
+      "parameter": "providers.tenge_rail.volume_share_pct",
+      "current": 42.9,
+      "suggested": 12.4,
+      "evidence": "объём 835499.0 из общего по прогону",
+      "priority": "medium",
+      "impact": 30.4
+    },
+    {
+      "text": "altair_pay недобирает по объёму: факт 3.7% против цели 28.6% (24.9 п.п. ниже) при доле по количеству 32.0% — заявок он получает ровно свою долю, расходятся размеры чеков: настроить полосы сумм в amount_band",
+      "parameter": "strategies.amount_band.bands",
+      "current": 28.6,
+      "evidence": "объём 249480.5 из общего по прогону",
+      "priority": "medium",
+      "impact": 24.9
+    },
+    {
+      "text": "nordwind_pay недобирает долю: факт 0.0% против цели 11.4% (отклонение -11.4 п.п.) — привести traffic_percentage к 5.7% или снять ограничение, из-за которого он выпадает",
+      "parameter": "providers.nordwind_pay.traffic_percentage",
+      "current": 11.4,
+      "suggested": 5.7,
+      "evidence": "0 из 25 операций",
+      "priority": "medium",
+      "impact": 11.4
+    }
+  ],
+  "routing_setup": {
+    "profile": "kzt_card_payout",
+    "scoring_mode": "lexicographic_weighted",
+    "hard_constraints": [
+      "bank_filter",
+      "currency",
+      "amount_range",
+      "provider_status",
+      "traffic_share",
+      "in_progress_limits",
+      "daily_amount_limit",
+      "daily_turnover_max",
+      "requisites",
+      "margin",
+      "rate_limit"
+    ],
+    "strategies": [
+      {
+        "id": "conversion",
+        "weight": 1.4,
+        "tier": 1
+      },
+      {
+        "id": "amount_band",
+        "weight": 0.8,
+        "tier": 1
+      },
+      {
+        "id": "count_share",
+        "weight": 1.1,
+        "tier": 2
+      },
+      {
+        "id": "volume_share",
+        "weight": 0.5,
+        "tier": 2
+      },
+      {
+        "id": "cascade_priority",
+        "weight": 0.4,
+        "tier": 2
+      },
+      {
+        "id": "margin",
+        "weight": 0.3,
+        "tier": 2
+      },
+      {
+        "id": "load_balance",
+        "weight": 1.0,
+        "tier": 3
+      },
+      {
+        "id": "turnover_commitment",
+        "weight": 0.5,
+        "tier": 3
+      }
+    ],
+    "providers": [
+      "tenge_rail",
+      "altair_pay",
+      "orbita_gate",
+      "nordwind_pay",
+      "internal_settlement"
+    ],
+    "history_operations": 0
+  },
+  "data_quality": {
+    "counts": {
+      "info": 1,
+      "warning": 1
+    },
+    "items": [
+      {
+        "severity": "info",
+        "source": "providers.json",
+        "field": "",
+        "message": "поля без известного смысла сохранены как есть: sla_tier"
+      },
+      {
+        "severity": "warning",
+        "source": "providers",
+        "field": "",
+        "message": "сумма traffic_percentage по провайдерам равна 105.0, доли нормализованы к 100%"
+      }
+    ]
+  },
+  "source": {
+    "generated_at": "2026-09-02T07:30:00+05:00",
+    "gateway": "KZT_CARD_PAYOUT",
+    "merchant": "nomad_retail",
+    "note": "Выгрузка партнёрского шлюза: имена полей и обёртка отличаются от выгрузки RUB_SBP_WITHDRAW"
+  }
+}
