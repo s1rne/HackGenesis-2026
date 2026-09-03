@@ -2,38 +2,33 @@
   "operations": 100,
   "baseline_approved": 68,
   "baseline_approval_rate": 0.68,
-  "agreement_with_history": 10,
-  "agreement_pct": 10.0,
+  "agreement_with_history": 44,
+  "agreement_pct": 44.0,
   "estimated_approval_rate": {
-    "lower": 0.1499,
-    "upper": 0.2424,
+    "lower": 0.5895,
+    "upper": 0.757,
     "note": "на совпавших решениях взят фактический исход, на разошедшихся — интервал Вильсона по эмпирической конверсии выбранного провайдера"
   },
   "share_comparison": {
     "payflow": {
       "target_pct": 35.0,
       "history_pct": 19.0,
-      "replay_pct": 2.0
+      "replay_pct": 19.0
     },
     "quickpay": {
       "target_pct": 25.0,
       "history_pct": 40.0,
-      "replay_pct": 14.0
-    },
-    "spacepayments": {
-      "target_pct": 0,
-      "history_pct": 0,
-      "replay_pct": 5.0
+      "replay_pct": 47.0
     },
     "vipay": {
       "target_pct": 40.0,
       "history_pct": 41.0,
-      "replay_pct": 9.0
+      "replay_pct": 34.0
     }
   },
   "total_variation_distance": {
     "history_vs_target": 0.16,
-    "replay_vs_target": 0.4,
+    "replay_vs_target": 0.22,
     "note": "суммарное отклонение от целевых долей; меньше — ближе к плану"
   }
 }

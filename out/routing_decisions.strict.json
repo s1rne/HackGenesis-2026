@@ -7,7 +7,7 @@
         "provider": "vipay",
         "decision": "selected",
         "reason": "volume_share_deficit",
-        "details": "цель 46.5% по объёму, распределённого объёма пока нет; решающий фактор против payflow — volume_share"
+        "details": "цель 46.4% по объёму, распределённого объёма пока нет; решающий фактор против payflow — volume_share"
       },
       {
         "provider": "payflow",

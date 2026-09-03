@@ -7,11 +7,11 @@
         "provider": "vipay",
         "decision": "selected",
         "reason": "volume_share_deficit",
-        "details": "цель 46.5% по объёму, распределённого объёма пока нет; решающий фактор против payflow — volume_share",
+        "details": "цель 46.4% по объёму, распределённого объёма пока нет; решающий фактор против payflow — volume_share",
         "stage": "cascade_attempt",
         "sequence": 1,
         "attempt_no": 1,
-        "score": 0.7205,
+        "score": 0.725,
         "outcome": "approved",
         "latency_sec": 41,
         "factors": [
@@ -36,10 +36,10 @@
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.8,
-            "raw": 0.465,
-            "normalized": 0.914,
-            "contribution": 0.7312,
-            "note": "цель 46.5% по объёму, распределённого объёма пока нет"
+            "raw": 0.464,
+            "normalized": 0.9516,
+            "contribution": 0.7613,
+            "note": "цель 46.4% по объёму, распределённого объёма пока нет"
           },
           {
             "factor": "conversion",
@@ -113,15 +113,15 @@
     "bank": "sberbank",
     "selection": {
       "reason": "volume_share_deficit",
-      "details": "цель 46.5% по объёму, распределённого объёма пока нет; решающий фактор против payflow — volume_share",
+      "details": "цель 46.4% по объёму, распределённого объёма пока нет; решающий фактор против payflow — volume_share",
       "profile": "balanced",
       "candidates": [
         {
           "provider": "vipay",
-          "score": 0.7205,
+          "score": 0.725,
           "tiers": {
             "1": 0.5,
-            "2": 0.8863,
+            "2": 0.8945,
             "3": 0.5152
           },
           "factors": [
@@ -146,10 +146,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.465,
-              "normalized": 0.914,
-              "contribution": 0.7312,
-              "note": "цель 46.5% по объёму, распределённого объёма пока нет"
+              "raw": 0.464,
+              "normalized": 0.9516,
+              "contribution": 0.7613,
+              "note": "цель 46.4% по объёму, распределённого объёма пока нет"
             },
             {
               "factor": "conversion",
@@ -229,10 +229,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.029,
+              "raw": 0.051,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "цель 2.9% по объёму, распределённого объёма пока нет"
+              "note": "цель 5.1% по объёму, распределённого объёма пока нет"
             },
             {
               "factor": "conversion",
@@ -311,10 +311,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.506,
+              "raw": 0.485,
               "normalized": 1.0,
               "contribution": 0.8,
-              "note": "цель 50.6% по объёму, распределённого объёма пока нет"
+              "note": "цель 48.5% по объёму, распределённого объёма пока нет"
             },
             {
               "factor": "conversion",
@@ -425,10 +425,10 @@
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.8,
-            "raw": 0.0542,
+            "raw": 0.0951,
             "normalized": 0.0,
             "contribution": 0.0,
-            "note": "доля по объёму 0.0% при цели 5.4% (0 из 15000)"
+            "note": "доля по объёму 0.0% при цели 9.5% (0 из 15000)"
           },
           {
             "factor": "conversion",
@@ -527,10 +527,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.0542,
+              "raw": 0.0951,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 0.0% при цели 5.4% (0 из 15000)"
+              "note": "доля по объёму 0.0% при цели 9.5% (0 из 15000)"
             },
             {
               "factor": "conversion",
@@ -609,10 +609,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.9458,
+              "raw": 0.9049,
               "normalized": 1.0,
               "contribution": 0.8,
-              "note": "доля по объёму 0.0% при цели 94.6% (0 из 15000)"
+              "note": "доля по объёму 0.0% при цели 90.5% (0 из 15000)"
             },
             {
               "factor": "conversion",
@@ -1213,10 +1213,10 @@
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.8,
-            "raw": 0.4166,
+            "raw": 0.4267,
             "normalized": 1.0,
             "contribution": 0.8,
-            "note": "доля по объёму 6.9% при цели 47.9% (15000 из 216000)"
+            "note": "доля по объёму 6.9% при цели 48.9% (15000 из 216000)"
           },
           {
             "factor": "conversion",
@@ -1323,10 +1323,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.4166,
+              "raw": 0.4267,
               "normalized": 1.0,
               "contribution": 0.8,
-              "note": "доля по объёму 6.9% при цели 47.9% (15000 из 216000)"
+              "note": "доля по объёму 6.9% при цели 48.9% (15000 из 216000)"
             },
             {
               "factor": "conversion",
@@ -1405,10 +1405,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": -0.1137,
+              "raw": -0.1238,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 70.8% при цели 52.1% (153000 из 216000)"
+              "note": "доля по объёму 70.8% при цели 51.1% (153000 из 216000)"
             },
             {
               "factor": "conversion",
@@ -1523,10 +1523,10 @@
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.8,
-            "raw": 0.3424,
+            "raw": 0.3524,
             "normalized": 1.0,
             "contribution": 0.8,
-            "note": "доля по объёму 16.6% при цели 47.9% (40000 из 241000)"
+            "note": "доля по объёму 16.6% при цели 48.9% (40000 из 241000)"
           },
           {
             "factor": "conversion",
@@ -1633,10 +1633,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.3424,
+              "raw": 0.3524,
               "normalized": 1.0,
               "contribution": 0.8,
-              "note": "доля по объёму 16.6% при цели 47.9% (40000 из 241000)"
+              "note": "доля по объёму 16.6% при цели 48.9% (40000 из 241000)"
             },
             {
               "factor": "conversion",
@@ -1715,10 +1715,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": -0.0011,
+              "raw": -0.0111,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 63.5% при цели 52.1% (153000 из 241000)"
+              "note": "доля по объёму 63.5% при цели 51.1% (153000 из 241000)"
             },
             {
               "factor": "conversion",
@@ -2306,10 +2306,10 @@
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.8,
-            "raw": 0.2128,
+            "raw": 0.2229,
             "normalized": 1.0,
             "contribution": 0.8,
-            "note": "доля по объёму 27.4% при цели 47.9% (92000 из 335800)"
+            "note": "доля по объёму 27.4% при цели 48.9% (92000 из 335800)"
           },
           {
             "factor": "conversion",
@@ -2416,10 +2416,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.2128,
+              "raw": 0.2229,
               "normalized": 1.0,
               "contribution": 0.8,
-              "note": "доля по объёму 27.4% при цели 47.9% (92000 из 335800)"
+              "note": "доля по объёму 27.4% при цели 48.9% (92000 из 335800)"
             },
             {
               "factor": "conversion",
@@ -2498,10 +2498,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": -0.0428,
+              "raw": -0.0528,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 58.1% при цели 52.1% (195000 из 335800)"
+              "note": "доля по объёму 58.1% при цели 51.1% (195000 из 335800)"
             },
             {
               "factor": "conversion",
@@ -2626,10 +2626,10 @@
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.8,
-            "raw": -0.0723,
+            "raw": -0.0313,
             "normalized": 0.0,
             "contribution": 0.0,
-            "note": "доля по объёму 14.1% при цели 5.4% (48800 из 345800)"
+            "note": "доля по объёму 14.1% при цели 9.5% (48800 из 345800)"
           },
           {
             "factor": "conversion",
@@ -2728,10 +2728,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": -0.0723,
+              "raw": -0.0313,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 14.1% при цели 5.4% (48800 из 345800)"
+              "note": "доля по объёму 14.1% при цели 9.5% (48800 из 345800)"
             },
             {
               "factor": "conversion",
@@ -2810,10 +2810,10 @@
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.8,
-              "raw": 0.4404,
+              "raw": 0.3994,
               "normalized": 1.0,
               "contribution": 0.8,
-              "note": "доля по объёму 56.4% при цели 94.6% (195000 из 345800)"
+              "note": "доля по объёму 56.4% при цели 90.5% (195000 из 345800)"
             },
             {
               "factor": "conversion",

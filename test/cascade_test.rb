@@ -242,6 +242,30 @@ class CascadeTest < Minitest::Test
     assert_empty decision.events.select { |e| e["type"] == "goal_relaxation" }
   end
 
+  def test_reallocation_switch_changes_the_target_the_survivor_is_measured_against
+    fleet = -> { standard_fleet(first: { "traffic_percentage" => 70, "banks" => %w[tinkoff],
+                                         "exclude_banks" => false },
+                                second: { "traffic_percentage" => 30 }) }
+    operation = -> { build_operation(id: "op_sber", amount: 10_000, bank: "sberbank") }
+
+    with = route(fleet.call, Stub.new { |_, _| Stub.approved },
+                 config: config_with({ "goal_relaxation" => { "reallocate_unreachable_share" => true } }),
+                 operation: operation.call)
+    without = route(fleet.call, Stub.new { |_, _| Stub.approved },
+                    config: config_with({ "goal_relaxation" => { "reallocate_unreachable_share" => false } }),
+                    operation: operation.call)
+
+    assert_in_delta 1.0, count_share_raw(with), 1e-9,
+                    "доля недоступного first перешла к second: цель стала 100%"
+    assert_in_delta 0.3, count_share_raw(without), 1e-9,
+                    "при выключенном перераспределении second меряется исходными 30%"
+  end
+
+  def count_share_raw(decision)
+    factors = decision.ranking.first[:factors]
+    factors.find { |factor| factor[:factor] == "count_share" }[:raw]
+  end
+
   def test_goal_relaxation_can_be_switched_off_in_configuration
     fleet = standard_fleet(first: { "traffic_percentage" => 70, "banks" => %w[tinkoff],
                                     "exclude_banks" => false },

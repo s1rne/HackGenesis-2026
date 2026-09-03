@@ -1,0 +1,7 @@
+[
+  { "operation_id": "op_201", "amount": 15000, "bank": "sberbank" },
+  { "operation_id": "op_202", "amount": 48000, "bank": "alfa" },
+  { "operation_id": "op_203", "amount": 150000, "bank": "sberbank" },
+  { "operation_id": "op_204", "amount": 3000, "bank": "gazprombank" },
+  { "operation_id": "op_205", "amount": 25000, "bank": "tinkoff" }
+]

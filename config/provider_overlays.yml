@@ -8,14 +8,20 @@
 version: 1
 providers:
   vipay:
-    volume_share_pct: 46.5               # 1067000/2299000 одобренного объёма = 46.41%, +0.09 п.п. при переносе доли payflow
+    volume_share_pct: 46.4               # наблюдённая доля одобренного объёма: 1067000/2299000
     requests_per_minute_limit: 12        # min(in_progress_count_limit 10, requisites 12) * 60 / медиана 49 c = 12.24 -> 12
   payflow:
-    volume_share_pct: 2.9                # исторические 5.07% нереализуемы: 0.0507*3391500 = 171862 > 100000 свободных; потолок 100000/3391500 = 2.95%
+    volume_share_pct: 5.1                # наблюдённая доля одобренного объёма: 116500/2299000.
+                                         # Низкая при цели 35% по количеству — это не противоречие:
+                                         # медианный чек payflow 8000 против 45000 у quickpay,
+                                         # то есть ему причитается много мелких заявок.
+                                         # Ёмкость дневного лимита сюда не закладываем: её уже
+                                         # проверяет daily_amount_limit, а вторая проверка тем же
+                                         # числом превратила бы цель в ограничение.
     requests_per_minute_limit: 3         # min(in_progress_count_limit 8, requisites 5) * 60 / медиана 87 c = 3.45 -> 3
     daily_turnover_min: 2000000          # СУБЪЕКТИВНОЕ договорное допущение из ТЗ, не выведено из данных; уже покрыто daily_approved_amount 2900000, буста не даёт
   quickpay:
-    volume_share_pct: 50.6               # 1115500/2299000 = 48.52%, +2.03 п.п. при переносе доли payflow пропорционально свободному лимиту
+    volume_share_pct: 48.5               # наблюдённая доля одобренного объёма: 1115500/2299000
     requests_per_minute_limit: 20        # min(in_progress_count_limit 15, requisites 20) * 60 / медиана 45 c = 20.00 -> 20
   spacepayments:
     volume_share_pct: 0                  # traffic_percentage 0, в истории отсутствует: self-провайдер не является целью распределения

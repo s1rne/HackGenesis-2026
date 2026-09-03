@@ -22,6 +22,7 @@ module Routing
       def build
         items = []
         items.concat(share_drift)
+        items.concat(volume_drift)
         items.concat(capacity_pressure)
         items.concat(conversion_gap)
         items.concat(structural_blocks)
@@ -64,6 +65,36 @@ module Routing
             current: row["target_pct"], suggested: suggested,
             evidence: "#{row['count']} из #{@decisions.size} операций",
             priority: deviation.abs >= threshold * 2 ? "high" : "medium",
+            impact: deviation.abs
+          )
+        end
+      end
+
+      # 1б. Расхождение по объёму. Считается отдельно от количества намеренно:
+      # это разные цели, и расходятся они по разным причинам. Провайдер может
+      # получать ровно свою долю заявок и при этом вдвое перебирать по деньгам —
+      # достаточно, чтобы ему доставались крупные чеки.
+      def volume_drift
+        threshold = @thresholds.fetch("share_drift_alert_pct", 10.0).to_f
+        @report.distribution.filter_map do |id, row|
+          next if @fleet.provider_for(id)&.self_provider?
+
+          deviation = row["volume_deviation_pct"].to_f
+          next if deviation.abs < threshold
+          # Если по количеству всё сходится, а по объёму нет — дело в размере
+          # чеков, и менять надо полосы сумм, а не долю трафика.
+          count_ok = row["deviation_pct"].to_f.abs < threshold
+          parameter = count_ok ? "strategies.amount_band.bands" : "providers.#{id}.volume_share_pct"
+
+          item(
+            text: "#{id} #{deviation.negative? ? 'недобирает' : 'перебирает'} по объёму: " \
+                  "факт #{row[%q(volume_share_pct)]}% против цели #{row[%q(target_volume_pct)]}% " \
+                  "(#{deviation.round(1).abs} п.п. #{deviation.negative? ? %q(ниже) : %q(выше)}) при доле по количеству #{row[%q(share_pct)]}% — " \
+                  "#{count_ok ? 'заявок он получает ровно свою долю, расходятся размеры чеков: настроить полосы сумм в amount_band' : "привести volume_share_pct к #{(row['volume_share_pct'].to_f).round(1)}% или пересмотреть долю по количеству"}",
+            parameter: parameter,
+            current: row["target_volume_pct"], suggested: count_ok ? nil : row["volume_share_pct"],
+            evidence: "объём #{row['volume']} из общего по прогону",
+            priority: deviation.abs >= threshold * 2 ? "medium" : "low",
             impact: deviation.abs
           )
         end

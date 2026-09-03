@@ -231,6 +231,23 @@ class AcceptanceTest < Minitest::Test
     assert_equal base.map { |d| d["selected_provider"] }, other[:decisions].map { |d| d["selected_provider"] }
   end
 
+  def test_queue_without_timestamps_still_routes_deterministically
+    # Часы прогона привязаны к snapshot_at из providers.json, поэтому
+    # отсутствие created_at в заявках не втягивает в решение Time.now.
+    router = -> { Routing::Router.build(config: @config, providers_path: RoutingTest::PROVIDERS_PATH,
+                                        history_path: RoutingTest::HISTORY_PATH) }
+    operations = -> { Routing::Ingest::Loader.new(@config).load_operations(fixture("operations_no_timestamps.json")) }
+
+    first = router.call.route_all(operations.call)
+    second = router.call.route_all(operations.call)
+
+    assert_equal 5, first.size
+    assert(first.all? { |decision| !decision.selected_provider.nil? })
+    assert_equal first.map(&:selected_provider), second.map(&:selected_provider)
+    assert_equal first.map(&:latency_sec), second.map(&:latency_sec)
+    assert_equal first.map(&:simulated_result), second.map(&:simulated_result)
+  end
+
   # --- 7. конвейер запускается и завершается успешно ------------------------
 
   def test_pipeline_exits_with_zero_status
