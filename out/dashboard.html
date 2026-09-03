@@ -884,25 +884,43 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
 <section class="card" id="dostizhimost">
   <div class="card-head">
     <h2>Достижимость целевых долей</h2>
-    <span class="badge flat">заявок в разборе: 10</span>
+    <span class="badge warn">цель недостижима</span>
   </div>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="tile-label">Минимум возможного</div>
+      <div class="tile-value mono">5,0<span class="unit"> п.п.</span></div>
+      <div class="tile-sub">ближе к плану подойти нельзя</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Достигнуто</div>
+      <div class="tile-value mono">5,0<span class="unit"> п.п.</span></div>
+      <div class="tile-sub">
+        <span class="badge good">на минимуме</span>
+      </div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Из-за неделимости заявки</div>
+      <div class="tile-value mono">5,0<span class="unit"> п.п.</span></div>
+      <div class="tile-sub">половину выплаты отправить нельзя</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Из-за ограничений</div>
+      <div class="tile-value mono">5,0<span class="unit"> п.п.</span></div>
+      <div class="tile-sub">банки, суммы, дневные лимиты</div>
+    </div>
+    <div class="tile">
+      <div class="tile-label">Полный перебор</div>
+      <div class="tile-value mono">5,0<span class="unit"> п.п.</span></div>
+      <div class="tile-sub">все допустимые раскладки проверены</div>
+    </div>
+  </div>
+
   <p class="card-note">
-    Отклонение от цели бывает двух разных природ: политика распределяет плохо — это чинится настройками,
-    либо цель недостижима структурно — тогда никакая политика не поможет. Здесь считается второе.
     Полоса — коридор «пол..потолок»: пол — доля заявок, где провайдер единственный допустимый,
-    потолок — доля заявок, которые он вообще имеет право взять. Засечка — цель.
-    Цель вне коридора недостижима при текущих банковских списках, диапазонах сумм, марже и валюте.
+    потолок — сколько он вообще вправе взять. Засечка — цель. Цель вне коридора недостижима.
   </p>
-
-  <div class="alert " style="">
-    <span class="badge crit">цель недостижима</span>
-    <span>цель 35.0% на payflow недостижима сверху: коридор 10.0..30.0%, ограничивает — дневной лимит оборота, причина — bank_not_in_list; цель 25.0% на quickpay недостижима снизу: коридор 30.0..90.0%, ограничивает — структурные ограничения</span>
-  </div>
-
-  <div class="chart-legend">
-    <span><i class="swatch corridor"></i>достижимый коридор</span>
-    <span><i class="swatch tick"></i>цель</span>
-  </div>
 
   <div class="chart">
     <div class="bar-row">
@@ -919,12 +937,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
       <div class="bar-values">
         <span class="t">цель 40,0%</span>
         <span class="badge good">достижима</span>
-      </div>
-    </div>
-    <div class="bar-row" style="padding-top:0">
-      <div></div>
-      <div style="grid-column:2 / -1;font-size:14px;color:var(--ink-2)">
-        <span class="tag">потолок ставит: структурные ограничения</span>
       </div>
     </div>
     <div class="bar-row">
@@ -945,9 +957,8 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
     </div>
     <div class="bar-row" style="padding-top:0">
       <div></div>
-      <div style="grid-column:2 / -1;font-size:14px;color:var(--ink-2)">
-        <span class="tag">потолок ставит: дневной лимит оборота</span>
-        что отсекает:
+      <div style="grid-column:2 / -1;font-size:13.5px;color:var(--ink-2)">
+        <span class="tag">упирается в: дневной лимит оборота</span>
         <span class="tag">банк заявки не входит в список поддерживаемых — 4</span>
         <span class="tag">сумма больше максимального чека провайдера — 2</span>
       </div>
@@ -970,8 +981,8 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
     </div>
     <div class="bar-row" style="padding-top:0">
       <div></div>
-      <div style="grid-column:2 / -1;font-size:14px;color:var(--ink-2)">
-        <span class="tag">потолок ставит: структурные ограничения</span>
+      <div style="grid-column:2 / -1;font-size:13.5px;color:var(--ink-2)">
+        <span class="tag">упирается в: структурные ограничения</span>
       </div>
     </div>
     <div class="axis">
@@ -987,19 +998,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
     </div>
   </div>
 
-  <div style="display:flex;gap:26px;flex-wrap:wrap;margin-top:20px;font-size:14px;color:var(--ink-2)">
-    <span>Неустранимое отклонение от целей:
-      <b class="mono">5,0%</b></span>
-    <span>Заявок без единого допустимого провайдера: <b class="mono">0</b></span>
-    <span>Учтённые структурные ограничения:
-      <span class="tag">provider_status</span>
-      <span class="tag">traffic_share</span>
-      <span class="tag">amount_range</span>
-      <span class="tag">bank_filter</span>
-      <span class="tag">margin</span>
-      <span class="tag">currency</span>
-    </span>
-  </div>
 </section>
 
 <section class="card" id="resheniya">
@@ -1007,10 +1005,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
     <h2>Решения по заявкам</h2>
     <span class="badge flat">строк: 10</span>
   </div>
-  <p class="card-note">
-    Строка раскрывается по клику: внутри — почему выбран этот провайдер, почему отсеяны остальные,
-    хронология попыток при отказе и полный разбор скоринга по факторам.
-  </p>
+  <p class="card-note">Строка раскрывается по клику: кого рассматривали, почему выбран этот, разбор скоринга.</p>
 
   <div class="controls">
     <input type="search" id="op-search" placeholder="Поиск: id, провайдер, банк" aria-label="Поиск по решениям">
@@ -1096,7 +1091,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     отстаёт от целевой доли по объёму
                     <span class="code">(volume_share_deficit · причина выбора)</span>
-                    <div class="details">цель 46.4% по объёму, распределённого объёма пока нет; решающий фактор против payflow — volume_share</div>
                     <div class="details">итоговый скоринг <b class="mono">0,6834</b></div>
                   </div>
                 </div>
@@ -1138,7 +1132,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <th class="num">Норм.</th>
                     <th></th>
                     <th class="num">Вклад</th>
-                    <th>Пояснение</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1153,7 +1146,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,750</td>
-                    <td class="note">отказов подряд нет, здоровье полное</td>
                   </tr>
                   <tr>
                     <td><b>turnover_commitment</b></td>
@@ -1166,7 +1158,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">обязательство по минимальному обороту не задано</td>
                   </tr>
                   <tr>
                     <td><b>count_share</b></td>
@@ -1179,7 +1170,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">цель 40.0% по количеству, это первая заявка прогона — весь недобор 0.4 ещё впереди</td>
                   </tr>
                   <tr>
                     <td><b>volume_share</b></td>
@@ -1192,7 +1182,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,761</td>
-                    <td class="note">цель 46.4% по объёму, распределённого объёма пока нет</td>
                   </tr>
                   <tr>
                     <td><b>conversion</b></td>
@@ -1205,7 +1194,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,648</td>
-                    <td class="note">заявлено 87.0%, наблюдений пока нет — берём нижнюю границу 66.3% при доверии 95.0% и весе априорной оценки 20 наблюдений</td>
                   </tr>
                   <tr>
                     <td><b>amount_band</b></td>
@@ -1218,7 +1206,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,900</td>
-                    <td class="note">сумма 15000 в полосе 500..50000 -&gt; предпочтителен (payflow, vipay)</td>
                   </tr>
                   <tr>
                     <td><b>cascade_priority</b></td>
@@ -1231,7 +1218,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">приоритет в каскаде 1</td>
                   </tr>
                   <tr>
                     <td><b>load_balance</b></td>
@@ -1244,7 +1230,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,276</td>
-                    <td class="note">загрузка 64.0%, узкое место — дневной оборот (64.0%)</td>
                   </tr>
                   <tr>
                     <td><b>margin</b></td>
@@ -1257,7 +1242,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п.</td>
                   </tr>
                 </tbody>
               </table>
@@ -1367,7 +1351,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     отстаёт от целевой доли по количеству заявок
                     <span class="code">(traffic_share_deficit · причина выбора)</span>
-                    <div class="details">доля по количеству 0.0% при цели 58.3% (0 из 1 уже распределённых), недобор 1.17 заявки; решающий фактор против quickpay — count_share</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5988</b></div>
                   </div>
                 </div>
@@ -1397,7 +1380,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <th class="num">Норм.</th>
                     <th></th>
                     <th class="num">Вклад</th>
-                    <th>Пояснение</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1412,7 +1394,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,750</td>
-                    <td class="note">отказов подряд нет, здоровье полное</td>
                   </tr>
                   <tr>
                     <td><b>turnover_commitment</b></td>
@@ -1425,7 +1406,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">минимальный оборот 2000000 выполнен (2900000)</td>
                   </tr>
                   <tr>
                     <td><b>count_share</b></td>
@@ -1438,7 +1418,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">доля по количеству 0.0% при цели 58.3% (0 из 1 уже распределённых), недобор 1.17 заявки</td>
                   </tr>
                   <tr>
                     <td><b>volume_share</b></td>
@@ -1451,7 +1430,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">доля по объёму 0.0% при цели 9.5% (0 из 15000)</td>
                   </tr>
                   <tr>
                     <td><b>conversion</b></td>
@@ -1464,7 +1442,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">заявлено 91.0%, наблюдений пока нет — берём нижнюю границу 71.1% при доверии 95.0% и весе априорной оценки 20 наблюдений</td>
                   </tr>
                   <tr>
                     <td><b>amount_band</b></td>
@@ -1477,7 +1454,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,900</td>
-                    <td class="note">сумма 48000 в полосе 500..50000 -&gt; предпочтителен (payflow, vipay)</td>
                   </tr>
                   <tr>
                     <td><b>cascade_priority</b></td>
@@ -1490,7 +1466,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">приоритет в каскаде 2</td>
                   </tr>
                   <tr>
                     <td><b>load_balance</b></td>
@@ -1503,7 +1478,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">загрузка 96.7%, узкое место — дневной оборот (96.7%)</td>
                   </tr>
                   <tr>
                     <td><b>margin</b></td>
@@ -1516,7 +1490,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п.</td>
                   </tr>
                 </tbody>
               </table>
@@ -1656,7 +1629,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     следующий в каскаде после отказа предыдущего
                     <span class="code">(cascade_retry · причина выбора)</span>
-                    <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5000</b></div>
                   </div>
                 </div>
@@ -1792,7 +1764,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     следующий в каскаде после отказа предыдущего
                     <span class="code">(cascade_retry · причина выбора)</span>
-                    <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5000</b></div>
                   </div>
                 </div>
@@ -1885,7 +1856,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     лучший суммарный скоринг по активным целям
                     <span class="code">(best_combined_score · причина выбора)</span>
-                    <div class="details">отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health</div>
                     <div class="details">итоговый скоринг <b class="mono">0,7901</b></div>
                   </div>
                 </div>
@@ -1927,7 +1897,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <th class="num">Норм.</th>
                     <th></th>
                     <th class="num">Вклад</th>
-                    <th>Пояснение</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1942,7 +1911,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,500</td>
-                    <td class="note">отказов подряд нет, здоровье полное</td>
                   </tr>
                   <tr>
                     <td><b>turnover_commitment</b></td>
@@ -1955,7 +1923,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">обязательство по минимальному обороту не задано</td>
                   </tr>
                   <tr>
                     <td><b>count_share</b></td>
@@ -1968,7 +1935,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">доля по количеству 25.0% при цели 61.5% (1 из 4 уже распределённых), недобор 2.08 заявки</td>
                   </tr>
                   <tr>
                     <td><b>volume_share</b></td>
@@ -1981,7 +1947,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,800</td>
-                    <td class="note">доля по объёму 6.9% при цели 48.9% (15000 из 216000)</td>
                   </tr>
                   <tr>
                     <td><b>conversion</b></td>
@@ -1994,7 +1959,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">заявлено 87.0%, в прогоне 1 из 1; нижняя граница 67.6% при доверии 95.0% на 21 эффективных наблюдениях</td>
                   </tr>
                   <tr>
                     <td><b>amount_band</b></td>
@@ -2007,7 +1971,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,900</td>
-                    <td class="note">сумма 25000 в полосе 500..50000 -&gt; предпочтителен (payflow, vipay)</td>
                   </tr>
                   <tr>
                     <td><b>cascade_priority</b></td>
@@ -2020,7 +1983,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">приоритет в каскаде 1</td>
                   </tr>
                   <tr>
                     <td><b>load_balance</b></td>
@@ -2033,7 +1995,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">загрузка 64.3%, узкое место — дневной оборот (64.3%)</td>
                   </tr>
                   <tr>
                     <td><b>margin</b></td>
@@ -2046,7 +2007,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п.</td>
                   </tr>
                 </tbody>
               </table>
@@ -2143,7 +2103,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     лучший суммарный скоринг по активным целям
                     <span class="code">(best_combined_score · причина выбора)</span>
-                    <div class="details">отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health</div>
                     <div class="details">итоговый скоринг <b class="mono">0,7901</b></div>
                   </div>
                 </div>
@@ -2185,7 +2144,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <th class="num">Норм.</th>
                     <th></th>
                     <th class="num">Вклад</th>
-                    <th>Пояснение</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2200,7 +2158,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,500</td>
-                    <td class="note">отказов подряд нет, здоровье полное</td>
                   </tr>
                   <tr>
                     <td><b>turnover_commitment</b></td>
@@ -2213,7 +2170,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">обязательство по минимальному обороту не задано</td>
                   </tr>
                   <tr>
                     <td><b>count_share</b></td>
@@ -2226,7 +2182,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">доля по количеству 40.0% при цели 61.5% (2 из 5 уже распределённых), недобор 1.69 заявки</td>
                   </tr>
                   <tr>
                     <td><b>volume_share</b></td>
@@ -2239,7 +2194,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,800</td>
-                    <td class="note">доля по объёму 16.6% при цели 48.9% (40000 из 241000)</td>
                   </tr>
                   <tr>
                     <td><b>conversion</b></td>
@@ -2252,7 +2206,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">заявлено 87.0%, в прогоне 2 из 2; нижняя граница 68.8% при доверии 95.0% на 22 эффективных наблюдениях</td>
                   </tr>
                   <tr>
                     <td><b>amount_band</b></td>
@@ -2265,7 +2218,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,900</td>
-                    <td class="note">сумма 52000 в полосе 50001..100000 -&gt; предпочтителен (vipay)</td>
                   </tr>
                   <tr>
                     <td><b>cascade_priority</b></td>
@@ -2278,7 +2230,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">приоритет в каскаде 1</td>
                   </tr>
                   <tr>
                     <td><b>load_balance</b></td>
@@ -2291,7 +2242,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">загрузка 64.8%, узкое место — дневной оборот (64.8%)</td>
                   </tr>
                   <tr>
                     <td><b>margin</b></td>
@@ -2304,7 +2254,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п.</td>
                   </tr>
                 </tbody>
               </table>
@@ -2413,7 +2362,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     единственный провайдер, прошедший ограничения
                     <span class="code">(only_eligible_provider · причина выбора)</span>
-                    <div class="details">единственный провайдер, прошедший ограничения</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5000</b></div>
                   </div>
                 </div>
@@ -2560,7 +2508,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     следующий в каскаде после отказа предыдущего
                     <span class="code">(cascade_retry · причина выбора)</span>
-                    <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5000</b></div>
                   </div>
                 </div>
@@ -2653,7 +2600,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     отстаёт от целевой доли по количеству заявок
                     <span class="code">(traffic_share_deficit · причина выбора)</span>
-                    <div class="details">доля по количеству 37.5% при цели 61.5% (3 из 8 уже распределённых), недобор 2.54 заявки; решающий фактор против quickpay — count_share</div>
                     <div class="details">итоговый скоринг <b class="mono">0,6975</b></div>
                   </div>
                 </div>
@@ -2695,7 +2641,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <th class="num">Норм.</th>
                     <th></th>
                     <th class="num">Вклад</th>
-                    <th>Пояснение</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2710,7 +2655,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,750</td>
-                    <td class="note">отказов подряд нет, здоровье полное</td>
                   </tr>
                   <tr>
                     <td><b>turnover_commitment</b></td>
@@ -2723,7 +2667,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">обязательство по минимальному обороту не задано</td>
                   </tr>
                   <tr>
                     <td><b>count_share</b></td>
@@ -2736,7 +2679,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">доля по количеству 37.5% при цели 61.5% (3 из 8 уже распределённых), недобор 2.54 заявки</td>
                   </tr>
                   <tr>
                     <td><b>volume_share</b></td>
@@ -2749,7 +2691,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,800</td>
-                    <td class="note">доля по объёму 27.4% при цели 48.9% (92000 из 335800)</td>
                   </tr>
                   <tr>
                     <td><b>conversion</b></td>
@@ -2762,7 +2703,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">заявлено 87.0%, в прогоне 3 из 3; нижняя граница 70.0% при доверии 95.0% на 23 эффективных наблюдениях</td>
                   </tr>
                   <tr>
                     <td><b>amount_band</b></td>
@@ -2775,7 +2715,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,900</td>
-                    <td class="note">сумма 10000 в полосе 500..50000 -&gt; предпочтителен (payflow, vipay)</td>
                   </tr>
                   <tr>
                     <td><b>cascade_priority</b></td>
@@ -2788,7 +2727,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">приоритет в каскаде 1</td>
                   </tr>
                   <tr>
                     <td><b>load_balance</b></td>
@@ -2801,7 +2739,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">загрузка 65.8%, узкое место — дневной оборот (65.8%)</td>
                   </tr>
                   <tr>
                     <td><b>margin</b></td>
@@ -2814,7 +2751,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п.</td>
                   </tr>
                 </tbody>
               </table>
@@ -2923,7 +2859,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     отстаёт от целевой доли по количеству заявок
                     <span class="code">(traffic_share_deficit · причина выбора)</span>
-                    <div class="details">доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки; решающий фактор против quickpay — count_share</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5988</b></div>
                   </div>
                 </div>
@@ -2953,7 +2888,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <th class="num">Норм.</th>
                     <th></th>
                     <th class="num">Вклад</th>
-                    <th>Пояснение</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2968,7 +2902,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,750</td>
-                    <td class="note">отказов подряд нет, здоровье полное</td>
                   </tr>
                   <tr>
                     <td><b>turnover_commitment</b></td>
@@ -2981,7 +2914,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">минимальный оборот 2000000 выполнен (2948800)</td>
                   </tr>
                   <tr>
                     <td><b>count_share</b></td>
@@ -2994,7 +2926,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки</td>
                   </tr>
                   <tr>
                     <td><b>volume_share</b></td>
@@ -3007,7 +2938,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">доля по объёму 14.1% при цели 9.5% (48800 из 345800)</td>
                   </tr>
                   <tr>
                     <td><b>conversion</b></td>
@@ -3020,7 +2950,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">1,000</td>
-                    <td class="note">заявлено 91.0%, в прогоне 2 из 2; нижняя граница 73.3% при доверии 95.0% на 22 эффективных наблюдениях</td>
                   </tr>
                   <tr>
                     <td><b>amount_band</b></td>
@@ -3033,7 +2962,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,900</td>
-                    <td class="note">сумма 40000 в полосе 500..50000 -&gt; предпочтителен (payflow, vipay)</td>
                   </tr>
                   <tr>
                     <td><b>cascade_priority</b></td>
@@ -3046,7 +2974,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,600</td>
-                    <td class="note">приоритет в каскаде 2</td>
                   </tr>
                   <tr>
                     <td><b>load_balance</b></td>
@@ -3059,7 +2986,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">загрузка 98.3%, узкое место — дневной оборот (98.3%)</td>
                   </tr>
                   <tr>
                     <td><b>margin</b></td>
@@ -3072,7 +2998,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                       </span>
                     </td>
                     <td class="num">0,000</td>
-                    <td class="note">маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п.</td>
                   </tr>
                 </tbody>
               </table>
@@ -3635,7 +3560,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
 
 <footer class="footer">
   <span>HackGenesis 2026 · Умный роутинг выплат</span>
-  <span>собрано 04.09.2026 02:18 из routing_decisions.json, routing_report.json</span>
+  <span>собрано 04.09.2026 02:37 из routing_decisions.json, routing_report.json</span>
 </footer>
 
 <script>

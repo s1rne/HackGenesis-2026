@@ -4,10 +4,7 @@
     <h2>Решения по заявкам</h2>
     <span class="badge flat">строк: <%= h(num(decisions.size)) %></span>
   </div>
-  <p class="card-note">
-    Строка раскрывается по клику: внутри — почему выбран этот провайдер, почему отсеяны остальные,
-    хронология попыток при отказе и полный разбор скоринга по факторам.
-  </p>
+  <p class="card-note">Строка раскрывается по клику: кого рассматривали, почему выбран этот, разбор скоринга.</p>
 
   <div class="controls">
     <input type="search" id="op-search" placeholder="Поиск: id, провайдер, банк" aria-label="Поиск по решениям">
@@ -125,7 +122,7 @@
                   <div class="why-line">
                     <%= h(attempt["explanation"] || reason_text(attempt["reason"])) %>
                     <span class="code">(<%= h(attempt["reason"]) %> · <%= h(reason_category(attempt["reason"])) %>)</span>
-<% if attempt["details"] -%>
+<% if attempt["details"] && attempt["decision"] != "selected" -%>
                     <div class="details"><%= h(attempt["details"]) %></div>
 <% end -%>
 <% if attempt["score"] -%>
@@ -151,7 +148,6 @@
                     <th class="num">Норм.</th>
                     <th></th>
                     <th class="num">Вклад</th>
-                    <th>Пояснение</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -167,7 +163,6 @@
                       </span>
                     </td>
                     <td class="num"><%= h(num(factor["contribution"], 3)) %></td>
-                    <td class="note"><%= h(factor["note"]) %></td>
                   </tr>
 <% end -%>
                 </tbody>
