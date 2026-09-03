@@ -32,6 +32,7 @@ module Routing
       @expired_count = 0
       @skipped_count = 0
       @request_times = []
+      @latest_request = nil
       @reservations = {}
     end
 
@@ -43,11 +44,20 @@ module Routing
       @request_times.count { |t| t > at - window_sec && t <= at }
     end
 
+    PRUNE_HORIZON_SEC = 300.0
+    PRUNE_THRESHOLD = 128
+
     def record_request(at)
       @request_times << at
-      # Окно скользящее: всё, что старше пяти минут, на решение уже не влияет,
-      # но список растёт линейно по числу заявок — подрезаем его.
-      @request_times.shift while @request_times.size > 1 && @request_times.first < at - 300.0
+      @latest_request = @latest_request.nil? ? at : [@latest_request, at].max
+      # Окно скользящее: всё, что старше пяти минут от самой поздней заявки,
+      # на решение уже не влияет. Отсчитываем именно от самой поздней, а не от
+      # текущей: очередь может быть не отсортирована, и тогда «текущая минус
+      # пять минут» выбросило бы записи, которые ещё нужны.
+      return self if @request_times.size <= PRUNE_THRESHOLD
+
+      horizon = @latest_request - PRUNE_HORIZON_SEC
+      @request_times.reject! { |time| time < horizon }
       self
     end
 

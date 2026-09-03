@@ -23,6 +23,7 @@ module Routing
       Result = Struct.new(:decisions, :summary, keyword_init: true)
 
       def initialize(router:, config:, confidence: 0.95)
+        @constraints = router.constraints
         @router = router
         @config = config
         @calibration = router.calibration
@@ -39,7 +40,14 @@ module Routing
                             issues: @router.issues, meta: @router.meta)
         decisions = router.route_all(operations)
 
-        Result.new(decisions: decisions, summary: summarize(rows, decisions, fleet))
+        summary = summarize(rows, decisions, fleet)
+        # Почему наше отклонение от целей может оказаться не меньше исторического:
+        # история маршрутизировалась при других банковских списках, а при текущих
+        # часть заявок вообще некуда деть, кроме одного провайдера. Считаем коридоры
+        # достижимости на том же наборе — тогда сравнение честное.
+        summary["target_achievability"] =
+          Achievability.new(fleet: fleet, constraints: @constraints, config: @config).analyse(operations)
+        Result.new(decisions: decisions, summary: summary)
       end
 
       private

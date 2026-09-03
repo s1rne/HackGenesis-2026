@@ -48,6 +48,12 @@ module Routing
         failed_decision(operation, e)
       end
 
+      if clock.out_of_order_count.positive?
+        @issues.info("routing", "заявок с отметкой раньше предыдущей: #{clock.out_of_order_count}; " \
+                                "окно интенсивности считается по времени заявки, " \
+                                "а не по её месту в файле")
+      end
+
       if clock.anchored_by_fallback
         anchor = Clock::FALLBACK_ANCHOR.strftime("%Y-%m-%d %H:%M UTC")
         @issues.warning("routing", "во входных данных нет ни snapshot_at, ни created_at: " \

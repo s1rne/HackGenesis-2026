@@ -149,9 +149,12 @@ module Routing
                    id, row["target_pct"], row["history_pct"], row["replay_pct"])
       end
       tvd = summary["total_variation_distance"]
+      achievability = summary["target_achievability"]
       say ""
-      say format("Отклонение от целевых долей: история %.3f -> реплей %.3f",
-                 tvd["history_vs_target"], tvd["replay_vs_target"])
+      say format("Отклонение от целевых долей: история %.3f -> реплей %.3f, минимум %.3f",
+                 tvd["history_vs_target"], tvd["replay_vs_target"],
+                 achievability["min_total_variation_distance"])
+      say achievability["verdict"]
 
       write_json(@options[:replay], summary)
       say ""

@@ -1,0 +1,54 @@
+[
+  {
+    "operation_id": "op_usd",
+    "selected_provider": "vipay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "selected",
+        "reason": "volume_share_deficit",
+        "details": "цель 46.4% по объёму, распределённого объёма пока нет; решающий фактор против payflow — volume_share"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 67
+  },
+  {
+    "operation_id": "op_eur",
+    "selected_provider": "payflow",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял payflow, стоявший выше по скорингу"
+      },
+      {
+        "provider": "payflow",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, наблюдений пока нет — берём нижнюю границу 71.1% при доверии 95.0% и весе априорной оценки 20 наблюдений; решающий фактор против quickpay — conversion"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял payflow, стоявший выше по скорингу"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 71
+  }
+]

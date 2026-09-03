@@ -1,0 +1,98 @@
+[
+  {
+    "operation_id": "op_zero",
+    "selected_provider": "spacepayments",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 1000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 500"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 1000"
+      },
+      {
+        "provider": "spacepayments",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 12
+  },
+  {
+    "operation_id": "op_neg",
+    "selected_provider": "spacepayments",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "-5000 < limit_amount_min 1000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "-5000 < limit_amount_min 500"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "-5000 < limit_amount_min 1000"
+      },
+      {
+        "provider": "spacepayments",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 20
+  },
+  {
+    "operation_id": "op_huge",
+    "selected_provider": "spacepayments",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "999999999 > limit_amount_max 100000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "999999999 > limit_amount_max 50000"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "999999999 > limit_amount_max 200000"
+      },
+      {
+        "provider": "spacepayments",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 20
+  }
+]
