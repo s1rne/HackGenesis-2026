@@ -1,0 +1,5 @@
+{
+  "providers": [
+    { "payment_system": "bare", "traffic_percentage": 100 }
+  ]
+}

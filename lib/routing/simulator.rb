@@ -82,16 +82,27 @@ module Routing
       Array(@settings.fetch("cascade_on", %w[rejected expired])).map(&:to_s).include?(outcome.to_s)
     end
 
+    # Задержка берётся из истории, если она там есть: медиана по этому
+    # провайдеру и этому исходу. Значения из конфигурации работают запасным
+    # вариантом, когда истории нет.
+    #
+    # Изначально здесь стояло допущение, что rejected — быстрый технический
+    # отказ в единицы секунд. История его не подтвердила: медиана отказа 46.5 с,
+    # диапазон 6..113 с, по задержке отказ от одобрения неотличим. А вот expired
+    # отделяется полностью: 327..859 с против 5..119 с у всего остального.
+    # Числа взяты из данных, а не из здравого смысла.
     def latency_for(provider, rng, outcome)
+      observed = @calibration&.median_latency_for(provider.id, outcome.to_s)
+      base = observed || fallback_latency(provider, outcome)
+      spread = @latency.fetch("spread", 0.4).to_f
+      (base * (1.0 - spread + (2 * spread * rng.rand))).round.clamp(1, 3600)
+    end
+
+    def fallback_latency(provider, outcome)
       case outcome
-      when :expired
-        @latency.fetch("expired_sec", 540).to_i
-      when :rejected
-        @latency.fetch("rejected_sec", 8).to_i
-      else
-        base = provider.avg_latency_sec || @latency.fetch("base_sec", 30).to_f
-        spread = @latency.fetch("spread", 0.4).to_f
-        (base * (1.0 - spread + (2 * spread * rng.rand))).round.clamp(1, 3600)
+      when :expired then @latency.fetch("expired_sec", 540).to_f
+      when :rejected then @latency.fetch("rejected_sec", 46).to_f
+      else (provider.avg_latency_sec || @latency.fetch("base_sec", 30)).to_f
       end
     end
   end

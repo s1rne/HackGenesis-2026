@@ -1,0 +1,20 @@
+# Поля, выведенные из operations_history.csv. Обоснование — docs/calibration.md
+version: 1
+providers:
+  vipay:
+    volume_share_pct: 46.5               # 1067000/2299000 одобренного объёма = 46.41%, +0.09 п.п. при переносе доли payflow
+    requests_per_minute_limit: 12        # min(in_progress_count_limit 10, requisites 12) * 60 / медиана 49 c = 12.24 -> 12
+    daily_turnover_max: 4900000          # daily_amount_limit 5000000 - резерв в один максимальный чек 100000
+  payflow:
+    volume_share_pct: 2.9                # исторические 5.07% нереализуемы: 0.0507*3391500 = 171862 > 100000 свободных; потолок 100000/3391500 = 2.95%
+    requests_per_minute_limit: 3         # min(in_progress_count_limit 8, requisites 5) * 60 / медиана 87 c = 3.45 -> 3
+    daily_turnover_min: 2000000          # СУБЪЕКТИВНОЕ договорное допущение из ТЗ, не выведено из данных; уже покрыто daily_approved_amount 2900000, буста не даёт
+    daily_turnover_max: 2950000          # daily_amount_limit 3000000 - резерв в один максимальный чек 50000
+  quickpay:
+    volume_share_pct: 50.6               # 1115500/2299000 = 48.52%, +2.03 п.п. при переносе доли payflow пропорционально свободному лимиту
+    requests_per_minute_limit: 20        # min(in_progress_count_limit 15, requisites 20) * 60 / медиана 45 c = 20.00 -> 20
+    daily_turnover_max: 7800000          # daily_amount_limit 8000000 - резерв в один максимальный чек 200000
+  spacepayments:
+    volume_share_pct: 0                  # traffic_percentage 0, в истории отсутствует: self-провайдер не является целью распределения
+    requests_per_minute_limit: 5         # наблюдённый пик всей системы 3/мин + запас 2; расчёт по лимитам невозможен, они null
+    daily_turnover_max: 1000000          # объём отказов и таймаутов за день истории 1092500 -> вниз до 1000000

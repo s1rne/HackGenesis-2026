@@ -21,7 +21,7 @@ module Routing
       quiet: false
     }.freeze
 
-    COMMANDS = %w[plan decisions report run compare replay validate].freeze
+    COMMANDS = %w[plan decisions report run compare replay validate finalize].freeze
 
     def initialize(argv)
       @argv = argv.dup
@@ -159,6 +159,98 @@ module Routing
       0
     end
 
+    # Сдача. За час до стопкода выдают operations_queue_test.json; эта команда
+    # превращает его в два файла, которые обязаны лежать в корне ветки main,
+    # и сама себя проверяет.
+    #
+    # Имена файлов зашиты намеренно: они заданы организаторами, и опечатка в
+    # имени стоит сорока баллов независимо от качества всего остального.
+    TEST_QUEUE = "data/operations_queue_test.json"
+    TEST_DECISIONS = "routing_decisions_test.json"
+    TEST_REPORT = "routing_report_test.json"
+
+    def cmd_finalize
+      queue = @options[:queue_overridden] ? @options[:queue] : TEST_QUEUE
+      placeholder = false
+
+      unless File.exist?(queue)
+        # Боевой очереди ещё нет. Мы всё равно собираем оба файла из публичной
+        # очереди: пустое место в корне main стоит сорока баллов гарантированно,
+        # а устаревшая заготовка — только если про неё забыть. Поэтому она кричит.
+        placeholder = true
+        queue = DEFAULTS[:queue]
+        warn "ВНИМАНИЕ: #{TEST_QUEUE} не найден, файлы собраны из #{queue} как заготовка."
+        warn "Когда выдадут боевую очередь — положить её в #{TEST_QUEUE} и повторить bin/route finalize."
+      end
+
+      @options[:queue] = queue
+      @options[:decisions] = TEST_DECISIONS
+      @options[:report] = TEST_REPORT
+
+      router = build_router
+      operations = load_operations(router)
+      decisions = router.route_all(operations)
+      write_decisions(decisions)
+      write_report(router, decisions)
+      summarize(decisions, router)
+      report_issues(router.issues)
+
+      say ""
+      checks = final_checks(operations, decisions)
+      checks.each { |ok, text| say "#{ok ? '  OK ' : '  НЕТ'} #{text}" }
+      failed = checks.count { |ok, _| !ok }
+      say ""
+      if failed.positive?
+        say "Не сдавать: не пройдено проверок — #{failed}."
+      elsif placeholder
+        say "Структура в порядке, но это ЗАГОТОВКА по публичной очереди."
+        say "Боевая сдача: положить очередь в #{TEST_QUEUE} и запустить bin/route finalize ещё раз."
+      else
+        say "Готово к сдаче: #{TEST_DECISIONS} и #{TEST_REPORT} в корне репозитория."
+      end
+      failed.zero? ? 0 : 1
+    end
+
+    # Проверки ровно на то, за что снимают баллы: имя, место, структура,
+    # покрытие всех заявок и обязательные поля в обоих файлах.
+    def final_checks(operations, decisions)
+      decisions_payload = File.exist?(TEST_DECISIONS) ? JSON.parse(File.read(TEST_DECISIONS)) : nil
+      report_payload = File.exist?(TEST_REPORT) ? JSON.parse(File.read(TEST_REPORT)) : nil
+      ids = operations.map(&:id)
+      covered = decisions_payload.is_a?(Array) ? decisions_payload.map { |d| d["operation_id"] } : []
+      required_report_keys = %w[period total_operations distribution skip_reasons
+                                projected_daily_utilization recommendations]
+
+      [
+        [File.file?(TEST_DECISIONS), "#{TEST_DECISIONS} лежит в корне репозитория"],
+        [File.file?(TEST_REPORT), "#{TEST_REPORT} лежит в корне репозитория"],
+        [decisions_payload.is_a?(Array), "решения — массив в корне JSON"],
+        [(ids - covered).empty?, "покрыты все #{ids.size} заявок из очереди"],
+        [(covered - ids).empty?, "нет лишних operation_id"],
+        [decisions.all? { |d| d.selected_provider }, "у каждой заявки есть selected_provider"],
+        [attempts_well_formed?(decisions_payload), "у всех attempts есть provider, decision и reason"],
+        [decisions.all? { |d| %w[approved rejected expired].include?(d.simulated_result) },
+         "simulated_result только approved / rejected / expired"],
+        [decisions.all? { |d| d.latency_sec.is_a?(Integer) && d.latency_sec >= 0 }, "latency_sec — целое неотрицательное"],
+        [report_payload.is_a?(Hash) && required_report_keys.all? { |k| report_payload.key?(k) },
+         "в отчёте есть все обязательные разделы"],
+        [report_payload.is_a?(Hash) && report_payload["total_operations"] == ids.size,
+         "total_operations в отчёте совпадает с числом заявок"]
+      ]
+    end
+
+    def attempts_well_formed?(payload)
+      return false unless payload.is_a?(Array)
+
+      payload.all? do |decision|
+        attempts = decision["attempts"]
+        attempts.is_a?(Array) && !attempts.empty? && attempts.all? do |attempt|
+          %w[provider decision reason].all? { |key| attempt[key].to_s != "" } &&
+            %w[selected skipped].include?(attempt["decision"])
+        end
+      end
+    end
+
     def cmd_validate
       script = "scripts/validate_10.rb"
       unless File.exist?(script)
@@ -278,7 +370,7 @@ module Routing
         opts.on("--config PATH", "конфигурация маршрутизации") { |v| @options[:config] = v }
         opts.on("--overlays PATH", "накладка с выведенными полями провайдеров") { |v| @options[:overlays] = v }
         opts.on("--providers PATH", "состояние провайдеров") { |v| @options[:providers] = v }
-        opts.on("--queue PATH", "очередь заявок") { |v| @options[:queue] = v }
+        opts.on("--queue PATH", "очередь заявок") { |v| @options[:queue] = v; @options[:queue_overridden] = true }
         opts.on("--history PATH", "история операций") { |v| @options[:history] = v }
         opts.on("--decisions PATH", "куда писать решения") { |v| @options[:decisions] = v }
         opts.on("--report PATH", "куда писать отчёт") { |v| @options[:report] = v }

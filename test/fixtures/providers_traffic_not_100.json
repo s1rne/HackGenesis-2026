@@ -1,0 +1,16 @@
+{
+  "providers": [
+    { "payment_system": "alpha", "status": "active", "traffic_percentage": 30,
+      "limit_amount_min": 100, "limit_amount_max": 1000000, "available_requisites": 5,
+      "conversion_24h": 0.9, "banks": [], "exclude_banks": false,
+      "provider_margin_pct": 1.0, "merchant_margin_pct": 1.5 },
+    { "payment_system": "beta", "status": "active", "traffic_percentage": 40,
+      "limit_amount_min": 100, "limit_amount_max": 1000000, "available_requisites": 5,
+      "conversion_24h": 0.8, "banks": [], "exclude_banks": false,
+      "provider_margin_pct": 1.0, "merchant_margin_pct": 1.5 },
+    { "payment_system": "spacepayments", "status": "active", "traffic_percentage": 0,
+      "priority": 99, "available_requisites": 8, "conversion_24h": 0.95,
+      "banks": [], "exclude_banks": false,
+      "provider_margin_pct": 0.5, "merchant_margin_pct": 1.5 }
+  ]
+}

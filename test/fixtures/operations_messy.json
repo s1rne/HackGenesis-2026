@@ -1,0 +1,12 @@
+{
+  "operations": [
+    { "operation_id": "op_dup", "amount": "1 000,50", "bank": "sberbank",
+      "created_at": "2026-07-30T09:05:00+03:00" },
+    { "operation_id": "op_dup", "amount": 2000, "bank": "неизвестный банк",
+      "created_at": "2026-07-30T09:05:30+03:00" },
+    { "operation_id": "op_no_bank", "amount": 5000,
+      "created_at": "2026-07-30T09:06:00+03:00" },
+    { "amount": 7000, "bank": "sberbank", "created_at": "не дата" },
+    { "operation_id": "op_bad_amount", "amount": "две тысячи", "bank": "alfa" }
+  ]
+}

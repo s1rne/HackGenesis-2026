@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Умный роутинг выплат — дашборд прогона<%= section("period") ? " #{h(section("period"))}" : "" %></title>
+<style>
+<%= render("styles.css") %>
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-title">Умный роутинг выплат</span>
+      <span class="brand-sub">прогон за <%= h(section("period") || "период не указан") %><%
+        if present?("source", "gateway") %> · шлюз <%= h(section("source", "gateway")) %><% end %><%
+        if present?("source", "merchant") %> · мерчант <%= h(section("source", "merchant")) %><% end %></span>
+    </div>
+    <nav class="nav">
+      <a href="#svodka">Сводка</a>
+      <a href="#raspredelenie">План/факт</a>
+<% if present?("target_achievability") %>
+      <a href="#dostizhimost">Достижимость</a>
+<% end %>
+      <a href="#resheniya">Решения</a>
+<% if present?("skip_reasons") %>
+      <a href="#otsev">Отсев</a>
+<% end %>
+<% if present?("projected_daily_utilization") %>
+      <a href="#limity">Лимиты</a>
+<% end %>
+<% if present?("recommendations_detailed") || present?("recommendations") %>
+      <a href="#rekomendacii">Рекомендации</a>
+<% end %>
+    </nav>
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Переключить светлую и тёмную тему">Тема</button>
+  </div>
+</header>
+
+<main class="page">
+<%= render("summary") %>
+<%= render("distribution") %>
+<%= render("achievability") %>
+<%= render("decisions") %>
+<%= render("skip_reasons") %>
+<%= render("utilization") %>
+<%= render("recommendations") %>
+<%= render("quality") %>
+</main>
+
+<footer class="footer">
+  <span>HackGenesis 2026 · Умный роутинг выплат</span>
+  <span>собрано <%= h(generated_at) %> из <%= h(sources.join(", ")) %></span>
+</footer>
+
+<script>
+<%= render("script.js") %>
+</script>
+</body>
+</html>
