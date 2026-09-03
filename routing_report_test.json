@@ -47,7 +47,9 @@
     "bank_not_in_list": 8,
     "not_reached_in_cascade": 7,
     "amount_exceeds_limit": 3,
-    "amount_below_minimum": 2
+    "amount_below_minimum": 2,
+    "provider_declined": 2,
+    "provider_timeout": 1
   },
   "projected_daily_utilization": {
     "vipay": {
@@ -189,15 +191,6 @@
       "operation_id": "op_103"
     },
     {
-      "type": "pool_exhausted",
-      "policy": "retry_best",
-      "refused": [
-        "quickpay"
-      ],
-      "note": "все допустимые провайдеры отказали в приёме",
-      "operation_id": "op_103"
-    },
-    {
       "type": "goal_relaxation",
       "goal": "traffic_share",
       "unreachable": {
@@ -209,15 +202,6 @@
         "quickpay"
       ],
       "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay",
-      "operation_id": "op_104"
-    },
-    {
-      "type": "pool_exhausted",
-      "policy": "retry_best",
-      "refused": [
-        "quickpay"
-      ],
-      "note": "все допустимые провайдеры отказали в приёме",
       "operation_id": "op_104"
     },
     {
@@ -277,15 +261,6 @@
       "operation_id": "op_108"
     },
     {
-      "type": "pool_exhausted",
-      "policy": "retry_best",
-      "refused": [
-        "quickpay"
-      ],
-      "note": "все допустимые провайдеры отказали в приёме",
-      "operation_id": "op_108"
-    },
-    {
       "type": "goal_relaxation",
       "goal": "traffic_share",
       "unreachable": {
@@ -312,6 +287,35 @@
       ],
       "note": "целевая доля недоступных провайдеров (vipay) перераспределена между payflow, quickpay",
       "operation_id": "op_110"
+    }
+  ],
+  "routing_events": [
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "quickpay"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "op_103"
+    },
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "quickpay"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "op_104"
+    },
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "quickpay"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "op_108"
     }
   ],
   "limits_at_risk": [

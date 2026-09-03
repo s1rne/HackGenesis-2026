@@ -1601,6 +1601,18 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <div class="details">150000 &gt; limit_amount_max 50000</div>
                   </div>
                 </div>
+                <div class="attempt skipped">
+                  <div class="seq">#3</div>
+                  <div class="who">
+                    quickpay
+                    <span class="stage">отсеян · cascade_attempt</span>
+                  </div>
+                  <div class="why-line">
+                    провайдер отказал в обработке
+                    <span class="code">(provider_declined · результат попытки)</span>
+                    <div class="details">попытка 1: ответ rejected за 67 с, других допустимых кандидатов нет</div>
+                  </div>
+                </div>
                 <div class="attempt selected">
                   <div class="seq">#4</div>
                   <div class="who">
@@ -1610,7 +1622,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     следующий в каскаде после отказа предыдущего
                     <span class="code">(cascade_retry · причина выбора)</span>
-                    <div class="details">следующий в каскаде после отказа предыдущего</div>
+                    <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5000</b></div>
                   </div>
                 </div>
@@ -1847,6 +1859,18 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <div class="details">gazprombank не входит в banks (sberbank, alfa)</div>
                   </div>
                 </div>
+                <div class="attempt skipped">
+                  <div class="seq">#3</div>
+                  <div class="who">
+                    quickpay
+                    <span class="stage">отсеян · cascade_attempt</span>
+                  </div>
+                  <div class="why-line">
+                    провайдер не ответил вовремя
+                    <span class="code">(provider_timeout · результат попытки)</span>
+                    <div class="details">попытка 1: ответ expired за 314 с, других допустимых кандидатов нет</div>
+                  </div>
+                </div>
                 <div class="attempt selected">
                   <div class="seq">#4</div>
                   <div class="who">
@@ -1856,7 +1880,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     следующий в каскаде после отказа предыдущего
                     <span class="code">(cascade_retry · причина выбора)</span>
-                    <div class="details">следующий в каскаде после отказа предыдущего</div>
+                    <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5000</b></div>
                   </div>
                 </div>
@@ -2821,6 +2845,18 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                     <div class="details">raiffeisen не входит в banks (sberbank, alfa)</div>
                   </div>
                 </div>
+                <div class="attempt skipped">
+                  <div class="seq">#3</div>
+                  <div class="who">
+                    quickpay
+                    <span class="stage">отсеян · cascade_attempt</span>
+                  </div>
+                  <div class="why-line">
+                    провайдер отказал в обработке
+                    <span class="code">(provider_declined · результат попытки)</span>
+                    <div class="details">попытка 1: ответ rejected за 57 с, других допустимых кандидатов нет</div>
+                  </div>
+                </div>
                 <div class="attempt selected">
                   <div class="seq">#4</div>
                   <div class="who">
@@ -2830,7 +2866,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
                   <div class="why-line">
                     следующий в каскаде после отказа предыдущего
                     <span class="code">(cascade_retry · причина выбора)</span>
-                    <div class="details">следующий в каскаде после отказа предыдущего</div>
+                    <div class="details">других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был</div>
                     <div class="details">итоговый скоринг <b class="mono">0,5000</b></div>
                   </div>
                 </div>
@@ -3493,7 +3529,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
 <section class="card" id="otsev">
   <div class="card-head">
     <h2>Причины отсева</h2>
-    <span class="badge flat">всего отсевов: 20</span>
+    <span class="badge flat">всего отсевов: 23</span>
   </div>
   <p class="card-note">
     Сколько раз каждая причина сработала за прогон. Формулировки берутся из каталога причин решения,
@@ -3556,6 +3592,34 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
       </div>
       <div class="bar-values">
         <span class="v">2</span>
+      </div>
+    </div>
+    <div class="bar-row" style="grid-template-columns:minmax(280px,380px) minmax(180px,1fr) auto">
+      <div class="bar-name">провайдер отказал в обработке<span class="sub">provider_declined · результат попытки</span></div>
+      <div class="track">
+        <i class="gridline" style="left:0.0%"></i>
+        <i class="gridline" style="left:25.0%"></i>
+        <i class="gridline" style="left:50.0%"></i>
+        <i class="gridline" style="left:75.0%"></i>
+        <i class="gridline" style="left:100.0%"></i>
+        <div class="fill" style="width:25.0%"></div>
+      </div>
+      <div class="bar-values">
+        <span class="v">2</span>
+      </div>
+    </div>
+    <div class="bar-row" style="grid-template-columns:minmax(280px,380px) minmax(180px,1fr) auto">
+      <div class="bar-name">провайдер не ответил вовремя<span class="sub">provider_timeout · результат попытки</span></div>
+      <div class="track">
+        <i class="gridline" style="left:0.0%"></i>
+        <i class="gridline" style="left:25.0%"></i>
+        <i class="gridline" style="left:50.0%"></i>
+        <i class="gridline" style="left:75.0%"></i>
+        <i class="gridline" style="left:100.0%"></i>
+        <div class="fill" style="width:12.5%"></div>
+      </div>
+      <div class="bar-values">
+        <span class="v">1</span>
       </div>
     </div>
     <div class="axis" style="grid-template-columns:minmax(280px,380px) minmax(180px,1fr) auto">
@@ -3889,7 +3953,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
   <div class="card">
     <div class="card-head">
       <h2>Уступки по целям</h2>
-      <span class="badge flat">событий: 12</span>
+      <span class="badge flat">событий: 9</span>
     </div>
     <p class="card-note">
       Что роутер сделал, когда цель нельзя было выполнить буквально: чью долю пришлось перераспределить
@@ -3904,12 +3968,6 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
         <tr>
           <td><span class="tag">goal_relaxation</span></td>
           <td>целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay</td>
-          <td class="num">3</td>
-          <td style="font-size:13px;color:var(--ink-2)">op_103, op_104, op_108</td>
-        </tr>
-        <tr>
-          <td><span class="tag">pool_exhausted</span></td>
-          <td>все допустимые провайдеры отказали в приёме</td>
           <td class="num">3</td>
           <td style="font-size:13px;color:var(--ink-2)">op_103, op_104, op_108</td>
         </tr>
@@ -3987,7 +4045,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
 
 <footer class="footer">
   <span>HackGenesis 2026 · Умный роутинг выплат</span>
-  <span>собрано 03.09.2026 16:13 из routing_decisions.json, routing_report.json</span>
+  <span>собрано 03.09.2026 16:17 из routing_decisions.json, routing_report.json</span>
 </footer>
 
 <script>

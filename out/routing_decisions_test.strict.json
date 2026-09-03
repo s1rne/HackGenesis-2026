@@ -69,9 +69,15 @@
       },
       {
         "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 67 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
         "decision": "selected",
         "reason": "cascade_retry",
-        "details": "следующий в каскаде после отказа предыдущего"
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
       }
     ],
     "simulated_result": "rejected",
@@ -95,9 +101,15 @@
       },
       {
         "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 314 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
         "decision": "selected",
         "reason": "cascade_retry",
-        "details": "следующий в каскаде после отказа предыдущего"
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
       }
     ],
     "simulated_result": "expired",
@@ -199,9 +211,15 @@
       },
       {
         "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 57 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
         "decision": "selected",
         "reason": "cascade_retry",
-        "details": "следующий в каскаде после отказа предыдущего"
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
       }
     ],
     "simulated_result": "approved",

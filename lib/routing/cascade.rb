@@ -35,7 +35,7 @@ module Routing
 
     def route(operation)
       at = @clock.advance_to(operation)
-      records = {}
+      records = []
       events = []
       path = []
       @sequence = 0
@@ -67,7 +67,7 @@ module Routing
         violation = first_violation(context)
         if violation
           @fleet[provider.id].record_skip
-          records[provider.id] = skip_record(provider, violation, stage: "hard_filter")
+          records << skip_record(provider, violation, stage: "hard_filter")
         else
           eligible << provider
         end
@@ -130,15 +130,15 @@ module Routing
                   "latency_sec" => response.latency_sec }
 
         unless response.refused?
-          records[provider.id] = selection_record(best, ranked, response, attempt_no, eligible.size)
+          records << selection_record(best, ranked, response, attempt_no, eligible.size)
           return { selected: provider.id, response: response, ranking: ranked,
                    reason_pair: selection_reason(best, ranked, eligible.size, attempt_no),
                    latency: path.sum { |step| step["latency_sec"] } }
         end
 
-        records[provider.id] = declined_record(provider, response, attempt_no)
-        refused << provider
         remaining.delete(provider)
+        records << declined_record(provider, response, attempt_no, has_next: !remaining.empty?)
+        refused << provider
       end
 
       exhausted(operation, at, eligible, refused, records, path, events, last_ranking, attempt_no)
@@ -189,8 +189,18 @@ module Routing
       path << { "provider" => provider.id, "attempt" => attempt_no + 1, "outcome" => response.outcome.to_s,
                 "latency_sec" => response.latency_sec, "final" => true }
 
-      records[provider.id] = selection_record(best, ranked, response, attempt_no + 1, eligible.size,
-                                              reason: "cascade_retry")
+      retried_same = refused.map(&:id).include?(provider.id)
+      records << selection_record(
+        best, ranked, response, attempt_no + 1, eligible.size,
+        reason: "cascade_retry",
+        details: if retried_same
+                   "других допустимых провайдеров не осталось, повторная попытка на том же: " \
+                   "уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+                 else
+                   "остальные допустимые отказали (#{refused.map(&:id).join(', ')}), " \
+                   "заявка ушла лучшему из оставшихся"
+                 end
+      )
       { selected: provider.id, response: response, ranking: ranked,
         reason_pair: ["cascade_retry",
                       "повторная попытка на лучшем кандидате: остальные допустимые отказали " \
@@ -212,7 +222,7 @@ module Routing
       response = attempt(operation, provider, at, attempt_no)
       path << { "provider" => provider.id, "attempt" => attempt_no, "outcome" => response.outcome.to_s,
                 "latency_sec" => response.latency_sec, "fallback" => true }
-      records[provider.id] = {
+      records << {
         "provider" => provider.id, "decision" => "selected", "reason" => "fallback_self_provider",
         "details" => "внешний пул пуст, заявка ушла на собственного провайдера",
         "stage" => "fallback", "sequence" => next_sequence, "attempt_no" => attempt_no,
@@ -247,14 +257,14 @@ module Routing
       }.compact
     end
 
-    def declined_record(provider, response, attempt_no)
+    def declined_record(provider, response, attempt_no, has_next: true)
       reason = response.outcome == :expired ? "provider_timeout" : "provider_declined"
       {
         "provider" => provider.id,
         "decision" => "skipped",
         "reason" => reason,
-        "details" => "попытка #{attempt_no}: ответ #{response.outcome} за #{response.latency_sec} с, " \
-                     "заявка передана следующему кандидату",
+        "details" => "попытка #{attempt_no}: ответ #{response.outcome} за #{response.latency_sec} с, " +
+                     (has_next ? "заявка передана следующему кандидату" : "других допустимых кандидатов нет"),
         "stage" => "cascade_attempt",
         "sequence" => next_sequence,
         "attempt_no" => attempt_no,
@@ -264,8 +274,12 @@ module Routing
       }
     end
 
-    def selection_record(best, ranked, response, attempt_no, eligible_count, reason: nil)
-      code, details = reason ? [reason, Reasons.text(reason)] : selection_reason(best, ranked, eligible_count, attempt_no)
+    def selection_record(best, ranked, response, attempt_no, eligible_count, reason: nil, details: nil)
+      code, details = if reason
+                        [reason, details || Reasons.text(reason)]
+                      else
+                        selection_reason(best, ranked, eligible_count, attempt_no)
+                      end
       {
         "provider" => best.provider_id,
         "decision" => "selected",
@@ -302,10 +316,10 @@ module Routing
     # объяснения: иначе непонятно, рассматривались ли они вообще.
     def mark_untouched(eligible, records, selected)
       eligible.each do |provider|
-        next if records.key?(provider.id)
+        next if records.any? { |record| record["provider"] == provider.id }
 
         @fleet[provider.id].record_skip
-        records[provider.id] = {
+        records << {
           "provider" => provider.id,
           "decision" => "skipped",
           "reason" => selected ? "not_reached_in_cascade" : "lower_score",
@@ -317,8 +331,14 @@ module Routing
       end
     end
 
+    # Порядок массива attempts — по провайдерам из входного файла, как в образце
+    # организаторов. Внутри одного провайдера записи идут по времени, поэтому
+    # повторная попытка после отказа видна как два шага, а не как один.
+    # Настоящая хронология целиком не теряется в любом случае: у каждой записи
+    # есть sequence, а путь каскада лежит отдельно в cascade.path.
     def build_decision(operation, outcome, records, events, path)
-      ordered = @fleet.providers.filter_map { |provider| records[provider.id] }
+      order = @fleet.providers.each_with_index.to_h { |provider, index| [provider.id, index] }
+      ordered = records.sort_by { |record| [order.fetch(record["provider"], 999), record["sequence"].to_i] }
       response = outcome[:response]
 
       Decision.new(

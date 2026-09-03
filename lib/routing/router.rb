@@ -39,7 +39,7 @@ module Routing
                             simulator: @simulator, config: @config, clock: clock,
                             calibration: @calibration)
 
-      operations.map do |operation|
+      routed = operations.map do |operation|
         cascade.route(operation)
       rescue Error => e
         # Одна сломанная заявка не должна ронять прогон: остальные девяносто
@@ -47,6 +47,15 @@ module Routing
         @issues.error("routing", "заявка #{operation.id}: #{e.message}")
         failed_decision(operation, e)
       end
+
+      if clock.anchored_by_fallback
+        anchor = Clock::FALLBACK_ANCHOR.strftime("%Y-%m-%d %H:%M UTC")
+        @issues.warning("routing", "во входных данных нет ни snapshot_at, ни created_at: " \
+                                   "часы прогона начаты с условной отметки #{anchor}, " \
+                                   "правила, зависящие от времени суток, отсчитываются от неё")
+      end
+
+      routed
     end
 
     def snapshot_time

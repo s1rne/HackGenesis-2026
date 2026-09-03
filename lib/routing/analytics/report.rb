@@ -36,6 +36,7 @@ module Routing
           "provider_performance" => provider_performance,
           "cascade" => cascade_stats,
           "goal_relaxations" => goal_relaxations,
+          "routing_events" => routing_events,
           "limits_at_risk" => limits_at_risk,
           "target_achievability" => target_achievability,
           "history_baseline" => history_baseline,
@@ -158,11 +159,21 @@ module Routing
         }
       end
 
-      def goal_relaxations
-        events = @decisions.flat_map { |d| d.events.map { |e| e.merge("operation_id" => d.operation.id) } }
-        return [] if events.empty?
+      # Только уступки по недостижимым целям. Раньше сюда попадали и события
+      # исчерпания пула, и отсутствие маршрута — считать их уступками неверно,
+      # это разные ситуации с разными выводами.
+      def goal_relaxations = events_of_type("goal_relaxation")
 
-        events
+      # Всё остальное, что случилось по ходу прогона: исчерпание пула,
+      # отсутствие маршрута.
+      def routing_events = all_events.reject { |event| event["type"] == "goal_relaxation" }
+
+      def events_of_type(type) = all_events.select { |event| event["type"] == type }
+
+      def all_events
+        @all_events ||= @decisions.flat_map do |decision|
+          decision.events.map { |event| event.merge("operation_id" => decision.operation.id) }
+        end
       end
 
       # Провайдеры, у которых что-то вот-вот упрётся в потолок. Это самая

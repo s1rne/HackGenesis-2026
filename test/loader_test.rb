@@ -304,14 +304,6 @@ class LoaderTest < Minitest::Test
   # --- найденные расхождения ------------------------------------------------
 
   def test_default_configuration_declares_the_simulation_keys_the_simulator_reads
-    skip("баг: секция simulation в Config::DEFAULTS разошлась с Simulator. " \
-         "DEFAULTS объявляет decline_uses_conversion, timeout_share_of_failures, " \
-         "expire_share_of_failures и latency.jitter_sec/timeout_sec, которых никто " \
-         "не читает, а симулятор читает cascade_on, expired_share_of_failures, " \
-         "history_weight, latency.spread/rejected_sec/expired_sec, которых в DEFAULTS " \
-         "нет. Без config/routing.yml вся настройка симуляции молча уходит " \
-         "в зашитые в код запасные значения. Той же природы run.share_basis " \
-         "и goal_relaxation.ladder — объявлены и не читаются")
 
     simulation = Routing::Config::DEFAULTS["simulation"]
 
@@ -324,11 +316,6 @@ class LoaderTest < Minitest::Test
   end
 
   def test_daily_turnover_max_is_read_as_a_separate_field_from_the_daily_limit
-    skip("баг: в FieldMap синоним daily_turnover_max перечислен и у поля " \
-         "daily_amount_limit, поэтому одно значение во входных данных заполняет " \
-         "оба поля. Верхнее обязательство по обороту становится неотличимо от " \
-         "технического дневного лимита, и причина daily_turnover_max_exceeded " \
-         "недостижима: первым срабатывает daily_amount_limit")
 
     provider = build_provider({ "payment_system" => "acme", "status" => "active",
                                 "traffic_percentage" => 100, "daily_turnover_max" => 1_000_000 })

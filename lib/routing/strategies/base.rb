@@ -14,11 +14,14 @@ module Routing
     # в конфигурации. Ни каскад, ни отчёт менять не нужно.
     class Base
       class << self
-        def id = name.split("::").last.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
+        # Анонимный подкласс (Class.new(Base)) имени не имеет. Такой класс
+        # не может быть адресован из конфигурации, поэтому в реестр он не
+        # попадает — но и падать в момент определения не должен.
+        def id = name && name.split("::").last.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
 
         def inherited(subclass)
           super
-          Registry.register(subclass)
+          Registry.register(subclass) if subclass.id
         end
       end
 

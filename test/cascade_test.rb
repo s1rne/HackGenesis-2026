@@ -322,10 +322,6 @@ class CascadeTest < Minitest::Test
   # --- найденные расхождения ------------------------------------------------
 
   def test_repeated_attempt_on_the_same_provider_keeps_the_earlier_refusal_in_attempts
-    skip("баг: records индексируется по provider_id, поэтому повторная попытка " \
-         "на том же провайдере затирает его запись об отказе. В attempts остаётся " \
-         "только итоговый selected, отказ исчезает из выгрузки, sequence начинается " \
-         "не с единицы, а skip_reasons в отчёте недосчитывает provider_declined")
 
     fleet = build_fleet([provider("first", "traffic_percentage" => 100, "priority" => 1),
                          provider("spacepayments", "traffic_percentage" => 0, "priority" => 99, "self" => true)])

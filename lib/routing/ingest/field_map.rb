@@ -31,8 +31,12 @@ module Routing
         "priority" => %w[priority cascade_priority order rank position],
         "limit_amount_min" => %w[limit_amount_min min_amount amount_min limit_min min_check],
         "limit_amount_max" => %w[limit_amount_max max_amount amount_max limit_max max_check],
+        # Внимание: daily_turnover_max здесь НЕ синоним. Дневной лимит — это
+        # техническая ёмкость гейта, а turnover_max — условие соглашения.
+        # Слив их в одно поле делает вторую проверку недостижимой, а причину
+        # отказа — неотличимой от первой.
         "daily_amount_limit" => %w[daily_amount_limit daily_limit daily_max limit_daily_amount
-                                   daily_turnover_max daily_amount_max],
+                                   daily_amount_max],
         "daily_approved_amount" => %w[daily_approved_amount daily_amount daily_turnover today_amount
                                       approved_amount_today current_daily_amount],
         "in_progress_count_limit" => %w[in_progress_count_limit inprogress_count_limit
