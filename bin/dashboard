@@ -9,6 +9,15 @@
 # На выход — один самодостаточный файл: стили и скрипты внутри, внешних
 # запросов нет, открывается с диска без сети.
 
+# Проверка версии — до require и намеренно старым синтаксисом: библиотека
+# использует endless-методы из Ruby 3.0, и на старом интерпретаторе человек
+# увидел бы синтаксическую ошибку вместо объяснения.
+MINIMUM_RUBY = "3.0.0"
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new(MINIMUM_RUBY)
+  warn "Нужен Ruby #{MINIMUM_RUBY} или новее, запущен #{RUBY_VERSION}."
+  exit 3
+end
+
 require_relative "../lib/routing/dashboard"
 
 exit(Routing::Dashboard::CLI.new(ARGV).run)

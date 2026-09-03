@@ -3,17 +3,32 @@
 
 # Точка входа роутера выплат.
 #
-#   bin/route plan                 — показать собранный конвейер и настройки
-#   bin/route decisions            — маршрутизировать очередь -> routing_decisions.json
-#   bin/route report               — аналитика по решениям -> routing_report.json
-#   bin/route run                  — оба файла за один прогон
-#   bin/route compare              — прогнать очередь всеми профилями и сравнить
+#   bin/route plan       — показать собранный конвейер и настройки
+#   bin/route decisions  — маршрутизировать очередь -> routing_decisions.json
+#   bin/route report     — аналитика по решениям -> routing_report.json
+#   bin/route run        — оба файла за один прогон
+#   bin/route compare    — прогнать очередь всеми профилями и сравнить
+#   bin/route replay     — контрфактический реплей истории
+#   bin/route finalize   — собрать и проверить файлы для сдачи
+#   bin/route validate   — запустить автопроверку организаторов
 #
-# Все пути и параметры имеют значения по умолчанию под структуру этого
-# репозитория, поэтому обычный запуск — просто `ruby bin/route run`.
+# Все пути имеют значения по умолчанию под структуру этого репозитория,
+# поэтому обычный запуск — просто `ruby bin/route run`.
+
+# Проверка версии стоит до require и намеренно написана синтаксисом,
+# который понимает любой ruby: библиотека использует endless-методы из 3.0,
+# и на старом интерпретаторе человек увидел бы простыню синтаксических
+# ошибок вместо внятного объяснения, что делать.
+MINIMUM_RUBY = "3.0.0"
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new(MINIMUM_RUBY)
+  warn "Нужен Ruby #{MINIMUM_RUBY} или новее, запущен #{RUBY_VERSION} (#{RUBY_PLATFORM})."
+  warn "Внешних зависимостей у проекта нет, bundle install не требуется —"
+  warn "достаточно взять более новый интерпретатор, например:"
+  warn "  brew install ruby && /opt/homebrew/opt/ruby/bin/ruby bin/route run"
+  exit 3
+end
 
 require "optparse"
 require_relative "../lib/routing"
-require_relative "../lib/routing/cli"
 
 exit(Routing::CLI.new(ARGV).run)
