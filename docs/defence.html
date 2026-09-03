@@ -318,7 +318,7 @@
     <div class="figures">
       <div class="fig"><span class="fig-n">29 / 0 / 0</span><span class="fig-l">автопроверка организаторов: пройдено, ошибок, предупреждений</span></div>
       <div class="fig"><span class="fig-n">5.0 = 5.0</span><span class="fig-l">отклонение от целевых долей равно доказанному минимуму, п.п.</span></div>
-      <div class="fig"><span class="fig-n">314</span><span class="fig-l">тестов, 1918 проверок, 0 падений</span></div>
+      <div class="fig"><span class="fig-n">324</span><span class="fig-l">теста, 1934 проверки, 0 падений</span></div>
       <div class="fig"><span class="fig-n">0</span><span class="fig-l">внешних зависимостей: bundle install не нужен</span></div>
     </div>
   </header>
@@ -534,26 +534,26 @@ traffic_percentage с 35.0% до <span class="sel">30.0%</span> (это дока
     <tbody>
       <tr><td class="name">история, факт</td><td class="n">68.0%</td><td class="n">0.160</td><td class="n">—</td></tr>
       <tr><td class="name">минимум возможного</td><td class="n">—</td><td class="n">0.150</td><td class="n">—</td></tr>
-      <tr><td class="name">balanced</td><td class="n">60.8 — 76.0%</td><td class="n">0.220</td><td class="n">+2.1 п.п.</td></tr>
-      <tr><td class="name">volume_first</td><td class="n">64.0 — 78.5%</td><td class="n">0.320</td><td class="n">+5.3 п.п.</td></tr>
-      <tr><td class="name">conversion_first</td><td class="n">60.6 — 76.0%</td><td class="n">0.230</td><td class="n">+2.8 п.п.</td></tr>
-      <tr><td class="name">share_strict</td><td class="n">59.4 — 75.4%</td><td class="n">0.220</td><td class="n">+0.9 п.п.</td></tr>
-      <tr><td class="name">capacity_saver</td><td class="n">60.8 — 76.9%</td><td class="n">0.310</td><td class="n">−1.4 п.п.</td></tr>
-      <tr><td class="name">margin_first</td><td class="n">58.3 — 75.1%</td><td class="n">0.610</td><td class="n">−0.9 п.п.</td></tr>
+      <tr><td class="name">balanced</td><td class="n">62.8 — 76.9%</td><td class="n">0.270</td><td class="n">+3.5 п.п.</td></tr>
+          <tr><td class="name">volume_first</td><td class="n">63.1 — 78.2%</td><td class="n">0.330</td><td class="n">+5.5 п.п.</td></tr>
+          <tr><td class="name">conversion_first</td><td class="n">59.9 — 75.7%</td><td class="n">0.220</td><td class="n">+2.2 п.п.</td></tr>
+          <tr><td class="name">share_strict</td><td class="n">62.2 — 76.6%</td><td class="n">0.250</td><td class="n">+2.1 п.п.</td></tr>
+          <tr><td class="name">capacity_saver</td><td class="n">61.6 — 77.2%</td><td class="n">0.310</td><td class="n">−0.9 п.п.</td></tr>
+          <tr><td class="name">margin_first</td><td class="n">59.4 — 75.6%</td><td class="n">0.560</td><td class="n">−0.1 п.п.</td></tr>
     </tbody>
   </table>
 </div>
 <p><b>Качество выбора</b> — единственное сравнение, которое здесь вообще возможно честно.
-  На пятидесяти трёх операциях, где мы разошлись с историей, сопоставляются не исходы
+  На пятидесяти одной операции, где мы разошлись с историей, сопоставляются не исходы
   (нашего исхода не существует), а эмпирическая конверсия выбранного партнёра против
-  того, кого выбрала история. У <span class="num">balanced</span> она выше на <span class="num">2.1</span> п.п., у
-  <span class="num">volume_first</span> — на <span class="num">5.3</span>.</p>
+  того, кого выбрала история. У <span class="num">balanced</span> она выше на <span class="num">3.5</span> п.п., у
+  <span class="num">volume_first</span> — на <span class="num">5.5</span>.</p>
 <p>Мы <strong>не заявляем улучшения по одобрениям</strong>: интервал накрывает исторические 68%,
   и честный вывод — «не хуже», а не «лучше». Зато отклонение объясняется полностью. При
   действующих банковских списках минимум на этом наборе — <span class="num">0.150</span>; история достигала
   <span class="num">0.160</span> при более широких списках, когда payflow ещё принимал raiffeisen и vtb.</p>
 <p>Таблица читается как кривая компромиссов: <span class="num">margin_first</span> гонится за маржой и
-  разваливает распределение (<span class="num">0.610</span>), <span class="num">volume_first</span> покупает лучшие одобрения
+  разваливает распределение (<span class="num">0.560</span>), <span class="num">volume_first</span> покупает лучшие одобрения
   ценой перекоса долей. Это и есть доказательство, что настройки управляют поведением —
   одна кодовая база, разные решения, ни одной правки кода.</p>
     </div>
@@ -593,7 +593,7 @@ OK  совпали на 130 заявках, где допустим ровно �
     <p class="proves">качество реализации</p>
     <div class="body">
       <div class="figures">
-        <div class="fig"><span class="fig-n">314</span><span class="fig-l">тестов на minitest, 1918 проверок, без гемов</span></div>
+        <div class="fig"><span class="fig-n">324</span><span class="fig-l">теста на minitest, 1934 проверки, без гемов</span></div>
         <div class="fig"><span class="fig-n">11 + 9</span><span class="fig-l">правил и целей, каждое покрыто отдельно</span></div>
         <div class="fig"><span class="fig-n">5</span><span class="fig-l">багов найдено собственными проверками и закрыто</span></div>
         <div class="fig"><span class="fig-n">100%</span><span class="fig-l">совпадение с эталоном допустимых провайдеров</span></div>

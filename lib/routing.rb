@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "json"
-require "csv"
 require "yaml"
 require "time"
 require "date"
@@ -33,6 +32,7 @@ require_relative "routing/reasons"
 require_relative "routing/ingest/issues"
 require_relative "routing/ingest/field_map"
 require_relative "routing/ingest/record"
+require_relative "routing/ingest/csv_reader"
 
 require_relative "routing/operation"
 require_relative "routing/provider"

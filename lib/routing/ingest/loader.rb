@@ -65,7 +65,7 @@ module Routing
       def load_history(path)
         return [] if path.nil? || !File.exist?(path)
 
-        rows = CSV.read(path, headers: true).map(&:to_h)
+        rows = CsvReader.read(path)
         rows.each_with_index.map do |row, index|
           record = Record.new(row, field_map: @field_map, issues: issues, source: "#{File.basename(path)}[#{index}]")
           {
@@ -78,7 +78,7 @@ module Routing
             latency_sec: record.float("avg_latency_sec") || record.float("latency_sec")
           }
         end
-      rescue CSV::MalformedCSVError => e
+      rescue StandardError => e
         issues.error(File.basename(path), "файл истории не разбирается как CSV: #{e.message}")
         []
       end

@@ -13,7 +13,7 @@
 # использует endless-методы из Ruby 3.0, и на старом интерпретаторе человек
 # увидел бы синтаксическую ошибку вместо объяснения.
 MINIMUM_RUBY = "3.0.0"
-if Gem::Version.new(RUBY_VERSION) < Gem::Version.new(MINIMUM_RUBY)
+if (RUBY_VERSION.split(".").map(&:to_i) <=> MINIMUM_RUBY.split(".").map(&:to_i)) < 0
   warn "Нужен Ruby #{MINIMUM_RUBY} или новее, запущен #{RUBY_VERSION}."
   exit 3
 end
