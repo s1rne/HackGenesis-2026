@@ -40,6 +40,7 @@ module Routing
           "goal_relaxations" => goal_relaxations,
           "routing_events" => routing_events,
           "limits_at_risk" => limits_at_risk,
+          "limit_breaches" => limit_breaches,
           "target_achievability" => target_achievability,
           "history_baseline" => history_baseline,
           "recommendations_detailed" => recommendations,
@@ -180,6 +181,37 @@ module Routing
       # Только уступки по недостижимым целям. Раньше сюда попадали и события
       # исчерпания пула, и отсутствие маршрута — считать их уступками неверно,
       # это разные ситуации с разными выводами.
+      # Заявки, отданные провайдеру с исчерпанной ёмкостью.
+      #
+      # Это самый важный раздел для того, кто отвечает за отношения с партнёрами:
+      # он показывает, где мы вышли за оговорённый дневной объём и на сколько.
+      # Прятать такие случаи нельзя ни в коем случае — именно ради этого мы и не
+      # уводим такие заявки молча на собственного провайдера.
+      def limit_breaches
+        events = events_of_type("limit_breach")
+        return nil if events.empty?
+
+        by_provider = events.group_by { |event| event["provider"] }
+        {
+          "operations" => events.size,
+          "of_total" => @decisions.size,
+          "by_provider" => by_provider.transform_values do |group|
+            amount = group.sum do |event|
+              decision = @decisions.find { |item| item.operation.id == event["operation_id"] }
+              decision ? decision.operation.amount.to_major.to_f : 0.0
+            end
+            {
+              "operations" => group.size,
+              "amount_over_capacity" => amount.round(2),
+              "constraints" => group.map { |event| event["constraint"] }.tally
+            }
+          end,
+          "note" => "у этих заявок исчерпана ёмкость выбранного провайдера, но право взять их " \
+                    "было только у него. Заявка оставлена ему, а превышение записано: увести её " \
+                    "на собственного провайдера значило бы спрятать проблему партнёра за своим оборотом"
+        }
+      end
+
       def goal_relaxations = events_of_type("goal_relaxation")
 
       # Список уступок читается как шум: девять почти одинаковых записей на десять

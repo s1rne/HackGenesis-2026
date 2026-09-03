@@ -13,6 +13,7 @@ require "json"
 require "tmpdir"
 require "fileutils"
 require "rbconfig"
+require "securerandom"
 
 $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 require "routing"
@@ -50,7 +51,11 @@ module RoutingTest
     dir = Dir.mktmpdir("routing-test-")
     # Имя выгрузки уникально: CLI кладёт строгий вариант в общий каталог out/
     # рядом с проектом, и два прогона не должны наступать друг на друга.
-    stem = "routing_decisions_test_#{Process.pid}_#{(@run_counter = @run_counter.to_i + 1)}"
+    #
+    # Счётчика мало: этот модуль подмешивается в тестовые классы, и у каждого
+    # экземпляра счётчик свой, начинается с нуля — имена совпадали, и один тест
+    # затирал строгую выгрузку другого. Случайная часть снимает вопрос.
+    stem = "routing_decisions_test_#{Process.pid}_#{SecureRandom.hex(6)}"
     decisions_path = File.join(dir, "#{stem}.json")
     report_path = File.join(dir, "routing_report.json")
 

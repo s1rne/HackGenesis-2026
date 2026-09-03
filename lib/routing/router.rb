@@ -16,15 +16,17 @@ module Routing
       history = loader.load_history(history_path)
       new(config: config, fleet: fleet,
           calibration: Calibration.new(history, config),
-          issues: issues, meta: loader.meta)
+          issues: issues, meta: loader.meta,
+          sources: { "providers" => providers_path, "history" => history_path, "config" => config.path }.compact)
     end
 
-    def initialize(config:, fleet:, calibration: nil, issues: nil, meta: {})
+    def initialize(config:, fleet:, calibration: nil, issues: nil, meta: {}, sources: {})
       @config = config
       @fleet = fleet
       @calibration = calibration
       @issues = issues || Ingest::Issues.new
       @meta = meta || {}
+      @sources = sources || {}
       @constraints = Constraints::Registry.build(config)
       @strategies = Strategies::Registry.build(config)
       raise ConfigError, "не включена ни одна цель маршрутизации" if @strategies.empty?
@@ -86,15 +88,38 @@ module Routing
       (snapshot_time || Clock::FALLBACK_ANCHOR).strftime("%Y-%m-%d")
     end
 
-    def describe
+    def describe(operations = nil)
       {
+        "run_id" => run_id(operations),
         "profile" => @config.fetch("profile"),
         "scoring_mode" => @config.fetch("scoring", "mode"),
+        "seed" => @config.fetch("run", "seed"),
+        "simulation_enabled" => @config.fetch("simulation", "enabled"),
         "hard_constraints" => @constraints.map(&:id),
-        "strategies" => @strategies.map { |s| { "id" => s.id, "weight" => s.weight, "tier" => s.tier } },
+        "strategies" => @strategies.map { |goal| { "id" => goal.id, "weight" => goal.weight, "tier" => goal.tier } },
         "providers" => @fleet.ids,
-        "history_operations" => @calibration&.size.to_i
-      }
+        "history_operations" => @calibration&.size.to_i,
+        "inputs" => input_digests,
+        "note" => "run_id детерминирован: это функция входов и настроек, а не времени. " \
+                  "Одинаковые входы дают одинаковый run_id — по нему сверяют, тот ли это прогон"
+      }.compact
+    end
+
+    # Отпечаток прогона. Нужен, когда через месяц спрашивают «а на каких данных
+    # получен этот отчёт»: run_id и хеши входов отвечают на это точно, а не по
+    # памяти. Времени в нём намеренно нет — иначе два одинаковых прогона
+    # перестали бы совпадать побайтово, а на этом держится воспроизводимость.
+    def run_id(operations = nil)
+      material = [@config.fetch("run", "seed"), @config.fetch("profile")]
+      material.concat(input_digests.values)
+      material << Digest::SHA256.hexdigest(Array(operations).map { |op| "#{op.id}:#{op.amount.minor}" }.join("|"))
+      Digest::SHA256.hexdigest(material.join("|"))[0, 12]
+    end
+
+    def input_digests
+      @input_digests ||= @sources.to_h do |name, path|
+        [name, path && File.exist?(path) ? "sha256:#{Digest::SHA256.file(path).hexdigest[0, 16]}" : "нет файла"]
+      end
     end
 
     private

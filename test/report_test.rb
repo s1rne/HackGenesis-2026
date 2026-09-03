@@ -190,10 +190,16 @@ class ReportTest < Minitest::Test
   def test_routing_setup_documents_the_pipeline_that_produced_the_report
     setup = report["routing_setup"]
 
+    config = Routing::Config.load(RoutingTest::CONFIG_PATH)
+
     assert_equal "balanced", setup["profile"]
-    assert_equal 11, setup["hard_constraints"].size
-    assert_equal 8, setup["strategies"].size
+    # Состав сверяется с конфигурацией, а не с числом: включить новое правило
+    # или цель не должно означать правку теста в другом файле.
+    assert_equal config.enabled_constraint_ids.sort, setup["hard_constraints"].sort
+    assert_equal config.enabled_strategy_ids.sort, setup["strategies"].map { |goal| goal["id"] }.sort
     assert_equal %w[vipay payflow quickpay spacepayments], setup["providers"]
+    refute_empty setup["run_id"], "прогон обязан иметь отпечаток, по которому его можно опознать"
+    assert_equal config.fetch("run", "seed"), setup["seed"]
   end
 
   # --- отчёт собирается и на вырожденных данных ----------------------------

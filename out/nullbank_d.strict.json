@@ -1,0 +1,576 @@
+[
+  {
+    "operation_id": "nb_01",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 53
+  },
+  {
+    "operation_id": "nb_02",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 51 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 85
+  },
+  {
+    "operation_id": "nb_03",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 54
+  },
+  {
+    "operation_id": "nb_04",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 62
+  },
+  {
+    "operation_id": "nb_05",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 40
+  },
+  {
+    "operation_id": "nb_06",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "52000 > limit_amount_max 50000"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 56
+  },
+  {
+    "operation_id": "nb_07",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "120000 > limit_amount_max 100000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "120000 > limit_amount_max 50000"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 47
+  },
+  {
+    "operation_id": "nb_08",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "150000 > limit_amount_max 100000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "150000 > limit_amount_max 50000"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 45
+  },
+  {
+    "operation_id": "nb_09",
+    "selected_provider": "spacepayments",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "800 < limit_amount_min 1000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "800 < limit_amount_min 1000"
+      },
+      {
+        "provider": "spacepayments",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 16
+  },
+  {
+    "operation_id": "nb_10",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 27
+  },
+  {
+    "operation_id": "nb_11",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 605 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 656
+  },
+  {
+    "operation_id": "nb_12",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 44
+  },
+  {
+    "operation_id": "nb_13",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 58
+  },
+  {
+    "operation_id": "nb_14",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 44
+  },
+  {
+    "operation_id": "nb_15",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "52000 > limit_amount_max 50000"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 509 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 556
+  },
+  {
+    "operation_id": "nb_16",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "120000 > limit_amount_max 100000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "120000 > limit_amount_max 50000"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 420 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      }
+    ],
+    "simulated_result": "rejected",
+    "latency_sec": 486
+  },
+  {
+    "operation_id": "nb_17",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "150000 > limit_amount_max 100000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "150000 > limit_amount_max 50000"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 376 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 403
+  },
+  {
+    "operation_id": "nb_18",
+    "selected_provider": "spacepayments",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "800 < limit_amount_min 1000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "800 < limit_amount_min 1000"
+      },
+      {
+        "provider": "spacepayments",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 14
+  },
+  {
+    "operation_id": "nb_19",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 46 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 80
+  },
+  {
+    "operation_id": "nb_20",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 3 банков"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_unknown",
+        "details": "банк заявки не указан, а провайдер работает по списку из 2 банков"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "provider_timeout",
+        "details": "попытка 1: ответ expired за 645 с, других допустимых кандидатов нет"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 704
+  }
+]

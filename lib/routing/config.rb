@@ -92,7 +92,9 @@ module Routing
 
       merged = deep_merge(DEFAULTS, stringify(loaded))
       check_version!(merged["version"], path)
-      new(merged, path: path)
+      config = new(merged, path: path)
+      config.validate!
+      config
     end
 
     # Версия схемы конфигурации. Проверяется, а не игнорируется: если файл
@@ -138,6 +140,79 @@ module Routing
       @data = self.class.stringify(data)
       @path = path
     end
+
+    SCORING_MODES = %w[weighted lexicographic lexicographic_weighted].freeze
+    TIE_BREAK_KEYS = %w[provider_id cascade_priority conversion load margin].freeze
+    EXHAUSTED_POLICIES = %w[retry_best fallback].freeze
+
+    # Проверка настроек до первого прогона.
+    #
+    # Раньше конфигурация с mode: bananas и отрицательным эпсилоном спокойно
+    # проходила сборку, печаталась на экране как рабочая и падала уже поштучно
+    # на каждой заявке — после того, как негодные файлы были записаны на диск.
+    # Ошибка в настройках должна останавливать прогон в самом начале.
+    def validate!
+      problems = []
+      problems.concat(validate_scoring)
+      problems.concat(validate_weights)
+      problems.concat(validate_run)
+      return self if problems.empty?
+
+      raise ConfigError, "конфигурация#{path ? " #{path}" : ''} негодна:\n  - #{problems.join("\n  - ")}"
+    end
+
+    private
+
+    def validate_scoring
+      problems = []
+      mode = fetch("scoring", "mode").to_s
+      unless SCORING_MODES.include?(mode)
+        problems << "scoring.mode = #{mode.inspect}, допустимо: #{SCORING_MODES.join(', ')}"
+      end
+
+      epsilon = fetch("scoring", "tier_epsilon")
+      unless epsilon.is_a?(Numeric) && epsilon >= 0
+        problems << "scoring.tier_epsilon = #{epsilon.inspect}, ожидалось неотрицательное число"
+      end
+
+      unknown = Array(fetch("scoring", "tie_break")).map(&:to_s) - TIE_BREAK_KEYS - enabled_strategy_ids
+      unless unknown.empty?
+        problems << "scoring.tie_break ссылается на неизвестные ключи: #{unknown.join(', ')}; " \
+                    "допустимы #{TIE_BREAK_KEYS.join(', ')} или идентификатор включённой цели"
+      end
+      problems
+    end
+
+    def validate_weights
+      section("strategies").filter_map do |id, settings|
+        next unless settings.is_a?(Hash) && settings["enabled"]
+
+        weight = settings["weight"]
+        tier = settings["tier"]
+        if !weight.nil? && (!weight.is_a?(Numeric) || weight.negative?)
+          next "strategies.#{id}.weight = #{weight.inspect}, ожидалось неотрицательное число"
+        end
+        next unless !tier.nil? && (!tier.is_a?(Integer) || tier < 1)
+
+        "strategies.#{id}.tier = #{tier.inspect}, ожидалось целое от 1"
+      end
+    end
+
+    def validate_run
+      problems = []
+      policy = fetch("run", "exhausted_pool_policy").to_s
+      unless EXHAUSTED_POLICIES.include?(policy)
+        problems << "run.exhausted_pool_policy = #{policy.inspect}, допустимо: #{EXHAUSTED_POLICIES.join(', ')}"
+      end
+
+      attempts = fetch("run", "max_attempts")
+      unless attempts.is_a?(Integer) && attempts.positive?
+        problems << "run.max_attempts = #{attempts.inspect}, ожидалось целое больше нуля"
+      end
+      problems
+    end
+
+    public
 
     def fetch(*keys, default: nil)
       keys.flatten.map(&:to_s).reduce(@data) do |node, key|

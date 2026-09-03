@@ -761,8 +761,11 @@
     }
   ],
   "routing_setup": {
+    "run_id": "af8673fe5445",
     "profile": "kzt_card_payout",
     "scoring_mode": "lexicographic_weighted",
+    "seed": 77012345,
+    "simulation_enabled": true,
     "hard_constraints": [
       "bank_filter",
       "currency",
@@ -825,7 +828,13 @@
       "nordwind_pay",
       "internal_settlement"
     ],
-    "history_operations": 0
+    "history_operations": 0,
+    "inputs": {
+      "providers": "sha256:4412444083c2e22c",
+      "history": "нет файла",
+      "config": "sha256:1d1ab5bb2286fd6e"
+    },
+    "note": "run_id детерминирован: это функция входов и настроек, а не времени. Одинаковые входы дают одинаковый run_id — по нему сверяют, тот ли это прогон"
   },
   "data_quality": {
     "counts": {

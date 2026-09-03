@@ -23,7 +23,7 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 41
+    "latency_sec": 38
   },
   {
     "operation_id": "op_102",
@@ -49,7 +49,7 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 97
+    "latency_sec": 52
   },
   {
     "operation_id": "op_103",
@@ -69,19 +69,13 @@
       },
       {
         "provider": "quickpay",
-        "decision": "skipped",
-        "reason": "provider_declined",
-        "details": "попытка 1: ответ rejected за 67 с, других допустимых кандидатов нет"
-      },
-      {
-        "provider": "quickpay",
         "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
       }
     ],
-    "simulated_result": "rejected",
-    "latency_sec": 150
+    "simulated_result": "approved",
+    "latency_sec": 29
   },
   {
     "operation_id": "op_104",
@@ -101,19 +95,13 @@
       },
       {
         "provider": "quickpay",
-        "decision": "skipped",
-        "reason": "provider_timeout",
-        "details": "попытка 1: ответ expired за 314 с, других допустимых кандидатов нет"
-      },
-      {
-        "provider": "quickpay",
         "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
       }
     ],
-    "simulated_result": "expired",
-    "latency_sec": 856
+    "simulated_result": "approved",
+    "latency_sec": 29
   },
   {
     "operation_id": "op_105",
@@ -139,7 +127,7 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 32
+    "latency_sec": 38
   },
   {
     "operation_id": "op_106",
@@ -165,7 +153,7 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 42
+    "latency_sec": 38
   },
   {
     "operation_id": "op_107",
@@ -191,7 +179,7 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 110
+    "latency_sec": 52
   },
   {
     "operation_id": "op_108",
@@ -211,19 +199,13 @@
       },
       {
         "provider": "quickpay",
-        "decision": "skipped",
-        "reason": "provider_declined",
-        "details": "попытка 1: ответ rejected за 57 с, других допустимых кандидатов нет"
-      },
-      {
-        "provider": "quickpay",
         "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 91
+    "latency_sec": 29
   },
   {
     "operation_id": "op_109",
@@ -249,7 +231,7 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 41
+    "latency_sec": 38
   },
   {
     "operation_id": "op_110",
@@ -275,6 +257,6 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 103
+    "latency_sec": 52
   }
 ]

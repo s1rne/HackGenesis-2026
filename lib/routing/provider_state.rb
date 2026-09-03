@@ -12,7 +12,8 @@ module Routing
     attr_reader :provider, :daily_amount, :in_progress_count, :in_progress_amount,
                 :available_requisites, :selected_count, :selected_amount,
                 :attempt_count, :approved_count, :approved_amount,
-                :declined_count, :expired_count, :skipped_count, :request_times
+                :declined_count, :expired_count, :skipped_count, :request_times,
+                :consecutive_failures, :last_failure_at
 
     # zeroed: начать сутки с нуля вместо снимка из входных данных.
     # Нужно для контрфактического реплея истории: она относится к другому дню,
@@ -33,6 +34,8 @@ module Routing
       @skipped_count = 0
       @request_times = []
       @latest_request = nil
+      @consecutive_failures = 0
+      @last_failure_at = nil
       @reservations = {}
     end
 
@@ -81,16 +84,39 @@ module Routing
       @daily_amount += operation.amount
       @approved_count += 1
       @approved_amount += operation.amount
+      # Успех обнуляет серию отказов: провайдер снова здоров.
+      @consecutive_failures = 0
       self
     end
 
-    def settle_failed(operation, result)
+    def settle_failed(operation, result, at: nil)
       release(operation)
       case result
       when :expired then @expired_count += 1
       else @declined_count += 1
       end
+      # Серия подряд идущих отказов — самый ранний признак того, что у партнёра
+      # что-то сломалось. Наблюдаемая конверсия на это реагирует слишком вяло:
+      # после двух отказов из двадцати наблюдений оценка падает на восемь пунктов,
+      # и провайдер, легший в полдень, успевает получить ещё десяток выплат.
+      @consecutive_failures += 1
+      @last_failure_at = at
       self
+    end
+
+    # Здоровье провайдера: 1.0 — отказов подряд не было, 0.0 — серия отказов
+    # только что. Со временем восстанавливается линейно за `recovery_sec`,
+    # потому что отказ пятиминутной давности говорит о партнёре меньше,
+    # чем отказ секунду назад.
+    def health(at = nil, threshold: 2, recovery_sec: 300.0)
+      return 1.0 if @consecutive_failures.zero?
+
+      severity = [@consecutive_failures.to_f / threshold, 1.0].min
+      return (1.0 - severity).clamp(0.0, 1.0) if at.nil? || @last_failure_at.nil? || !at.to_f.finite?
+
+      elapsed = at.to_f - @last_failure_at.to_f
+      healed = (elapsed / recovery_sec).clamp(0.0, 1.0)
+      (1.0 - (severity * (1.0 - healed))).clamp(0.0, 1.0)
     end
 
     # Провайдер выбран как итоговый для операции — это и есть «доля трафика».

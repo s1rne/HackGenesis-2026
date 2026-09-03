@@ -11,6 +11,10 @@ module Routing
       def check(context)
         limit = context.provider.requests_per_minute_limit
         return skip if limit.nil?
+        # Без настоящего времени заявки окно считать не по чему: часы идут
+        # виртуально с шагом в секунду, и лимит «столько-то в минуту»
+        # срабатывал бы просто из-за отсутствия отметок во входных данных.
+        return skip unless context.time_known?
 
         window = setting("window_sec", 60).to_f
         used = context.state.requests_in_window(context.at, window)

@@ -2,40 +2,40 @@
   "operations": 100,
   "baseline_approved": 68,
   "baseline_approval_rate": 0.68,
-  "agreement_with_history": 47,
-  "agreement_pct": 47.0,
+  "agreement_with_history": 49,
+  "agreement_pct": 49.0,
   "divergence": {
-    "operations": 53,
-    "our_provider_success_rate": 0.6844,
-    "historical_provider_success_rate": 0.6636,
-    "delta": 0.0208,
+    "operations": 51,
+    "our_provider_success_rate": 0.7006,
+    "historical_provider_success_rate": 0.6652,
+    "delta": 0.0353,
     "note": "средняя эмпирическая конверсия выбранного провайдера на тех операциях, где решение разошлось с историей"
   },
   "estimated_approval_rate": {
-    "lower": 0.6085,
-    "upper": 0.7604,
+    "lower": 0.628,
+    "upper": 0.7691,
     "note": "на совпавших решениях взят фактический исход, на разошедшихся — интервал Вильсона по эмпирической конверсии выбранного провайдера"
   },
   "share_comparison": {
     "payflow": {
       "target_pct": 35.0,
       "history_pct": 19.0,
-      "replay_pct": 13.0
+      "replay_pct": 9.0
     },
     "quickpay": {
       "target_pct": 25.0,
       "history_pct": 40.0,
-      "replay_pct": 47.0
+      "replay_pct": 52.0
     },
     "vipay": {
       "target_pct": 40.0,
       "history_pct": 41.0,
-      "replay_pct": 40.0
+      "replay_pct": 39.0
     }
   },
   "total_variation_distance": {
     "history_vs_target": 0.16,
-    "replay_vs_target": 0.22,
+    "replay_vs_target": 0.27,
     "note": "суммарное отклонение от целевых долей; меньше — ближе к плану"
   },
   "target_achievability": {

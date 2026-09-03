@@ -510,8 +510,11 @@
     }
   ],
   "routing_setup": {
+    "run_id": "978d8997c502",
     "profile": "balanced",
     "scoring_mode": "lexicographic_weighted",
+    "seed": 20260906,
+    "simulation_enabled": true,
     "hard_constraints": [
       "provider_status",
       "traffic_share",
@@ -526,6 +529,11 @@
       "currency"
     ],
     "strategies": [
+      {
+        "id": "provider_health",
+        "weight": 1.5,
+        "tier": 1
+      },
       {
         "id": "turnover_commitment",
         "weight": 1.2,
@@ -573,7 +581,13 @@
       "quickpay",
       "spacepayments"
     ],
-    "history_operations": 100
+    "history_operations": 100,
+    "inputs": {
+      "providers": "sha256:ddcf33dd1b7da401",
+      "history": "sha256:97c3b1eb7fdc04bc",
+      "config": "sha256:a6c3346bc43e07b7"
+    },
+    "note": "run_id детерминирован: это функция входов и настроек, а не времени. Одинаковые входы дают одинаковый run_id — по нему сверяют, тот ли это прогон"
   },
   "data_quality": {
     "counts": {

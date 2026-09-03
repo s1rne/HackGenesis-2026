@@ -45,6 +45,7 @@ module Routing
       "best_combined_score" => { category: :selection, text: "лучший суммарный скоринг по активным целям" },
       "cascade_retry" => { category: :selection, text: "следующий в каскаде после отказа предыдущего" },
       "fallback_self_provider" => { category: :selection, text: "внешний пул пуст, ушли на собственного провайдера" },
+      "capacity_exceeded" => { category: :selection, text: "единственный, кто вправе взять заявку, хотя ёмкость исчерпана" },
       "no_provider_available" => { category: :selection, text: "не нашлось ни одного провайдера, включая fallback" }
     }.freeze
 

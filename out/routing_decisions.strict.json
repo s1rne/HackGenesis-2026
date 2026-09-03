@@ -122,8 +122,8 @@
       {
         "provider": "vipay",
         "decision": "selected",
-        "reason": "traffic_share_deficit",
-        "details": "доля по количеству 25.0% при цели 61.5% (1 из 4 уже распределённых), недобор 2.08 заявки; решающий фактор против quickpay — count_share"
+        "reason": "best_combined_score",
+        "details": "отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health"
       },
       {
         "provider": "payflow",
@@ -148,8 +148,8 @@
       {
         "provider": "vipay",
         "decision": "selected",
-        "reason": "traffic_share_deficit",
-        "details": "доля по количеству 40.0% при цели 61.5% (2 из 5 уже распределённых), недобор 1.69 заявки; решающий фактор против quickpay — count_share"
+        "reason": "best_combined_score",
+        "details": "отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health"
       },
       {
         "provider": "payflow",

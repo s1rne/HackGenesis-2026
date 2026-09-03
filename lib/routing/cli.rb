@@ -145,13 +145,13 @@ module Routing
       @options[:decisions] = Delivery::DECISIONS
       @options[:report] = Delivery::REPORT
 
-      router, decisions, = route
+      router, decisions, problems = route
       write_decisions(decisions)
       write_report(router, decisions)
       view.distribution(decisions, router)
       view.issues(router.issues)
 
-      report_delivery_checks(router, decisions, placeholder)
+      report_delivery_checks(router, decisions, placeholder, problems)
     end
 
     # Разбор одной заявки: почему она ушла именно туда.
@@ -259,7 +259,8 @@ module Routing
       report = Analytics::Report.new(
         decisions: decisions, fleet: router.fleet, config: router.config,
         period: router.period(decisions.map(&:operation)), calibration: router.calibration,
-        issues: router.issues, meta: router.meta, describe: router.describe,
+        issues: router.issues, meta: router.meta,
+        describe: router.describe(decisions.map(&:operation)),
         constraints: router.constraints
       )
       write_json(@options[:report], report.to_h)
@@ -279,14 +280,20 @@ module Routing
 
     # --- завершение ---------------------------------------------------------
 
-    def report_delivery_checks(router, decisions, placeholder)
+    def report_delivery_checks(router, decisions, placeholder, problems = [])
       operations = decisions.map(&:operation)
-      checks = Delivery.checks(operations, decisions)
+      # К проверкам формы добавляется проверка содержания: сверка с моделью
+      # проверяющего. Форма может быть безупречной, а выбор — разойтись с той
+      # логикой, по которой решение будут оценивать.
+      checks = Delivery.checks(operations, decisions) +
+               GraderCheck.checks(operations: operations, decisions: decisions,
+                                  providers_path: @options[:providers])
       view.line
       checks.each { |ok, text| view.line "#{ok ? '  OK ' : '  НЕТ'} #{text}" }
-      failed = checks.count { |ok, _| !ok }
+      failed = checks.count { |ok, _| !ok } + Array(problems).size
 
       view.line
+      view.problems(problems)
       if failed.positive?
         view.line "Не сдавать: не пройдено проверок — #{failed}."
       elsif placeholder

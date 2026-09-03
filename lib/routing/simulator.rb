@@ -35,6 +35,12 @@ module Routing
     def enabled? = @settings.fetch("enabled", true)
 
     def respond(operation:, provider:, state:, attempt_no:)
+      # Симуляцию можно выключить целиком. Тогда каждый провайдер принимает
+      # заявку за своё среднее время, и в выгрузке остаётся чистая
+      # маршрутизация: кого выбрали и почему, без наложенной сверху случайности.
+      # Это удобно, когда обсуждают именно решение, а не поведение партнёров.
+      return accepted_without_simulation(provider) unless enabled?
+
       rng = rng_for(operation, provider, attempt_no)
       success_rate = success_rate_for(provider)
       draw = rng.rand
@@ -50,6 +56,11 @@ module Routing
     end
 
     private
+
+    def accepted_without_simulation(provider)
+      latency = (provider.avg_latency_sec || @latency.fetch("base_sec", 30)).round.clamp(1, 3600)
+      Response.new(outcome: :approved, latency_sec: latency, refused: false)
+    end
 
     # Зерно, устойчивое к порядку обработки: оно зависит только от того, что
     # за операция, к какому провайдеру и какой по счёту попыткой. Переставить

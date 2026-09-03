@@ -25,6 +25,10 @@ module Routing
       @calibration = calibration
       @max_attempts = config.fetch("run", "max_attempts", default: 3).to_i.clamp(1, 50)
       @exhausted_policy = config.fetch("run", "exhausted_pool_policy", default: "retry_best").to_s
+      @capacity_policy = config.fetch("run", "capacity_exhausted_policy", default: "route_anyway").to_s
+      # Ограничения, зависящие от состояния: именно они отделяют «никто не имеет
+      # права взять эту заявку» от «имеет право, но кончилась ёмкость».
+      @structural = constraints.reject { |constraint| constraint.class.stateful? }
       @profile = config.fetch("profile")
       # Пересчитывать ли цели по долям на доступное подмножество провайдеров.
       # Выключено — цели считаются по всему пулу, и недоступный провайдер
@@ -43,10 +47,10 @@ module Routing
       eligible = hard_filter(operation, at, records)
       events.concat(relaxation_events(eligible))
 
-      outcome = if eligible.empty?
-                  use_fallback(operation, at, records, path, events)
-                else
+      outcome = if !eligible.empty?
                   run_cascade(operation, at, eligible, records, path, events)
+                else
+                  empty_pool(operation, at, records, path, events)
                 end
 
       # Доля трафика считается по итоговому выбору, поэтому отмечаем его один раз
@@ -157,7 +161,7 @@ module Routing
       if response.approved?
         state.settle_approved(operation)
       else
-        state.settle_failed(operation, response.outcome)
+        state.settle_failed(operation, response.outcome, at: at)
       end
       response
     end
@@ -203,6 +207,60 @@ module Routing
       )
       { selected: provider.id, response: response, ranking: ranked,
         reason_pair: ["cascade_retry", records.last["details"]],
+        latency: path.sum { |step| step["latency_sec"] } }
+    end
+
+    # Пул пуст — но пусто пусто рознь.
+    #
+    # Если заявку не имеет права взять никто (не тот банк, не та сумма, не та
+    # маржа), то собственный провайдер — правильный и единственный ответ.
+    #
+    # Если же провайдер право имеет, а у него кончилась ёмкость — исчерпан
+    # дневной лимит, забиты слоты, упёрлись в интенсивность, — это совсем другая
+    # ситуация. Молча увести такую заявку на себя значит спрятать проблему
+    # партнёра за собственным оборотом: в отчёте будет ровное распределение,
+    # а то, что у партнёра кончились деньги на сутки, не увидит никто.
+    #
+    # Поэтому по умолчанию мы всё равно называем этого партнёра, а факт
+    # превышения записываем громко: отдельной причиной в попытках, событием
+    # в решении и разделом в отчёте. Роутер обязан показывать, где жмёт,
+    # а не заглаживать это подменой получателя.
+    def empty_pool(operation, at, records, path, events)
+      structural = @fleet.routable.select do |provider|
+        @structural.none? { |constraint| constraint.check(context_for(provider, operation, at)) }
+      end
+
+      if structural.empty? || @capacity_policy != "route_anyway"
+        events << { "type" => "no_capacity", "note" => "ёмкость исчерпана у #{structural.map(&:id).join(', ')}, " \
+                                                       "по настройке уходим на собственного провайдера" } unless structural.empty?
+        return use_fallback(operation, at, records, path, events)
+      end
+
+      ranked = rank(structural, operation, at, 1)
+      best = ranked.first
+      provider = best.context.provider
+      breach = first_violation(context_for(provider, operation, at))
+
+      events << {
+        "type" => "limit_breach",
+        "provider" => provider.id,
+        "constraint" => breach&.reason,
+        "note" => "у #{provider.id} исчерпана ёмкость (#{breach&.details}), но право взять заявку у него есть; " \
+                  "заявка оставлена ему, чтобы не прятать проблему за собственным оборотом"
+      }
+
+      response = attempt(operation, provider, at, 1)
+      path << { "provider" => provider.id, "attempt" => 1, "outcome" => response.outcome.to_s,
+                "latency_sec" => response.latency_sec, "over_capacity" => true }
+      records << selection_record(
+        best, ranked, response, 1, structural.size,
+        reason: "capacity_exceeded",
+        details: "ёмкость исчерпана (#{breach&.reason}: #{breach&.details}), но по правилам допуска " \
+                 "заявку может взять только он — уход на собственного провайдера скрыл бы это"
+      )
+
+      { selected: provider.id, response: response, ranking: ranked,
+        reason_pair: ["capacity_exceeded", records.last["details"]],
         latency: path.sum { |step| step["latency_sec"] } }
     end
 
@@ -258,7 +316,8 @@ module Routing
       EvaluationContext.new(
         operation: operation, provider: provider, state: @fleet[provider.id], fleet: @fleet,
         at: at, config: @config, history: @calibration, attempt_no: attempt_no,
-        excluded: [], eligible_ids: eligible_ids
+        excluded: [], eligible_ids: eligible_ids,
+        time_known: !operation.created_at.nil?
       )
     end
 

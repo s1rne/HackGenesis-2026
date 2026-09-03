@@ -415,15 +415,24 @@
       {
         "provider": "vipay",
         "decision": "selected",
-        "reason": "traffic_share_deficit",
-        "details": "доля по количеству 0.0% при цели 61.5% (0 из 4 уже распределённых), недобор 3.08 заявки; решающий фактор против quickpay — count_share",
+        "reason": "best_combined_score",
+        "details": "1 отказ подряд, последний 120 с назад — здоровье 70.0%, восстановится за 300 с; решающий фактор против quickpay — provider_health",
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.6212,
+        "score": 0.6914,
         "outcome": "approved",
         "latency_sec": 32,
         "factors": [
+          {
+            "factor": "provider_health",
+            "tier": 1,
+            "weight": 1.5,
+            "raw": 0.7,
+            "normalized": 1.0,
+            "contribution": 1.5,
+            "note": "1 отказ подряд, последний 120 с назад — здоровье 70.0%, восстановится за 300 с"
+          },
           {
             "factor": "turnover_commitment",
             "tier": 1,
@@ -521,19 +530,28 @@
     "amount": 25000,
     "bank": "tinkoff",
     "selection": {
-      "reason": "traffic_share_deficit",
-      "details": "доля по количеству 0.0% при цели 61.5% (0 из 4 уже распределённых), недобор 3.08 заявки; решающий фактор против quickpay — count_share",
+      "reason": "best_combined_score",
+      "details": "1 отказ подряд, последний 120 с назад — здоровье 70.0%, восстановится за 300 с; решающий фактор против quickpay — provider_health",
       "profile": "failover_demo",
       "candidates": [
         {
           "provider": "vipay",
-          "score": 0.6212,
+          "score": 0.6914,
           "tiers": {
-            "1": 0.5,
+            "1": 0.7778,
             "2": 0.7838,
             "3": 0.3529
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 0.7,
+              "normalized": 1.0,
+              "contribution": 1.5,
+              "note": "1 отказ подряд, последний 120 с назад — здоровье 70.0%, восстановится за 300 с"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
@@ -609,13 +627,22 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.3788,
+          "score": 0.3086,
           "tiers": {
-            "1": 0.5,
+            "1": 0.2222,
             "2": 0.2162,
             "3": 0.6471
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 0.1,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "4 отказа подряд, последний 30 с назад — здоровье 10.0%, восстановится за 300 с"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
@@ -725,15 +752,24 @@
       {
         "provider": "vipay",
         "decision": "selected",
-        "reason": "traffic_share_deficit",
-        "details": "доля по количеству 20.0% при цели 61.5% (1 из 5 уже распределённых), недобор 2.69 заявки; решающий фактор против quickpay — count_share",
+        "reason": "best_combined_score",
+        "details": "отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health",
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.6212,
+        "score": 0.6914,
         "outcome": "approved",
         "latency_sec": 42,
         "factors": [
+          {
+            "factor": "provider_health",
+            "tier": 1,
+            "weight": 1.5,
+            "raw": 1.0,
+            "normalized": 1.0,
+            "contribution": 1.5,
+            "note": "отказов подряд нет, здоровье полное"
+          },
           {
             "factor": "turnover_commitment",
             "tier": 1,
@@ -831,19 +867,28 @@
     "amount": 52000,
     "bank": "sberbank",
     "selection": {
-      "reason": "traffic_share_deficit",
-      "details": "доля по количеству 20.0% при цели 61.5% (1 из 5 уже распределённых), недобор 2.69 заявки; решающий фактор против quickpay — count_share",
+      "reason": "best_combined_score",
+      "details": "отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health",
       "profile": "failover_demo",
       "candidates": [
         {
           "provider": "vipay",
-          "score": 0.6212,
+          "score": 0.6914,
           "tiers": {
-            "1": 0.5,
+            "1": 0.7778,
             "2": 0.7838,
             "3": 0.3529
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 1.5,
+              "note": "отказов подряд нет, здоровье полное"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
@@ -919,13 +964,22 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.3788,
+          "score": 0.3086,
           "tiers": {
-            "1": 0.5,
+            "1": 0.2222,
             "2": 0.2162,
             "3": 0.6471
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 0.2,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "4 отказа подряд, последний 60 с назад — здоровье 20.0%, восстановится за 300 с"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
@@ -1081,6 +1135,15 @@
             "3": 0.5
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.75,
+              "note": "2 отказа подряд, последний 150 с назад — здоровье 50.0%, восстановится за 300 с"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
@@ -1289,15 +1352,24 @@
       {
         "provider": "vipay",
         "decision": "selected",
-        "reason": "traffic_share_deficit",
-        "details": "доля по количеству 25.0% при цели 61.5% (2 из 8 уже распределённых), недобор 3.54 заявки; решающий фактор против quickpay — count_share",
+        "reason": "best_combined_score",
+        "details": "отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health",
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.6212,
+        "score": 0.6914,
         "outcome": "approved",
         "latency_sec": 41,
         "factors": [
+          {
+            "factor": "provider_health",
+            "tier": 1,
+            "weight": 1.5,
+            "raw": 1.0,
+            "normalized": 1.0,
+            "contribution": 1.5,
+            "note": "отказов подряд нет, здоровье полное"
+          },
           {
             "factor": "turnover_commitment",
             "tier": 1,
@@ -1395,19 +1467,28 @@
     "amount": 10000,
     "bank": "vtb",
     "selection": {
-      "reason": "traffic_share_deficit",
-      "details": "доля по количеству 25.0% при цели 61.5% (2 из 8 уже распределённых), недобор 3.54 заявки; решающий фактор против quickpay — count_share",
+      "reason": "best_combined_score",
+      "details": "отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health",
       "profile": "failover_demo",
       "candidates": [
         {
           "provider": "vipay",
-          "score": 0.6212,
+          "score": 0.6914,
           "tiers": {
-            "1": 0.5,
+            "1": 0.7778,
             "2": 0.7838,
             "3": 0.3529
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 1.5,
+              "note": "отказов подряд нет, здоровье полное"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
@@ -1483,13 +1564,22 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.3788,
+          "score": 0.3086,
           "tiers": {
-            "1": 0.5,
+            "1": 0.2222,
             "2": 0.2162,
             "3": 0.6471
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 0.1,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "5 отказов подряд, последний 30 с назад — здоровье 10.0%, восстановится за 300 с"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
@@ -1608,15 +1698,24 @@
       {
         "provider": "payflow",
         "decision": "selected",
-        "reason": "traffic_share_deficit",
-        "details": "доля по количеству 11.1% при цели 58.3% (1 из 9 уже распределённых), недобор 4.83 заявки; решающий фактор против quickpay — count_share",
+        "reason": "best_combined_score",
+        "details": "отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health",
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.6212,
+        "score": 0.6914,
         "outcome": "approved",
         "latency_sec": 103,
         "factors": [
+          {
+            "factor": "provider_health",
+            "tier": 1,
+            "weight": 1.5,
+            "raw": 1.0,
+            "normalized": 1.0,
+            "contribution": 1.5,
+            "note": "отказов подряд нет, здоровье полное"
+          },
           {
             "factor": "turnover_commitment",
             "tier": 1,
@@ -1706,19 +1805,28 @@
     "amount": 40000,
     "bank": "alfa",
     "selection": {
-      "reason": "traffic_share_deficit",
-      "details": "доля по количеству 11.1% при цели 58.3% (1 из 9 уже распределённых), недобор 4.83 заявки; решающий фактор против quickpay — count_share",
+      "reason": "best_combined_score",
+      "details": "отказов подряд нет, здоровье полное; решающий фактор против quickpay — provider_health",
       "profile": "failover_demo",
       "candidates": [
         {
           "provider": "payflow",
-          "score": 0.6212,
+          "score": 0.6914,
           "tiers": {
-            "1": 0.5,
+            "1": 0.7778,
             "2": 0.7838,
             "3": 0.3529
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 1.0,
+              "normalized": 1.0,
+              "contribution": 1.5,
+              "note": "отказов подряд нет, здоровье полное"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
@@ -1795,13 +1903,22 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.3788,
+          "score": 0.3086,
           "tiers": {
-            "1": 0.5,
+            "1": 0.2222,
             "2": 0.2162,
             "3": 0.6471
           },
           "factors": [
+            {
+              "factor": "provider_health",
+              "tier": 1,
+              "weight": 1.5,
+              "raw": 0.2,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "5 отказов подряд, последний 60 с назад — здоровье 20.0%, восстановится за 300 с"
+            },
             {
               "factor": "turnover_commitment",
               "tier": 1,
