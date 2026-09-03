@@ -1,0 +1,235 @@
+# Конфигурация маршрутизации выплат.
+#
+# Здесь задаётся ВСЁ поведение роутера: какие ограничения проверяются, какие
+# цели участвуют в выборе, с какими весами, в каком порядке разрешаются
+# конфликты и что делать, когда цель выполнить невозможно. Код об этих
+# решениях ничего не знает — он умеет только считать.
+#
+# Проверить, что изменение подхватилось:
+#   ruby bin/route plan --config config/routing.yml
+
+version: 1
+profile: balanced
+
+run:
+  # Дата отчётного периода. null — берётся из snapshot_at входных данных.
+  period: null
+  # Сколько провайдеров каскад обойдёт, прежде чем применить политику исчерпания.
+  max_attempts: 3
+  # Провайдер последней надежды. Он же исключается из целевых долей.
+  fallback_provider: spacepayments
+  # Что делать, когда все допустимые провайдеры отказали в приёме:
+  #   retry_best — повторить на лучшем кандидате (по умолчанию);
+  #   fallback   — уйти на self-провайдера.
+  # Уход на self при отказе по конверсии исказил бы аналитику по внешним
+  # партнёрам: маршрут был, отказала выплата, а не маршрутизация.
+  exhausted_pool_policy: retry_best
+  # Зерно генератора. Один и тот же вход даёт один и тот же результат.
+  seed: 20260906
+
+ingest:
+  # Синонимы полей: добавляются к встроенным, не заменяют их.
+  # Нужны, когда новый набор данных называет то же поле иначе.
+  field_aliases: {}
+  # Приведение названий банков к одному виду.
+  bank_aliases:
+    сбербанк: sberbank
+    сбер: sberbank
+    тинькофф: tinkoff
+    т_банк: tinkoff
+    альфа: alfa
+    альфа_банк: alfa
+    втб: vtb
+    газпромбанк: gazprombank
+    райффайзенбанк: raiffeisen
+    райффайзен: raiffeisen
+  # Значения на случай отсутствия полей во входных данных.
+  defaults:
+    conversion_24h: 0.8
+    avg_latency_sec: 30
+
+# ---------------------------------------------------------------------------
+# Жёсткие ограничения: допуск провайдера к заявке.
+# Проверяются в этом порядке, первое нарушение прекращает проверку —
+# поэтому дешёвые и самые частые причины стоят выше.
+# ---------------------------------------------------------------------------
+hard_constraints:
+  provider_status:      { enabled: true }
+  traffic_share:        { enabled: true }
+  amount_range:         { enabled: true }
+  bank_filter:
+    enabled: true
+    # allow — заявку без банка пропускаем к провайдеру с белым списком;
+    # deny  — не пропускаем.
+    unknown_bank_policy: allow
+  daily_amount_limit:   { enabled: true }
+  daily_turnover_max:   { enabled: true }
+  in_progress_limits:   { enabled: true }
+  requisites:           { enabled: true }
+  margin:               { enabled: true }
+  rate_limit:
+    enabled: true
+    window_sec: 60
+  currency:             { enabled: true }
+
+# ---------------------------------------------------------------------------
+# Мягкие цели: кого предпочесть среди допустимых.
+#
+# tier   — эшелон согласования. Младший номер решает раньше.
+# weight — вес внутри эшелона.
+# ---------------------------------------------------------------------------
+strategies:
+  # Эшелон 1: обязательства перед партнёром. Их нарушение — не перекос
+  # статистики, а невыполненное условие соглашения.
+  turnover_commitment:
+    enabled: true
+    tier: 1
+    weight: 1.2
+    urgency_exponent: 0.5
+
+  # Эшелон 2: целевое распределение и качество.
+  count_share:
+    enabled: true
+    tier: 2
+    weight: 1.0
+  volume_share:
+    enabled: true
+    tier: 2
+    weight: 0.8
+  conversion:
+    enabled: true
+    tier: 2
+    weight: 1.0
+    estimator: wilson
+    confidence: 0.95
+    # Сколько виртуальных наблюдений стоит заявленная конверсия.
+    # Меньше — быстрее реагируем на факт, больше — устойчивее к шуму.
+    prior_weight: 20
+  amount_band:
+    enabled: true
+    tier: 2
+    weight: 0.9
+    # Полосы сумм. Пустой список -> предпочтение выводится из собственных
+    # диапазонов провайдеров: чем уже диапазон вокруг суммы, тем выше
+    # специализация. Заполненный список перекрывает эту логику.
+    bands:
+      - { min: 500,     max: 50000,  prefer: [payflow, vipay], preference: 0.6, penalty: 0.3 }
+      - { min: 50001,   max: 100000, prefer: [vipay],          preference: 0.8, penalty: 0.4 }
+      - { min: 100001,  max: null,   prefer: [quickpay],       preference: 1.0, penalty: 0.5 }
+
+  # Эшелон 3: тонкая настройка при прочих равных.
+  cascade_priority:
+    enabled: true
+    tier: 3
+    weight: 0.6
+    default_priority: 10000
+  load_balance:
+    enabled: true
+    tier: 3
+    weight: 0.7
+  margin:
+    enabled: true
+    tier: 3
+    weight: 0.4
+
+# ---------------------------------------------------------------------------
+# Согласование целей.
+# ---------------------------------------------------------------------------
+scoring:
+  # weighted                — одна взвешенная сумма по всем целям;
+  # lexicographic           — строго по эшелонам;
+  # lexicographic_weighted  — по эшелонам, внутри эшелона взвешенная сумма.
+  mode: lexicographic_weighted
+  # Разрыв в эшелоне меньше этого считается ничьёй, и спор уходит ниже.
+  tier_epsilon: 0.05
+  # Явная цепочка разрешения ничьих. Последний ключ гарантирует полный порядок:
+  # без него результат зависел бы от порядка ключей во входном файле.
+  tie_break: [cascade_priority, conversion, provider_id]
+
+# ---------------------------------------------------------------------------
+# Что делать, когда цель невыполнима.
+# ---------------------------------------------------------------------------
+goal_relaxation:
+  enabled: true
+  # Доля недоступного провайдера перераспределяется между доступными,
+  # а факт уступки записывается в решение и в отчёт.
+  reallocate_unreachable_share: true
+
+# ---------------------------------------------------------------------------
+# Симуляция ответа провайдера.
+# ---------------------------------------------------------------------------
+simulation:
+  enabled: true
+  # Какие исходы считаются отказом в приёме и продолжают каскад.
+  cascade_on: [rejected, expired]
+  # Доля отказов, приходящаяся на истечение срока (остальное — отказ).
+  expired_share_of_failures: 0.35
+  # Вес наблюдённой по истории конверсии против заявленной. 0 — верим только
+  # заявленной, 1 — только истории.
+  history_weight: 0.5
+  latency:
+    base_sec: 30
+    spread: 0.4
+    rejected_sec: 8
+    expired_sec: 540
+
+# ---------------------------------------------------------------------------
+# Пороги, при которых аналитика начинает жаловаться.
+# ---------------------------------------------------------------------------
+analytics:
+  share_drift_alert_pct: 10.0
+  utilization_alert_pct: 80.0
+  conversion_alert: 0.6
+  max_recommendations: 12
+
+# ---------------------------------------------------------------------------
+# Профили — именованные наборы перекрытий поверх базовой конфигурации.
+# Запуск: ruby bin/route decisions --profile conversion_first
+# Одна и та же кодовая база даёт разное поведение без правки кода.
+# ---------------------------------------------------------------------------
+profiles:
+  # Строго по целевым долям: распределение важнее конверсии.
+  share_strict:
+    scoring:
+      mode: lexicographic_weighted
+      tier_epsilon: 0.01
+    strategies:
+      count_share:  { tier: 1, weight: 1.5 }
+      volume_share: { tier: 1, weight: 1.2 }
+      conversion:   { tier: 3, weight: 0.5 }
+
+  # Максимум одобрений: конверсия решает, доли подстраиваются.
+  conversion_first:
+    strategies:
+      conversion:   { tier: 1, weight: 1.5 }
+      count_share:  { tier: 3, weight: 0.5 }
+      volume_share: { tier: 3, weight: 0.4 }
+
+  # Классический каскад: строго по priority, остальное только при ничьей.
+  cascade_only:
+    scoring:
+      mode: lexicographic
+    strategies:
+      cascade_priority:    { tier: 1, weight: 1.0 }
+      turnover_commitment: { enabled: false }
+      count_share:         { tier: 2, weight: 0.1 }
+      volume_share:        { enabled: false }
+      conversion:          { tier: 3, weight: 0.1 }
+      amount_band:         { enabled: false }
+      load_balance:        { tier: 3, weight: 0.1 }
+      margin:              { enabled: false }
+
+  # Беречь лимиты: загрузка и запас ёмкости важнее всего.
+  capacity_saver:
+    strategies:
+      load_balance: { tier: 1, weight: 1.4 }
+      count_share:  { tier: 2, weight: 0.8 }
+
+  # Демонстрация отказоустойчивости: провайдеры отказывают чаще,
+  # каскад и fallback видны в выгрузке.
+  failover_demo:
+    simulation:
+      history_weight: 0.0
+      forced_decline_rate: 0.45
+    run:
+      exhausted_pool_policy: fallback

@@ -1,0 +1,132 @@
+[
+  {
+    "operation_id": "op_101",
+    "created_at": "2026-07-30T09:05:00+03:00",
+    "amount": 15000,
+    "bank": "sberbank",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79001234567",
+        "bank_name": "Сбербанк"
+      }
+    }
+  },
+  {
+    "operation_id": "op_102",
+    "created_at": "2026-07-30T09:05:30+03:00",
+    "amount": 48000,
+    "bank": "alfa",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79007654321",
+        "bank_name": "Альфа-Банк"
+      }
+    }
+  },
+  {
+    "operation_id": "op_103",
+    "created_at": "2026-07-30T09:06:00+03:00",
+    "amount": 150000,
+    "bank": "sberbank",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79001112233",
+        "bank_name": "Сбербанк"
+      }
+    }
+  },
+  {
+    "operation_id": "op_104",
+    "created_at": "2026-07-30T09:06:30+03:00",
+    "amount": 3000,
+    "bank": "gazprombank",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79004445566",
+        "bank_name": "Газпромбанк"
+      }
+    }
+  },
+  {
+    "operation_id": "op_105",
+    "created_at": "2026-07-30T09:07:00+03:00",
+    "amount": 25000,
+    "bank": "tinkoff",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79009998877",
+        "bank_name": "Тинькофф"
+      }
+    }
+  },
+  {
+    "operation_id": "op_106",
+    "created_at": "2026-07-30T09:07:30+03:00",
+    "amount": 52000,
+    "bank": "sberbank",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79005556677",
+        "bank_name": "Сбербанк"
+      }
+    }
+  },
+  {
+    "operation_id": "op_107",
+    "created_at": "2026-07-30T09:08:00+03:00",
+    "amount": 800,
+    "bank": "sberbank",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79003334455",
+        "bank_name": "Сбербанк"
+      }
+    }
+  },
+  {
+    "operation_id": "op_108",
+    "created_at": "2026-07-30T09:08:30+03:00",
+    "amount": 42000,
+    "bank": "raiffeisen",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79006667788",
+        "bank_name": "Райффайзенбанк"
+      }
+    }
+  },
+  {
+    "operation_id": "op_109",
+    "created_at": "2026-07-30T09:09:00+03:00",
+    "amount": 10000,
+    "bank": "vtb",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79002223344",
+        "bank_name": "ВТБ"
+      }
+    }
+  },
+  {
+    "operation_id": "op_110",
+    "created_at": "2026-07-30T09:09:30+03:00",
+    "amount": 40000,
+    "bank": "alfa",
+    "card_brand": null,
+    "payout_requisite": {
+      "sbp": {
+        "phone": "79008889900",
+        "bank_name": "Альфа-Банк"
+      }
+    }
+  }
+]

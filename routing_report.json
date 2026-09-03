@@ -1,0 +1,506 @@
+{
+  "period": "2026-07-30",
+  "total_operations": 10,
+  "distribution": {
+    "vipay": {
+      "count": 4,
+      "share_pct": 40.0,
+      "target_pct": 40.0,
+      "deviation_pct": 0.0,
+      "volume": 102000.0,
+      "volume_share_pct": 26.4,
+      "target_volume_pct": 40.0,
+      "volume_deviation_pct": -13.6
+    },
+    "payflow": {
+      "count": 3,
+      "share_pct": 30.0,
+      "target_pct": 35.0,
+      "deviation_pct": -5.0,
+      "volume": 88800.0,
+      "volume_share_pct": 23.0,
+      "target_volume_pct": 35.0,
+      "volume_deviation_pct": -12.0
+    },
+    "quickpay": {
+      "count": 3,
+      "share_pct": 30.0,
+      "target_pct": 25.0,
+      "deviation_pct": 5.0,
+      "volume": 195000.0,
+      "volume_share_pct": 50.5,
+      "target_volume_pct": 25.0,
+      "volume_deviation_pct": 25.5
+    },
+    "spacepayments": {
+      "count": 0,
+      "share_pct": 0.0,
+      "target_pct": 0.0,
+      "deviation_pct": 0.0,
+      "volume": 0,
+      "volume_share_pct": 0.0,
+      "target_volume_pct": 0.0,
+      "volume_deviation_pct": 0.0
+    }
+  },
+  "skip_reasons": {
+    "bank_not_in_list": 8,
+    "not_reached_in_cascade": 7,
+    "amount_exceeds_limit": 3,
+    "amount_below_minimum": 2
+  },
+  "projected_daily_utilization": {
+    "vipay": {
+      "used": 3302000,
+      "limit": 5000000,
+      "utilization_pct": 66.0,
+      "headroom": 1698000,
+      "added_this_run": 102000
+    },
+    "payflow": {
+      "used": 2988800,
+      "limit": 3000000,
+      "utilization_pct": 99.6,
+      "headroom": 11200,
+      "added_this_run": 88800
+    },
+    "quickpay": {
+      "used": 1142000,
+      "limit": 8000000,
+      "utilization_pct": 14.3,
+      "headroom": 6858000,
+      "added_this_run": 42000
+    },
+    "spacepayments": {
+      "used": 0,
+      "utilization_pct": 0.0,
+      "added_this_run": 0
+    }
+  },
+  "recommendations": [
+    "payflow выбрал 99.6% дневного лимита, свободно 11200 — снизить traffic_percentage до 0.1% или поднять daily_amount_limit, иначе он выпадет из распределения до конца суток",
+    "у payflow заявленная конверсия 91.0%, по истории 47.4% на 19 операциях (нижняя граница 27.3%) — обновить conversion_24h, иначе скоринг систематически переоценивает его",
+    "vipay отсеян 4 раз из 10 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: sberbank, tinkoff, vtb",
+    "payflow отсеян 4 раз из 10 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: sberbank, alfa",
+    "у quickpay заявленная конверсия 79.0%, по истории 67.5% на 40 операциях (нижняя граница 52.0%) — обновить conversion_24h, иначе скоринг систематически переоценивает его",
+    "у vipay заявленная конверсия 87.0%, по истории 78.0% на 41 операциях (нижняя граница 63.3%) — обновить conversion_24h, иначе скоринг систематически переоценивает его",
+    "у vipay, payflow, quickpay не задан volume_share_pct — цель по объёму считается по доле количества, что для разных по размеру чеков даёт разный результат"
+  ],
+  "outcomes": {
+    "approved": 8,
+    "rejected": 2,
+    "expired": 0,
+    "approval_rate": 0.8,
+    "avg_latency_sec": 36.8,
+    "total_latency_sec": 368
+  },
+  "provider_performance": {
+    "vipay": {
+      "attempts": 4,
+      "selected": 4,
+      "approved": 4,
+      "declined": 0,
+      "expired": 0,
+      "skipped": 6,
+      "declared_conversion": 0.87,
+      "observed_conversion": 1.0,
+      "conversion_gap": 0.13,
+      "load_factor": 0.6604,
+      "available_requisites": 12
+    },
+    "payflow": {
+      "attempts": 3,
+      "selected": 3,
+      "approved": 3,
+      "declined": 0,
+      "expired": 0,
+      "skipped": 7,
+      "declared_conversion": 0.91,
+      "observed_conversion": 1.0,
+      "conversion_gap": 0.09,
+      "load_factor": 0.9963,
+      "available_requisites": 5
+    },
+    "quickpay": {
+      "attempts": 6,
+      "selected": 3,
+      "approved": 1,
+      "declined": 5,
+      "expired": 0,
+      "skipped": 7,
+      "declared_conversion": 0.79,
+      "observed_conversion": 0.1667,
+      "conversion_gap": -0.6233,
+      "load_factor": 0.1428,
+      "available_requisites": 20
+    },
+    "spacepayments": {
+      "attempts": 0,
+      "selected": 0,
+      "approved": 0,
+      "declined": 0,
+      "expired": 0,
+      "skipped": 0,
+      "declared_conversion": 0.95,
+      "load_factor": 0.0,
+      "available_requisites": 8
+    }
+  },
+  "cascade": {
+    "avg_depth": 1.3,
+    "max_depth": 2,
+    "single_attempt": 7,
+    "multi_attempt": 3,
+    "rescued_by_cascade": 1,
+    "cascade_uplift_pct": 10.0,
+    "fallback_used": 0
+  },
+  "goal_relaxations": [
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "vipay": 40.0
+      },
+      "released_share_pct": 40.0,
+      "reallocated_to": [
+        "payflow",
+        "quickpay"
+      ],
+      "note": "целевая доля недоступных провайдеров (vipay) перераспределена между payflow, quickpay",
+      "operation_id": "op_102"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "vipay": 40.0,
+        "payflow": 35.0
+      },
+      "released_share_pct": 75.0,
+      "reallocated_to": [
+        "quickpay"
+      ],
+      "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay",
+      "operation_id": "op_103"
+    },
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "quickpay"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "op_103"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "vipay": 40.0,
+        "payflow": 35.0
+      },
+      "released_share_pct": 75.0,
+      "reallocated_to": [
+        "quickpay"
+      ],
+      "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay",
+      "operation_id": "op_104"
+    },
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "quickpay"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "op_104"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "payflow": 35.0
+      },
+      "released_share_pct": 35.0,
+      "reallocated_to": [
+        "vipay",
+        "quickpay"
+      ],
+      "note": "целевая доля недоступных провайдеров (payflow) перераспределена между vipay, quickpay",
+      "operation_id": "op_105"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "payflow": 35.0
+      },
+      "released_share_pct": 35.0,
+      "reallocated_to": [
+        "vipay",
+        "quickpay"
+      ],
+      "note": "целевая доля недоступных провайдеров (payflow) перераспределена между vipay, quickpay",
+      "operation_id": "op_106"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "vipay": 40.0,
+        "quickpay": 25.0
+      },
+      "released_share_pct": 65.0,
+      "reallocated_to": [
+        "payflow"
+      ],
+      "note": "целевая доля недоступных провайдеров (vipay, quickpay) перераспределена между payflow",
+      "operation_id": "op_107"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "vipay": 40.0,
+        "payflow": 35.0
+      },
+      "released_share_pct": 75.0,
+      "reallocated_to": [
+        "quickpay"
+      ],
+      "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay",
+      "operation_id": "op_108"
+    },
+    {
+      "type": "pool_exhausted",
+      "policy": "retry_best",
+      "refused": [
+        "quickpay"
+      ],
+      "note": "все допустимые провайдеры отказали в приёме",
+      "operation_id": "op_108"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "payflow": 35.0
+      },
+      "released_share_pct": 35.0,
+      "reallocated_to": [
+        "vipay",
+        "quickpay"
+      ],
+      "note": "целевая доля недоступных провайдеров (payflow) перераспределена между vipay, quickpay",
+      "operation_id": "op_109"
+    },
+    {
+      "type": "goal_relaxation",
+      "goal": "traffic_share",
+      "unreachable": {
+        "vipay": 40.0
+      },
+      "released_share_pct": 40.0,
+      "reallocated_to": [
+        "payflow",
+        "quickpay"
+      ],
+      "note": "целевая доля недоступных провайдеров (vipay) перераспределена между payflow, quickpay",
+      "operation_id": "op_110"
+    }
+  ],
+  "limits_at_risk": [
+    {
+      "provider": "payflow",
+      "measures": {
+        "дневной оборот": 99.6
+      },
+      "worst": "дневной оборот"
+    }
+  ],
+  "history_baseline": {
+    "operations": 100,
+    "providers": {
+      "payflow": {
+        "operations": 19,
+        "approved": 9,
+        "rejected": 3,
+        "expired": 7,
+        "success_rate": 0.4737,
+        "success_rate_lower_bound": 0.2733,
+        "count_share_pct": 19.0,
+        "volume_share_pct": 8.48,
+        "median_latency_sec": 105.0,
+        "median_latency_approved_sec": 87.0
+      },
+      "quickpay": {
+        "operations": 40,
+        "approved": 27,
+        "rejected": 7,
+        "expired": 6,
+        "success_rate": 0.675,
+        "success_rate_lower_bound": 0.5202,
+        "count_share_pct": 40.0,
+        "volume_share_pct": 55.58,
+        "median_latency_sec": 61.0,
+        "median_latency_approved_sec": 45.0
+      },
+      "vipay": {
+        "operations": 41,
+        "approved": 32,
+        "rejected": 6,
+        "expired": 3,
+        "success_rate": 0.7805,
+        "success_rate_lower_bound": 0.6329,
+        "count_share_pct": 41.0,
+        "volume_share_pct": 35.94,
+        "median_latency_sec": 46.0,
+        "median_latency_approved_sec": 49.0
+      }
+    }
+  },
+  "recommendations_detailed": [
+    {
+      "text": "payflow выбрал 99.6% дневного лимита, свободно 11200 — снизить traffic_percentage до 0.1% или поднять daily_amount_limit, иначе он выпадет из распределения до конца суток",
+      "parameter": "providers.payflow.traffic_percentage",
+      "current": 35.0,
+      "suggested": 0.1,
+      "evidence": "оборот 2988800 при лимите 3000000",
+      "priority": "high",
+      "impact": 99.63
+    },
+    {
+      "text": "у payflow заявленная конверсия 91.0%, по истории 47.4% на 19 операциях (нижняя граница 27.3%) — обновить conversion_24h, иначе скоринг систематически переоценивает его",
+      "parameter": "providers.payflow.conversion_24h",
+      "current": 0.91,
+      "suggested": 0.474,
+      "evidence": "9 одобрено из 19",
+      "priority": "high",
+      "impact": 43.63
+    },
+    {
+      "text": "vipay отсеян 4 раз из 10 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: sberbank, tinkoff, vtb",
+      "parameter": "providers.vipay.banks",
+      "evidence": "доминирующая причина отсева bank_not_in_list",
+      "priority": "medium",
+      "impact": 40
+    },
+    {
+      "text": "payflow отсеян 4 раз из 10 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: sberbank, alfa",
+      "parameter": "providers.payflow.banks",
+      "evidence": "доминирующая причина отсева bank_not_in_list",
+      "priority": "medium",
+      "impact": 40
+    },
+    {
+      "text": "у quickpay заявленная конверсия 79.0%, по истории 67.5% на 40 операциях (нижняя граница 52.0%) — обновить conversion_24h, иначе скоринг систематически переоценивает его",
+      "parameter": "providers.quickpay.conversion_24h",
+      "current": 0.79,
+      "suggested": 0.675,
+      "evidence": "27 одобрено из 40",
+      "priority": "medium",
+      "impact": 11.5
+    },
+    {
+      "text": "у vipay заявленная конверсия 87.0%, по истории 78.0% на 41 операциях (нижняя граница 63.3%) — обновить conversion_24h, иначе скоринг систематически переоценивает его",
+      "parameter": "providers.vipay.conversion_24h",
+      "current": 0.87,
+      "suggested": 0.78,
+      "evidence": "32 одобрено из 41",
+      "priority": "medium",
+      "impact": 8.95
+    },
+    {
+      "text": "у vipay, payflow, quickpay не задан volume_share_pct — цель по объёму считается по доле количества, что для разных по размеру чеков даёт разный результат",
+      "parameter": "providers.*.volume_share_pct",
+      "evidence": "поле отсутствует у 3 из 3 провайдеров",
+      "priority": "low",
+      "impact": 5
+    }
+  ],
+  "routing_setup": {
+    "profile": "balanced",
+    "scoring_mode": "lexicographic_weighted",
+    "hard_constraints": [
+      "provider_status",
+      "traffic_share",
+      "amount_range",
+      "bank_filter",
+      "daily_amount_limit",
+      "daily_turnover_max",
+      "in_progress_limits",
+      "requisites",
+      "margin",
+      "rate_limit",
+      "currency"
+    ],
+    "strategies": [
+      {
+        "id": "turnover_commitment",
+        "weight": 1.2,
+        "tier": 1
+      },
+      {
+        "id": "count_share",
+        "weight": 1.0,
+        "tier": 2
+      },
+      {
+        "id": "volume_share",
+        "weight": 0.8,
+        "tier": 2
+      },
+      {
+        "id": "conversion",
+        "weight": 1.0,
+        "tier": 2
+      },
+      {
+        "id": "amount_band",
+        "weight": 0.9,
+        "tier": 2
+      },
+      {
+        "id": "cascade_priority",
+        "weight": 0.6,
+        "tier": 3
+      },
+      {
+        "id": "load_balance",
+        "weight": 0.7,
+        "tier": 3
+      },
+      {
+        "id": "margin",
+        "weight": 0.4,
+        "tier": 3
+      }
+    ],
+    "providers": [
+      "vipay",
+      "payflow",
+      "quickpay",
+      "spacepayments"
+    ],
+    "history_operations": 100
+  },
+  "data_quality": {
+    "counts": {
+      "info": 1
+    },
+    "items": [
+      {
+        "severity": "info",
+        "source": "providers.json",
+        "field": "",
+        "message": "поля без известного смысла сохранены как есть: note"
+      }
+    ]
+  },
+  "source": {
+    "snapshot_at": "2026-07-30T09:00:00+03:00",
+    "gateway": "RUB_SBP_WITHDRAW",
+    "merchant": "alpha_market"
+  }
+}

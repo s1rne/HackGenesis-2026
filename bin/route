@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Точка входа роутера выплат.
+#
+#   bin/route plan                 — показать собранный конвейер и настройки
+#   bin/route decisions            — маршрутизировать очередь -> routing_decisions.json
+#   bin/route report               — аналитика по решениям -> routing_report.json
+#   bin/route run                  — оба файла за один прогон
+#   bin/route compare              — прогнать очередь всеми профилями и сравнить
+#
+# Все пути и параметры имеют значения по умолчанию под структуру этого
+# репозитория, поэтому обычный запуск — просто `ruby bin/route run`.
+
+require "optparse"
+require_relative "../lib/routing"
+require_relative "../lib/routing/cli"
+
+exit(Routing::CLI.new(ARGV).run)

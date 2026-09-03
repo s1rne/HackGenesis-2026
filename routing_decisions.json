@@ -1,0 +1,2887 @@
+[
+  {
+    "operation_id": "op_101",
+    "selected_provider": "vipay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "selected",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 0.0% при цели 40.0% (0 из 0), недобор 0.4 заявки; решающий фактор против payflow — count_share",
+        "stage": "cascade_attempt",
+        "sequence": 1,
+        "attempt_no": 1,
+        "score": 0.7309,
+        "outcome": "approved",
+        "latency_sec": 32,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.4,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "доля по количеству 0.0% при цели 40.0% (0 из 0), недобор 0.4 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.4,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "доля по объёму 0.0% при цели 40.0% (0 из 0)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.6628,
+            "normalized": 0.6482,
+            "contribution": 0.6482,
+            "note": "конверсия 87.0% заявлена, оценка 66.3%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.8,
+            "normalized": 1.0,
+            "contribution": 0.9,
+            "note": "сумма 15000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.6,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.36,
+            "normalized": 0.394,
+            "contribution": 0.2758,
+            "note": "загрузка 64.0%, узкое место — дневной оборот (64.0%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.3,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п."
+          }
+        ]
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 2,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 32,
+    "amount": 15000,
+    "bank": "sberbank",
+    "selection": {
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 0.0% при цели 40.0% (0 из 0), недобор 0.4 заявки; решающий фактор против payflow — count_share",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "vipay",
+          "score": 0.7309,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.9049,
+            "3": 0.5152
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.4,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "доля по количеству 0.0% при цели 40.0% (0 из 0), недобор 0.4 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "доля по объёму 0.0% при цели 40.0% (0 из 0)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.6628,
+              "normalized": 0.6482,
+              "contribution": 0.6482,
+              "note": "конверсия 87.0% заявлена, оценка 66.3%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.8,
+              "normalized": 1.0,
+              "contribution": 0.9,
+              "note": "сумма 15000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.6,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.36,
+              "normalized": 0.394,
+              "contribution": 0.2758,
+              "note": "загрузка 64.0%, узкое место — дневной оборот (64.0%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.3,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п."
+            }
+          ]
+        },
+        {
+          "provider": "payflow",
+          "score": 0.6364,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.8378,
+            "3": 0.2941
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.35,
+              "normalized": 0.6667,
+              "contribution": 0.6667,
+              "note": "доля по количеству 0.0% при цели 35.0% (0 из 0), недобор 0.35 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.35,
+              "normalized": 0.6667,
+              "contribution": 0.5333,
+              "note": "доля по объёму 0.0% при цели 35.0% (0 из 0)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.7114,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "конверсия 91.0% заявлена, оценка 71.1%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.8,
+              "normalized": 1.0,
+              "contribution": 0.9,
+              "note": "сумма 15000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.3,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.0333,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 96.7%, узкое место — дневной оборот (96.7%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
+            }
+          ]
+        },
+        {
+          "provider": "quickpay",
+          "score": 0.2576,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.0,
+            "3": 0.6471
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.25,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 0.0% при цели 25.0% (0 из 0), недобор 0.25 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.25,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 0.0% при цели 25.0% (0 из 0)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.5732,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "конверсия 79.0% заявлена, оценка 57.3%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.35,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 15000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8625,
+              "normalized": 1.0,
+              "contribution": 0.7,
+              "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "vipay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 32
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": []
+  },
+  {
+    "operation_id": "op_102",
+    "selected_provider": "payflow",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "alfa не входит в banks (sberbank, tinkoff, vtb)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "payflow",
+        "decision": "selected",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 0.0% при цели 58.3% (0 из 1), недобор 1.17 заявки; решающий фактор против quickpay — count_share",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.7424,
+        "outcome": "approved",
+        "latency_sec": 58,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 1.1667,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "доля по количеству 0.0% при цели 58.3% (0 из 1), недобор 1.17 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.5833,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "доля по объёму 0.0% при цели 58.3% (0 из 15000)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.7114,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "конверсия 91.0% заявлена, оценка 71.1%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.8,
+            "normalized": 1.0,
+            "contribution": 0.9,
+            "note": "сумма 48000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -2.0,
+            "normalized": 1.0,
+            "contribution": 0.6,
+            "note": "приоритет в каскаде 2"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.0333,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "загрузка 96.7%, узкое место — дневной оборот (96.7%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.5,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
+          }
+        ]
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял payflow, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 58,
+    "amount": 48000,
+    "bank": "alfa",
+    "selection": {
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 0.0% при цели 58.3% (0 из 1), недобор 1.17 заявки; решающий фактор против quickpay — count_share",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "payflow",
+          "score": 0.7424,
+          "tiers": {
+            "1": 0.5,
+            "2": 1.0,
+            "3": 0.3529
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 1.1667,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "доля по количеству 0.0% при цели 58.3% (0 из 1), недобор 1.17 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.5833,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "доля по объёму 0.0% при цели 58.3% (0 из 15000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.7114,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "конверсия 91.0% заявлена, оценка 71.1%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.8,
+              "normalized": 1.0,
+              "contribution": 0.9,
+              "note": "сумма 48000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -2.0,
+              "normalized": 1.0,
+              "contribution": 0.6,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.0333,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 96.7%, узкое место — дневной оборот (96.7%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
+            }
+          ]
+        },
+        {
+          "provider": "quickpay",
+          "score": 0.2576,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.0,
+            "3": 0.6471
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.8333,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 0.0% при цели 41.7% (0 из 1), недобор 0.83 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.4167,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 0.0% при цели 41.7% (0 из 15000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.5732,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "конверсия 79.0% заявлена, оценка 57.3%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.35,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 48000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8625,
+              "normalized": 1.0,
+              "contribution": 0.7,
+              "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "payflow",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 58
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "vipay": 40.0
+        },
+        "released_share_pct": 40.0,
+        "reallocated_to": [
+          "payflow",
+          "quickpay"
+        ],
+        "note": "целевая доля недоступных провайдеров (vipay) перераспределена между payflow, quickpay"
+      }
+    ]
+  },
+  {
+    "operation_id": "op_103",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "150000 > limit_amount_max 100000",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "сумма больше максимального чека провайдера"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "150000 > limit_amount_max 50000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма больше максимального чека провайдера"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 2,
+        "score": 0.5,
+        "outcome": "rejected",
+        "latency_sec": 8,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 3.0,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "доля по количеству 0.0% при цели 100.0% (0 из 2), недобор 3.0 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 1.0,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "доля по объёму 0.0% при цели 100.0% (0 из 63000)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.5392,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "конверсия 79.0% заявлена, в прогоне 0 из 1, нижняя граница 53.9% при доверии 95.0%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 1.0,
+            "normalized": 0.5,
+            "contribution": 0.45,
+            "note": "сумма 150000 в полосе 100001..+ -> предпочтителен (quickpay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -3.0,
+            "normalized": 0.5,
+            "contribution": 0.3,
+            "note": "приоритет в каскаде 3"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.8625,
+            "normalized": 0.5,
+            "contribution": 0.35,
+            "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.7,
+            "normalized": 0.5,
+            "contribution": 0.2,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+          }
+        ]
+      }
+    ],
+    "simulated_result": "rejected",
+    "latency_sec": 16,
+    "amount": 150000,
+    "bank": "sberbank",
+    "selection": {
+      "reason": "cascade_retry",
+      "details": "повторная попытка на лучшем кандидате: остальные допустимые отказали (quickpay)",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "quickpay",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 3.0,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "доля по количеству 0.0% при цели 100.0% (0 из 2), недобор 3.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "доля по объёму 0.0% при цели 100.0% (0 из 63000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.5392,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "конверсия 79.0% заявлена, в прогоне 0 из 1, нижняя граница 53.9% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 1.0,
+              "normalized": 0.5,
+              "contribution": 0.45,
+              "note": "сумма 150000 в полосе 100001..+ -> предпочтителен (quickpay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.3,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8625,
+              "normalized": 0.5,
+              "contribution": 0.35,
+              "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "quickpay",
+          "attempt": 1,
+          "outcome": "rejected",
+          "latency_sec": 8
+        },
+        {
+          "provider": "quickpay",
+          "attempt": 2,
+          "outcome": "rejected",
+          "latency_sec": 8,
+          "final": true
+        }
+      ],
+      "attempts_made": 2
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "vipay": 40.0,
+          "payflow": 35.0
+        },
+        "released_share_pct": 75.0,
+        "reallocated_to": [
+          "quickpay"
+        ],
+        "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay"
+      },
+      {
+        "type": "pool_exhausted",
+        "policy": "retry_best",
+        "refused": [
+          "quickpay"
+        ],
+        "note": "все допустимые провайдеры отказали в приёме"
+      }
+    ]
+  },
+  {
+    "operation_id": "op_104",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "gazprombank не входит в banks (sberbank, tinkoff, vtb)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "gazprombank не входит в banks (sberbank, alfa)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 2,
+        "score": 0.5,
+        "outcome": "rejected",
+        "latency_sec": 8,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 3.0,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "доля по количеству 33.3% при цели 100.0% (1 из 3), недобор 3.0 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.3056,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "доля по объёму 70.4% при цели 100.0% (150000 из 213000)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.4827,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "конверсия 79.0% заявлена, в прогоне 0 из 3, нижняя граница 48.3% при доверии 95.0%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.35,
+            "normalized": 0.5,
+            "contribution": 0.45,
+            "note": "сумма 3000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -3.0,
+            "normalized": 0.5,
+            "contribution": 0.3,
+            "note": "приоритет в каскаде 3"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.8625,
+            "normalized": 0.5,
+            "contribution": 0.35,
+            "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.7,
+            "normalized": 0.5,
+            "contribution": 0.2,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+          }
+        ]
+      }
+    ],
+    "simulated_result": "rejected",
+    "latency_sec": 16,
+    "amount": 3000,
+    "bank": "gazprombank",
+    "selection": {
+      "reason": "cascade_retry",
+      "details": "повторная попытка на лучшем кандидате: остальные допустимые отказали (quickpay)",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "quickpay",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 3.0,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "доля по количеству 33.3% при цели 100.0% (1 из 3), недобор 3.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.3056,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "доля по объёму 70.4% при цели 100.0% (150000 из 213000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.4827,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "конверсия 79.0% заявлена, в прогоне 0 из 3, нижняя граница 48.3% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.35,
+              "normalized": 0.5,
+              "contribution": 0.45,
+              "note": "сумма 3000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.3,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8625,
+              "normalized": 0.5,
+              "contribution": 0.35,
+              "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "quickpay",
+          "attempt": 1,
+          "outcome": "rejected",
+          "latency_sec": 8
+        },
+        {
+          "provider": "quickpay",
+          "attempt": 2,
+          "outcome": "rejected",
+          "latency_sec": 8,
+          "final": true
+        }
+      ],
+      "attempts_made": 2
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "vipay": 40.0,
+          "payflow": 35.0
+        },
+        "released_share_pct": 75.0,
+        "reallocated_to": [
+          "quickpay"
+        ],
+        "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay"
+      },
+      {
+        "type": "pool_exhausted",
+        "policy": "retry_best",
+        "refused": [
+          "quickpay"
+        ],
+        "note": "все допустимые провайдеры отказали в приёме"
+      }
+    ]
+  },
+  {
+    "operation_id": "op_105",
+    "selected_provider": "vipay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "selected",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 25.0% при цели 61.5% (1 из 4), недобор 2.08 заявки; решающий фактор против quickpay — count_share",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.7424,
+        "outcome": "approved",
+        "latency_sec": 25,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 2.0769,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "доля по количеству 25.0% при цели 61.5% (1 из 4), недобор 2.08 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.5531,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "доля по объёму 6.9% при цели 61.5% (15000 из 216000)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.676,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "конверсия 87.0% заявлена, в прогоне 1 из 1, нижняя граница 67.6% при доверии 95.0%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.8,
+            "normalized": 1.0,
+            "contribution": 0.9,
+            "note": "сумма 25000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.6,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.357,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "загрузка 64.3%, узкое место — дневной оборот (64.3%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.3,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п."
+          }
+        ]
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "tinkoff не входит в banks (sberbank, alfa)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 25,
+    "amount": 25000,
+    "bank": "tinkoff",
+    "selection": {
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 25.0% при цели 61.5% (1 из 4), недобор 2.08 заявки; решающий фактор против quickpay — count_share",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "vipay",
+          "score": 0.7424,
+          "tiers": {
+            "1": 0.5,
+            "2": 1.0,
+            "3": 0.3529
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 2.0769,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "доля по количеству 25.0% при цели 61.5% (1 из 4), недобор 2.08 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.5531,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "доля по объёму 6.9% при цели 61.5% (15000 из 216000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.676,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "конверсия 87.0% заявлена, в прогоне 1 из 1, нижняя граница 67.6% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.8,
+              "normalized": 1.0,
+              "contribution": 0.9,
+              "note": "сумма 25000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.6,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.357,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 64.3%, узкое место — дневной оборот (64.3%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.3,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п."
+            }
+          ]
+        },
+        {
+          "provider": "quickpay",
+          "score": 0.2576,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.0,
+            "3": 0.6471
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": -0.0769,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 50.0% при цели 38.5% (2 из 4), недобор -0.08 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": -0.2502,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 70.8% при цели 38.5% (153000 из 216000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.459,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "конверсия 79.0% заявлена, в прогоне 0 из 4, нижняя граница 45.9% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.35,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 25000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8625,
+              "normalized": 1.0,
+              "contribution": 0.7,
+              "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "vipay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 25
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "payflow": 35.0
+        },
+        "released_share_pct": 35.0,
+        "reallocated_to": [
+          "vipay",
+          "quickpay"
+        ],
+        "note": "целевая доля недоступных провайдеров (payflow) перераспределена между vipay, quickpay"
+      }
+    ]
+  },
+  {
+    "operation_id": "op_106",
+    "selected_provider": "vipay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "selected",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 40.0% при цели 61.5% (2 из 5), недобор 1.69 заявки; решающий фактор против quickpay — count_share",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.7424,
+        "outcome": "approved",
+        "latency_sec": 33,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 1.6923,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "доля по количеству 40.0% при цели 61.5% (2 из 5), недобор 1.69 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.4789,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "доля по объёму 16.6% при цели 61.5% (40000 из 241000)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.6883,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "конверсия 87.0% заявлена, в прогоне 2 из 2, нижняя граница 68.8% при доверии 95.0%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.9,
+            "normalized": 1.0,
+            "contribution": 0.9,
+            "note": "сумма 52000 в полосе 50001..100000 -> предпочтителен (vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.6,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.352,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "загрузка 64.8%, узкое место — дневной оборот (64.8%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.3,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п."
+          }
+        ]
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_exceeds_limit",
+        "details": "52000 > limit_amount_max 50000",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "сумма больше максимального чека провайдера"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 33,
+    "amount": 52000,
+    "bank": "sberbank",
+    "selection": {
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 40.0% при цели 61.5% (2 из 5), недобор 1.69 заявки; решающий фактор против quickpay — count_share",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "vipay",
+          "score": 0.7424,
+          "tiers": {
+            "1": 0.5,
+            "2": 1.0,
+            "3": 0.3529
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 1.6923,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "доля по количеству 40.0% при цели 61.5% (2 из 5), недобор 1.69 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.4789,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "доля по объёму 16.6% при цели 61.5% (40000 из 241000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.6883,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "конверсия 87.0% заявлена, в прогоне 2 из 2, нижняя граница 68.8% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.9,
+              "normalized": 1.0,
+              "contribution": 0.9,
+              "note": "сумма 52000 в полосе 50001..100000 -> предпочтителен (vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.6,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.352,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 64.8%, узкое место — дневной оборот (64.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.3,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п."
+            }
+          ]
+        },
+        {
+          "provider": "quickpay",
+          "score": 0.2576,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.0,
+            "3": 0.6471
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.3077,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 40.0% при цели 38.5% (2 из 5), недобор 0.31 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": -0.1376,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 63.5% при цели 38.5% (153000 из 241000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.459,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "конверсия 79.0% заявлена, в прогоне 0 из 4, нижняя граница 45.9% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.3,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 52000 в полосе 50001..100000 -> не в списке предпочтения (vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8625,
+              "normalized": 1.0,
+              "contribution": 0.7,
+              "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "vipay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 33
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "payflow": 35.0
+        },
+        "released_share_pct": 35.0,
+        "reallocated_to": [
+          "vipay",
+          "quickpay"
+        ],
+        "note": "целевая доля недоступных провайдеров (payflow) перераспределена между vipay, quickpay"
+      }
+    ]
+  },
+  {
+    "operation_id": "op_107",
+    "selected_provider": "payflow",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "800 < limit_amount_min 1000",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "сумма меньше минимального чека провайдера"
+      },
+      {
+        "provider": "payflow",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
+        "stage": "cascade_attempt",
+        "sequence": 3,
+        "attempt_no": 1,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 66,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 6.0,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "доля по количеству 16.7% при цели 100.0% (1 из 6), недобор 6.0 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.8366,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "доля по объёму 16.4% при цели 100.0% (48000 из 293000)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.7228,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "конверсия 91.0% заявлена, в прогоне 1 из 1, нижняя граница 72.3% при доверии 95.0%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.8,
+            "normalized": 0.5,
+            "contribution": 0.45,
+            "note": "сумма 800 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -2.0,
+            "normalized": 0.5,
+            "contribution": 0.3,
+            "note": "приоритет в каскаде 2"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.0173,
+            "normalized": 0.5,
+            "contribution": 0.35,
+            "note": "загрузка 98.3%, узкое место — дневной оборот (98.3%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.5,
+            "normalized": 0.5,
+            "contribution": 0.2,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
+          }
+        ]
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "800 < limit_amount_min 1000",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "сумма меньше минимального чека провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 66,
+    "amount": 800,
+    "bank": "sberbank",
+    "selection": {
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "payflow",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 6.0,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "доля по количеству 16.7% при цели 100.0% (1 из 6), недобор 6.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.8366,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "доля по объёму 16.4% при цели 100.0% (48000 из 293000)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.7228,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "конверсия 91.0% заявлена, в прогоне 1 из 1, нижняя граница 72.3% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.8,
+              "normalized": 0.5,
+              "contribution": 0.45,
+              "note": "сумма 800 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.3,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.0173,
+              "normalized": 0.5,
+              "contribution": 0.35,
+              "note": "загрузка 98.3%, узкое место — дневной оборот (98.3%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "payflow",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 66
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "vipay": 40.0,
+          "quickpay": 25.0
+        },
+        "released_share_pct": 65.0,
+        "reallocated_to": [
+          "payflow"
+        ],
+        "note": "целевая доля недоступных провайдеров (vipay, quickpay) перераспределена между payflow"
+      }
+    ]
+  },
+  {
+    "operation_id": "op_108",
+    "selected_provider": "quickpay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "raiffeisen не входит в banks (sberbank, tinkoff, vtb)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "raiffeisen не входит в banks (sberbank, alfa)",
+        "stage": "hard_filter",
+        "sequence": 2,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "selected",
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего",
+        "stage": "cascade_attempt",
+        "sequence": 4,
+        "attempt_no": 2,
+        "score": 0.5,
+        "outcome": "approved",
+        "latency_sec": 22,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 6.0,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "доля по количеству 28.6% при цели 100.0% (2 из 7), недобор 6.0 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.5444,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "доля по объёму 52.1% при цели 100.0% (153000 из 293800)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.4375,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "конверсия 79.0% заявлена, в прогоне 0 из 5, нижняя граница 43.8% при доверии 95.0%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.35,
+            "normalized": 0.5,
+            "contribution": 0.45,
+            "note": "сумма 42000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -3.0,
+            "normalized": 0.5,
+            "contribution": 0.3,
+            "note": "приоритет в каскаде 3"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.8625,
+            "normalized": 0.5,
+            "contribution": 0.35,
+            "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.7,
+            "normalized": 0.5,
+            "contribution": 0.2,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+          }
+        ]
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 30,
+    "amount": 42000,
+    "bank": "raiffeisen",
+    "selection": {
+      "reason": "cascade_retry",
+      "details": "повторная попытка на лучшем кандидате: остальные допустимые отказали (quickpay)",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "quickpay",
+          "score": 0.5,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 6.0,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "доля по количеству 28.6% при цели 100.0% (2 из 7), недобор 6.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.5444,
+              "normalized": 0.5,
+              "contribution": 0.4,
+              "note": "доля по объёму 52.1% при цели 100.0% (153000 из 293800)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.4375,
+              "normalized": 0.5,
+              "contribution": 0.5,
+              "note": "конверсия 79.0% заявлена, в прогоне 0 из 5, нижняя граница 43.8% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.35,
+              "normalized": 0.5,
+              "contribution": 0.45,
+              "note": "сумма 42000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.5,
+              "contribution": 0.3,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8625,
+              "normalized": 0.5,
+              "contribution": 0.35,
+              "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "quickpay",
+          "attempt": 1,
+          "outcome": "rejected",
+          "latency_sec": 8
+        },
+        {
+          "provider": "quickpay",
+          "attempt": 2,
+          "outcome": "approved",
+          "latency_sec": 22,
+          "final": true
+        }
+      ],
+      "attempts_made": 2
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "vipay": 40.0,
+          "payflow": 35.0
+        },
+        "released_share_pct": 75.0,
+        "reallocated_to": [
+          "quickpay"
+        ],
+        "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay"
+      },
+      {
+        "type": "pool_exhausted",
+        "policy": "retry_best",
+        "refused": [
+          "quickpay"
+        ],
+        "note": "все допустимые провайдеры отказали в приёме"
+      }
+    ]
+  },
+  {
+    "operation_id": "op_109",
+    "selected_provider": "vipay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "selected",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 37.5% при цели 61.5% (3 из 8), недобор 2.54 заявки; решающий фактор против quickpay — count_share",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.7424,
+        "outcome": "approved",
+        "latency_sec": 31,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 2.5385,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "доля по количеству 37.5% при цели 61.5% (3 из 8), недобор 2.54 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.3493,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "доля по объёму 27.4% при цели 61.5% (92000 из 335800)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.6996,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "конверсия 87.0% заявлена, в прогоне 3 из 3, нижняя граница 70.0% при доверии 95.0%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.8,
+            "normalized": 1.0,
+            "contribution": 0.9,
+            "note": "сумма 10000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.6,
+            "note": "приоритет в каскаде 1"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.3416,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "загрузка 65.8%, узкое место — дневной оборот (65.8%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.3,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п."
+          }
+        ]
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "vtb не входит в banks (sberbank, alfa)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 31,
+    "amount": 10000,
+    "bank": "vtb",
+    "selection": {
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 37.5% при цели 61.5% (3 из 8), недобор 2.54 заявки; решающий фактор против quickpay — count_share",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "vipay",
+          "score": 0.7424,
+          "tiers": {
+            "1": 0.5,
+            "2": 1.0,
+            "3": 0.3529
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 2.5385,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "доля по количеству 37.5% при цели 61.5% (3 из 8), недобор 2.54 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.3493,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "доля по объёму 27.4% при цели 61.5% (92000 из 335800)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.6996,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "конверсия 87.0% заявлена, в прогоне 3 из 3, нижняя граница 70.0% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.8,
+              "normalized": 1.0,
+              "contribution": 0.9,
+              "note": "сумма 10000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -1.0,
+              "normalized": 1.0,
+              "contribution": 0.6,
+              "note": "приоритет в каскаде 1"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.3416,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 65.8%, узкое место — дневной оборот (65.8%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.3,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.2% = 0.3 п.п."
+            }
+          ]
+        },
+        {
+          "provider": "quickpay",
+          "score": 0.2576,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.0,
+            "3": 0.6471
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.4615,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 37.5% при цели 38.5% (3 из 8), недобор 0.46 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": -0.1793,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 58.1% при цели 38.5% (195000 из 335800)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.4547,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "конверсия 79.0% заявлена, в прогоне 1 из 6, нижняя граница 45.5% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.35,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 10000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8573,
+              "normalized": 1.0,
+              "contribution": 0.7,
+              "note": "загрузка 14.3%, узкое место — дневной оборот (14.3%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "vipay",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 31
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "payflow": 35.0
+        },
+        "released_share_pct": 35.0,
+        "reallocated_to": [
+          "vipay",
+          "quickpay"
+        ],
+        "note": "целевая доля недоступных провайдеров (payflow) перераспределена между vipay, quickpay"
+      }
+    ]
+  },
+  {
+    "operation_id": "op_110",
+    "selected_provider": "payflow",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "bank_not_in_list",
+        "details": "alfa не входит в banks (sberbank, tinkoff, vtb)",
+        "stage": "hard_filter",
+        "sequence": 1,
+        "explanation": "банк заявки не входит в список поддерживаемых"
+      },
+      {
+        "provider": "payflow",
+        "decision": "selected",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 22.2% при цели 58.3% (2 из 9), недобор 3.83 заявки; решающий фактор против quickpay — count_share",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "score": 0.7424,
+        "outcome": "approved",
+        "latency_sec": 61,
+        "factors": [
+          {
+            "factor": "turnover_commitment",
+            "tier": 1,
+            "weight": 1.2,
+            "normalized": 0.5,
+            "contribution": 0.6,
+            "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "count_share",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 3.8333,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "доля по количеству 22.2% при цели 58.3% (2 из 9), недобор 3.83 заявки"
+          },
+          {
+            "factor": "volume_share",
+            "tier": 2,
+            "weight": 0.8,
+            "raw": 0.4568,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "доля по объёму 14.1% при цели 58.3% (48800 из 345800)"
+          },
+          {
+            "factor": "conversion",
+            "tier": 2,
+            "weight": 1.0,
+            "raw": 0.7334,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "конверсия 91.0% заявлена, в прогоне 2 из 2, нижняя граница 73.3% при доверии 95.0%"
+          },
+          {
+            "factor": "amount_band",
+            "tier": 2,
+            "weight": 0.9,
+            "raw": 0.8,
+            "normalized": 1.0,
+            "contribution": 0.9,
+            "note": "сумма 40000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+          },
+          {
+            "factor": "cascade_priority",
+            "tier": 3,
+            "weight": 0.6,
+            "raw": -2.0,
+            "normalized": 1.0,
+            "contribution": 0.6,
+            "note": "приоритет в каскаде 2"
+          },
+          {
+            "factor": "load_balance",
+            "tier": 3,
+            "weight": 0.7,
+            "raw": 0.0171,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "загрузка 98.3%, узкое место — дневной оборот (98.3%)"
+          },
+          {
+            "factor": "margin",
+            "tier": 3,
+            "weight": 0.4,
+            "raw": 0.5,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
+          }
+        ]
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял payflow, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 61,
+    "amount": 40000,
+    "bank": "alfa",
+    "selection": {
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 22.2% при цели 58.3% (2 из 9), недобор 3.83 заявки; решающий фактор против quickpay — count_share",
+      "profile": "balanced",
+      "candidates": [
+        {
+          "provider": "payflow",
+          "score": 0.7424,
+          "tiers": {
+            "1": 0.5,
+            "2": 1.0,
+            "3": 0.3529
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 3.8333,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "доля по количеству 22.2% при цели 58.3% (2 из 9), недобор 3.83 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": 0.4568,
+              "normalized": 1.0,
+              "contribution": 0.8,
+              "note": "доля по объёму 14.1% при цели 58.3% (48800 из 345800)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.7334,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "конверсия 91.0% заявлена, в прогоне 2 из 2, нижняя граница 73.3% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.8,
+              "normalized": 1.0,
+              "contribution": 0.9,
+              "note": "сумма 40000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -2.0,
+              "normalized": 1.0,
+              "contribution": 0.6,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.0171,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "загрузка 98.3%, узкое место — дневной оборот (98.3%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
+            }
+          ]
+        },
+        {
+          "provider": "quickpay",
+          "score": 0.2576,
+          "tiers": {
+            "1": 0.5,
+            "2": 0.0,
+            "3": 0.6471
+          },
+          "factors": [
+            {
+              "factor": "turnover_commitment",
+              "tier": 1,
+              "weight": 1.2,
+              "normalized": 0.5,
+              "contribution": 0.6,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 1.1667,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 33.3% при цели 41.7% (3 из 9), недобор 1.17 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.8,
+              "raw": -0.0888,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 56.4% при цели 41.7% (195000 из 345800)"
+            },
+            {
+              "factor": "conversion",
+              "tier": 2,
+              "weight": 1.0,
+              "raw": 0.4547,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "конверсия 79.0% заявлена, в прогоне 1 из 6, нижняя граница 45.5% при доверии 95.0%"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 2,
+              "weight": 0.9,
+              "raw": 0.35,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 40000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 3,
+              "weight": 0.6,
+              "raw": -3.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "приоритет в каскаде 3"
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 0.7,
+              "raw": 0.8573,
+              "normalized": 1.0,
+              "contribution": 0.7,
+              "note": "загрузка 14.3%, узкое место — дневной оборот (14.3%)"
+            },
+            {
+              "factor": "margin",
+              "tier": 3,
+              "weight": 0.4,
+              "raw": 0.7,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
+            }
+          ]
+        }
+      ]
+    },
+    "cascade": {
+      "path": [
+        {
+          "provider": "payflow",
+          "attempt": 1,
+          "outcome": "approved",
+          "latency_sec": 61
+        }
+      ],
+      "attempts_made": 1
+    },
+    "events": [
+      {
+        "type": "goal_relaxation",
+        "goal": "traffic_share",
+        "unreachable": {
+          "vipay": 40.0
+        },
+        "released_share_pct": 40.0,
+        "reallocated_to": [
+          "payflow",
+          "quickpay"
+        ],
+        "note": "целевая доля недоступных провайдеров (vipay) перераспределена между payflow, quickpay"
+      }
+    ]
+  }
+]

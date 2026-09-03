@@ -1,0 +1,105 @@
+{
+  "description": "Детерминированные кейсы из operations_queue_10.json (public) — единственный допустимый провайдер (по amount+bank, без учёта stateful daily/in_progress). Проверка сверяет selected_provider с эталоном для public-операций.",
+  "deterministic_cases": [
+    {
+      "operation_id": "op_103",
+      "amount": 150000,
+      "bank": "sberbank",
+      "required_provider": "quickpay",
+      "reason": "vipay max=100000, payflow max=50000 — только quickpay принимает 150000"
+    },
+    {
+      "operation_id": "op_104",
+      "amount": 3000,
+      "bank": "gazprombank",
+      "required_provider": "quickpay",
+      "reason": "gazprombank не в banks у vipay и payflow — только quickpay"
+    },
+    {
+      "operation_id": "op_107",
+      "amount": 800,
+      "bank": "sberbank",
+      "required_provider": "payflow",
+      "reason": "amount=800 < limit_amount_min=1000 у vipay и quickpay — только payflow (min=500)"
+    },
+    {
+      "operation_id": "op_108",
+      "amount": 42000,
+      "bank": "raiffeisen",
+      "required_provider": "quickpay",
+      "reason": "raiffeisen не в banks у vipay и payflow — только quickpay"
+    }
+  ],
+  "eligible_providers": {
+    "op_101": [
+      "vipay",
+      "payflow",
+      "quickpay"
+    ],
+    "op_102": [
+      "payflow",
+      "quickpay"
+    ],
+    "op_103": [
+      "quickpay"
+    ],
+    "op_104": [
+      "quickpay"
+    ],
+    "op_105": [
+      "vipay",
+      "quickpay"
+    ],
+    "op_106": [
+      "vipay",
+      "quickpay"
+    ],
+    "op_107": [
+      "payflow"
+    ],
+    "op_108": [
+      "quickpay"
+    ],
+    "op_109": [
+      "vipay",
+      "quickpay"
+    ],
+    "op_110": [
+      "payflow",
+      "quickpay"
+    ]
+  },
+  "skip_reasons_expected": {
+    "op_102": {
+      "vipay": "bank_not_in_list"
+    },
+    "op_103": {
+      "vipay": "amount_exceeds_limit",
+      "payflow": "amount_exceeds_limit"
+    },
+    "op_104": {
+      "vipay": "bank_not_in_list",
+      "payflow": "bank_not_in_list"
+    },
+    "op_105": {
+      "payflow": "bank_not_in_list"
+    },
+    "op_106": {
+      "payflow": "amount_exceeds_limit"
+    },
+    "op_107": {
+      "vipay": "amount_below_minimum",
+      "quickpay": "amount_below_minimum"
+    },
+    "op_108": {
+      "vipay": "bank_not_in_list",
+      "payflow": "bank_not_in_list"
+    },
+    "op_109": {
+      "payflow": "bank_not_in_list"
+    },
+    "op_110": {
+      "vipay": "bank_not_in_list"
+    }
+  }
+}
