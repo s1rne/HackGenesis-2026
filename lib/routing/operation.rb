@@ -7,9 +7,28 @@ module Routing
                 :merchant_id, :payment_method, :country, :raw, :index
 
     def self.from_record(record, index:, bank_aliases: {})
+      id = record.string("operation_id")
+      if id.nil? || id.empty?
+        id = "op_#{index + 1}"
+        record.note(:warning, "operation_id", "идентификатор отсутствует, присвоен #{id}")
+      end
+
+      amount = record.money("amount")
+      if amount.nil?
+        amount = Money.zero
+        record.note(:error, "amount", "сумма отсутствует: заявка не пройдёт ни одного лимита по сумме")
+      elsif amount.negative?
+        record.note(:error, "amount", "отрицательная сумма #{amount}: маршрутизация такой заявки бессмысленна")
+      elsif amount.zero?
+        record.note(:warning, "amount", "нулевая сумма")
+      end
+
+      bank = record.string("bank")
+      record.note(:warning, "bank", "банк не указан") if bank.nil? || bank.empty?
+
       new(
-        id: record.string("operation_id") || "op_#{index + 1}",
-        amount: record.money("amount", default: 0),
+        id: id,
+        amount: amount,
         bank: record.string("bank"),
         currency: (record.string("currency") || "RUB").upcase,
         created_at: record.time("created_at"),

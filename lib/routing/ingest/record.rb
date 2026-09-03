@@ -138,6 +138,10 @@ module Routing
         end
       end
 
+      # Записать замечание к этой записи. Публичный метод: модели тоже
+      # подставляют значения по умолчанию, и делать это молча нельзя.
+      def note(severity, field, message) = @issues.add(severity, source, message, field: field.to_s)
+
       private
 
       def coerce_number(canonical, default)
@@ -154,7 +158,6 @@ module Routing
         yield(text.include?(".") ? text.to_f : text.to_i)
       end
 
-      def note(severity, field, message) = @issues.add(severity, source, message, field: field.to_s)
     end
   end
 end

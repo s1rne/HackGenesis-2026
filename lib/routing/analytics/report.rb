@@ -36,6 +36,7 @@ module Routing
           "outcomes" => outcomes,
           "provider_performance" => provider_performance,
           "cascade" => cascade_stats,
+          "goal_relaxation_summary" => goal_relaxation_summary,
           "goal_relaxations" => goal_relaxations,
           "routing_events" => routing_events,
           "limits_at_risk" => limits_at_risk,
@@ -180,6 +181,44 @@ module Routing
       # исчерпания пула, и отсутствие маршрута — считать их уступками неверно,
       # это разные ситуации с разными выводами.
       def goal_relaxations = events_of_type("goal_relaxation")
+
+      # Список уступок читается как шум: девять почти одинаковых записей на десять
+      # операций. Сводка отвечает на вопрос, ради которого он вообще нужен —
+      # чья цель и как часто оказывалась невыполнимой, и сколько доли пришлось
+      # раздать другим.
+      def goal_relaxation_summary
+        events = goal_relaxations
+        return nil if events.empty?
+
+        per_provider = Hash.new { |hash, key| hash[key] = { "operations" => 0, "shares" => [] } }
+        events.each do |event|
+          (event["unreachable"] || {}).each do |provider, share|
+            entry = per_provider[provider]
+            entry["operations"] += 1
+            entry["shares"] << share.to_f
+          end
+        end
+
+        # Складывать доли по операциям нельзя: сумма шести раз по 40% — это не 240%,
+        # а «шесть раз оказалась недостижимой доля в 40%». Поэтому средняя, а не сумма.
+        ranked = per_provider
+                 .transform_values do |entry|
+                   {
+                     "operations" => entry["operations"],
+                     "unreachable_share_pct" => (entry["shares"].sum / entry["shares"].size).round(1),
+                     "of_operations_pct" => (entry["operations"] * 100.0 / @decisions.size).round(1)
+                   }
+                 end
+                 .sort_by { |_, entry| -entry["operations"] }.to_h
+
+        {
+          "operations_with_relaxation" => events.size,
+          "of_total" => @decisions.size,
+          "by_provider" => ranked,
+          "note" => "цель считается невыполнимой, когда провайдер не прошёл жёсткие ограничения; " \
+                    "его доля перераспределяется между теми, кто может принять заявку"
+        }
+      end
 
       # Всё остальное, что случилось по ходу прогона: исчерпание пула,
       # отсутствие маршрута.

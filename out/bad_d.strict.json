@@ -1,0 +1,124 @@
+[
+  {
+    "operation_id": "op_x1",
+    "selected_provider": "spacepayments",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "-5000 < limit_amount_min 1000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "-5000 < limit_amount_min 500"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "-5000 < limit_amount_min 1000"
+      },
+      {
+        "provider": "spacepayments",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 18
+  },
+  {
+    "operation_id": "op_x2",
+    "selected_provider": "spacepayments",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 1000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 500"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 1000"
+      },
+      {
+        "provider": "spacepayments",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 16
+  },
+  {
+    "operation_id": "op_3",
+    "selected_provider": "vipay",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "selected",
+        "reason": "volume_share_deficit",
+        "details": "доля по объёму -0.0% при цели 46.4% (0 из -5000); решающий фактор против payflow — volume_share"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял vipay, стоявший выше по скорингу"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 49
+  },
+  {
+    "operation_id": "op_x4",
+    "selected_provider": "spacepayments",
+    "attempts": [
+      {
+        "provider": "vipay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 1000"
+      },
+      {
+        "provider": "payflow",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 500"
+      },
+      {
+        "provider": "quickpay",
+        "decision": "skipped",
+        "reason": "amount_below_minimum",
+        "details": "0 < limit_amount_min 1000"
+      },
+      {
+        "provider": "spacepayments",
+        "decision": "selected",
+        "reason": "fallback_self_provider",
+        "details": "внешний пул пуст, заявка ушла на собственного провайдера"
+      }
+    ],
+    "simulated_result": "approved",
+    "latency_sec": 9
+  }
+]
