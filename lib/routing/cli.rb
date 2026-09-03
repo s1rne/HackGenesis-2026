@@ -250,9 +250,21 @@ module Routing
     # а в корне, где жюри ищет два конкретных имени, лишним файлам не место.
     def write_decisions(decisions)
       write_json(@options[:decisions], decisions.map(&:to_h))
-      strict = File.join("out", "#{File.basename(@options[:decisions], '.json')}.strict.json")
+      strict = strict_dump_path(@options[:decisions])
       write_json(strict, decisions.map(&:to_strict_h))
       view.line "Решения:  #{@options[:decisions]} (#{decisions.size}), строгий вариант — #{strict}"
+    end
+
+    # Строгий вариант ложится рядом с основной выгрузкой. Исключение — корень
+    # репозитория: там жюри ищет два конкретных имени, и лишним файлам не место,
+    # поэтому оттуда строгий вариант уезжает в out/. Раньше он уезжал туда
+    # всегда, и прогоны во временные каталоги засоряли репозиторий.
+    def strict_dump_path(decisions_path)
+      directory = File.dirname(File.expand_path(decisions_path))
+      stem = "#{File.basename(decisions_path, '.json')}.strict.json"
+      return File.join("out", stem) if directory == File.expand_path(Dir.pwd)
+
+      File.join(File.dirname(decisions_path), stem)
     end
 
     def write_report(router, decisions)
