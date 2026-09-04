@@ -34,7 +34,7 @@ module Routing
 
     def run
       command = parse!
-      return usage unless COMMANDS.include?(command)
+      return usage(command) unless COMMANDS.include?(command)
 
       public_send(:"cmd_#{command}")
     rescue Routing::Error => e
@@ -355,10 +355,47 @@ module Routing
       @argv.shift
     end
 
-    def usage
+    # Сообщение об ошибке должно говорить, что именно не так, а не только как
+    # правильно. Человек, набравший «bin/route scripts/validate_10.rb», не поймёт
+    # из общего списка команд, чего от него хотят.
+    def usage(command = nil)
+      if command.nil? || command.empty?
+        warn "Не указана команда."
+      else
+        warn "Неизвестная команда: #{command}"
+        near = closest(command)
+        warn "Возможно, имелось в виду: bin/route #{near}" if near
+        if command.include?("/") || command.end_with?(".rb", ".json")
+          warn "Похоже на путь к файлу. Пути передаются опциями, а не первым словом:"
+          warn "  bin/route run --queue <файл>      маршрутизировать другую очередь"
+          warn "  bin/route validate               автопроверка организаторов"
+          warn "  ruby scripts/validate_10.rb <файл решений>"
+        end
+      end
+
+      warn ""
       warn "Использование: bin/route <#{COMMANDS.join('|')}> [опции]"
       warn "Подробности: bin/route --help"
       1
+    end
+
+    # Ближайшая команда по расстоянию Левенштейна: опечатка в одну-две буквы
+    # не должна заставлять человека перечитывать весь список.
+    def closest(command)
+      scored = COMMANDS.map { |name| [name, distance(command.downcase, name)] }
+      best, score = scored.min_by(&:last)
+      best if score <= [3, command.length / 2].max
+    end
+
+    def distance(left, right)
+      rows = Array.new(left.length + 1) { |i| Array.new(right.length + 1) { |j| i.zero? ? j : (j.zero? ? i : 0) } }
+      (1..left.length).each do |i|
+        (1..right.length).each do |j|
+          cost = left[i - 1] == right[j - 1] ? 0 : 1
+          rows[i][j] = [rows[i - 1][j] + 1, rows[i][j - 1] + 1, rows[i - 1][j - 1] + cost].min
+        end
+      end
+      rows[left.length][right.length]
     end
   end
 end
