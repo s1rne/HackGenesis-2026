@@ -25,7 +25,7 @@ module Routing
       @calibration = calibration
       @max_attempts = config.fetch("run", "max_attempts", default: 3).to_i.clamp(1, 50)
       @exhausted_policy = config.fetch("run", "exhausted_pool_policy", default: "retry_best").to_s
-      @capacity_policy = config.fetch("run", "capacity_exhausted_policy", default: "route_anyway").to_s
+      @capacity_policy = config.fetch("run", "capacity_exhausted_policy", default: "fallback").to_s
       # Ограничения, зависящие от состояния: именно они отделяют «никто не имеет
       # права взять эту заявку» от «имеет право, но кончилась ёмкость».
       @structural = constraints.reject { |constraint| constraint.class.stateful? }
@@ -160,10 +160,19 @@ module Routing
       response = @simulator.respond(operation: operation, provider: provider, state: state, attempt_no: attempt_no)
       if response.approved?
         state.settle_approved(operation)
+      elsif pending?(response)
+        state.settle_pending(operation)
       else
         state.settle_failed(operation, response.outcome, at: at)
       end
       response
+    end
+
+    # Таймаут, который по действующей политике не считается отказом. Заявка
+    # остаётся у провайдера незавершённой: каскад дальше не идёт, резерв
+    # не снимается, отказ не засчитывается.
+    def pending?(response)
+      response.outcome.to_s == "expired" && !response.refused?
     end
 
     # --- шаг 5: пул исчерпан -------------------------------------------------
@@ -213,26 +222,31 @@ module Routing
     # Пул пуст — но пусто пусто рознь.
     #
     # Если заявку не имеет права взять никто (не тот банк, не та сумма, не та
-    # маржа), то собственный провайдер — правильный и единственный ответ.
+    # маржа) — это структурное «пусто». Собственный провайдер здесь правильный
+    # и единственный ответ, и рассказывать о нём особо нечего.
     #
-    # Если же провайдер право имеет, а у него кончилась ёмкость — исчерпан
-    # дневной лимит, забиты слоты, упёрлись в интенсивность, — это совсем другая
-    # ситуация. Молча увести такую заявку на себя значит спрятать проблему
-    # партнёра за собственным оборотом: в отчёте будет ровное распределение,
-    # а то, что у партнёра кончились деньги на сутки, не увидит никто.
+    # Если же партнёр по правилам подходит, а ёмкость у него кончилась —
+    # исчерпан дневной лимит, забиты слоты, упёрлись в интенсивность, — это
+    # другое «пусто», и оно означает деньги, которые партнёр сегодня уже
+    # не возьмёт. Заявка всё равно уходит на себя: дневной лимит в ТЗ стоит
+    # среди жёстких ограничений, а не среди пожеланий, и партнёр, который его
+    # выбрал, права на заявку больше не имеет.
     #
-    # Поэтому по умолчанию мы всё равно называем этого партнёра, а факт
-    # превышения записываем громко: отдельной причиной в попытках, событием
-    # в решении и разделом в отчёте. Роутер обязан показывать, где жмёт,
-    # а не заглаживать это подменой получателя.
+    # Но уходит громко. На каждую такую заявку пишется событие capacity_alarm
+    # с именем партнёра и точным ограничением, которое упёрлось; отчёт
+    # собирает из этих событий раздел capacity_alarms и рекомендацию с
+    # конкретным параметром. Разница между «партнёр не подошёл» и «у партнёра
+    # кончились деньги» видна в выгрузке, а не теряется в ровном распределении.
+    #
+    # Обратное поведение доступно настройкой capacity_exhausted_policy:
+    # route_anyway назовёт того, кто упёрся в лимит, вместо собственного гейта.
     def empty_pool(operation, at, records, path, events)
       structural = @fleet.routable.select do |provider|
         @structural.none? { |constraint| constraint.check(context_for(provider, operation, at)) }
       end
 
       if structural.empty? || @capacity_policy != "route_anyway"
-        events << { "type" => "no_capacity", "note" => "ёмкость исчерпана у #{structural.map(&:id).join(', ')}, " \
-                                                       "по настройке уходим на собственного провайдера" } unless structural.empty?
+        capacity_alarm(operation, at, structural, events) unless structural.empty?
         return use_fallback(operation, at, records, path, events)
       end
 
@@ -262,6 +276,28 @@ module Routing
       { selected: provider.id, response: response, ranking: ranked,
         reason_pair: ["capacity_exceeded", records.last["details"]],
         latency: path.sum { |step| step["latency_sec"] } }
+    end
+
+    # Тревога об исчерпанной ёмкости. Именно она отличает «ушли на себя,
+    # потому что никто не подошёл» от «ушли на себя, потому что у партнёра
+    # кончились деньги»: во втором случае названы партнёр, ограничение и
+    # его текущее состояние — по этой записи видно, какой параметр поднимать.
+    def capacity_alarm(operation, at, structural, events)
+      blocked = structural.map do |provider|
+        violation = first_violation(context_for(provider, operation, at))
+        { "provider" => provider.id,
+          "constraint" => violation&.reason,
+          "details" => violation&.details }
+      end
+
+      events << {
+        "type" => "capacity_alarm",
+        "providers" => blocked.map { |row| row["provider"] },
+        "blocked_by" => blocked,
+        "note" => "по правилам допуска заявку мог бы взять #{blocked.map { |row| row['provider'] }.join(', ')}, " \
+                  "но ёмкость исчерпана (#{blocked.map { |row| "#{row['provider']}: #{row['constraint']}" }.join('; ')}); " \
+                  "заявка ушла на собственного провайдера"
+      }
     end
 
     def use_fallback(operation, at, records, path, events)

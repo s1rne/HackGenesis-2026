@@ -968,36 +968,24 @@
       },
       {
         "provider": "quickpay",
-        "decision": "skipped",
-        "reason": "provider_timeout",
-        "details": "попытка 1: ответ expired за 314 с, других допустимых кандидатов нет",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
         "stage": "cascade_attempt",
         "sequence": 3,
         "attempt_no": 1,
-        "outcome": "expired",
-        "latency_sec": 314,
-        "explanation": "провайдер не ответил вовремя"
-      },
-      {
-        "provider": "quickpay",
-        "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
-        "stage": "cascade_attempt",
-        "sequence": 4,
-        "attempt_no": 2,
         "score": 0.5,
         "outcome": "expired",
-        "latency_sec": 542
+        "latency_sec": 314
       }
     ],
     "simulated_result": "expired",
-    "latency_sec": 856,
+    "latency_sec": 314,
     "amount": 3000,
     "bank": "gazprombank",
     "selection": {
-      "reason": "cascade_retry",
-      "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
       "profile": "balanced",
       "candidates": [
         {
@@ -1013,10 +1001,10 @@
               "factor": "provider_health",
               "tier": 1,
               "weight": 1.5,
-              "raw": 0.0,
+              "raw": 0.1,
               "normalized": 0.5,
               "contribution": 0.75,
-              "note": "3 отказа подряд, последний 0 с назад — здоровье 0.0%, восстановится за 300 с"
+              "note": "2 отказа подряд, последний 30 с назад — здоровье 10.0%, восстановится за 300 с"
             },
             {
               "factor": "turnover_commitment",
@@ -1048,10 +1036,10 @@
               "factor": "conversion",
               "tier": 2,
               "weight": 1.0,
-              "raw": 0.4827,
+              "raw": 0.5093,
               "normalized": 0.5,
               "contribution": 0.5,
-              "note": "заявлено 79.0%, в прогоне 0 из 3; нижняя граница 48.3% при доверии 95.0% на 23 эффективных наблюдениях"
+              "note": "заявлено 79.0%, в прогоне 0 из 2; нижняя граница 50.9% при доверии 95.0% на 22 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -1075,10 +1063,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 0.7,
-              "raw": 0.85,
+              "raw": 0.8625,
               "normalized": 0.5,
               "contribution": 0.35,
-              "note": "загрузка 15.0%, узкое место — интенсивность (15.0%)"
+              "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
             },
             {
               "factor": "margin",
@@ -1100,16 +1088,9 @@
           "attempt": 1,
           "outcome": "expired",
           "latency_sec": 314
-        },
-        {
-          "provider": "quickpay",
-          "attempt": 2,
-          "outcome": "expired",
-          "latency_sec": 542,
-          "final": true
         }
       ],
-      "attempts_made": 2
+      "attempts_made": 1
     },
     "events": [
       {
@@ -1124,14 +1105,6 @@
           "quickpay"
         ],
         "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay"
-      },
-      {
-        "type": "pool_exhausted",
-        "policy": "retry_best",
-        "refused": [
-          "quickpay"
-        ],
-        "note": "все допустимые провайдеры отказали в приёме"
       }
     ]
   },
@@ -1365,10 +1338,10 @@
               "factor": "provider_health",
               "tier": 1,
               "weight": 1.5,
-              "raw": 0.1,
+              "raw": 0.2,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "4 отказа подряд, последний 30 с назад — здоровье 10.0%, восстановится за 300 с"
+              "note": "2 отказа подряд, последний 60 с назад — здоровье 20.0%, восстановится за 300 с"
             },
             {
               "factor": "turnover_commitment",
@@ -1400,10 +1373,10 @@
               "factor": "conversion",
               "tier": 2,
               "weight": 1.0,
-              "raw": 0.459,
+              "raw": 0.4827,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 79.0%, в прогоне 0 из 4; нижняя граница 45.9% при доверии 95.0% на 24 эффективных наблюдениях"
+              "note": "заявлено 79.0%, в прогоне 0 из 3; нижняя граница 48.3% при доверии 95.0% на 23 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -1427,7 +1400,7 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 0.7,
-              "raw": 0.8625,
+              "raw": 0.8621,
               "normalized": 1.0,
               "contribution": 0.7,
               "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
@@ -1702,10 +1675,10 @@
               "factor": "provider_health",
               "tier": 1,
               "weight": 1.5,
-              "raw": 0.2,
+              "raw": 0.3,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "4 отказа подряд, последний 60 с назад — здоровье 20.0%, восстановится за 300 с"
+              "note": "2 отказа подряд, последний 90 с назад — здоровье 30.0%, восстановится за 300 с"
             },
             {
               "factor": "turnover_commitment",
@@ -1737,10 +1710,10 @@
               "factor": "conversion",
               "tier": 2,
               "weight": 1.0,
-              "raw": 0.459,
+              "raw": 0.4827,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 79.0%, в прогоне 0 из 4; нижняя граница 45.9% при доверии 95.0% на 24 эффективных наблюдениях"
+              "note": "заявлено 79.0%, в прогоне 0 из 3; нижняя граница 48.3% при доверии 95.0% на 23 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -1764,7 +1737,7 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 0.7,
-              "raw": 0.8625,
+              "raw": 0.8621,
               "normalized": 1.0,
               "contribution": 0.7,
               "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
@@ -2046,7 +2019,7 @@
               "raw": 0.0,
               "normalized": 0.5,
               "contribution": 0.75,
-              "note": "5 отказов подряд, последний 0 с назад — здоровье 0.0%, восстановится за 300 с"
+              "note": "3 отказа подряд, последний 0 с назад — здоровье 0.0%, восстановится за 300 с"
             },
             {
               "factor": "turnover_commitment",
@@ -2078,10 +2051,10 @@
               "factor": "conversion",
               "tier": 2,
               "weight": 1.0,
-              "raw": 0.4375,
+              "raw": 0.459,
               "normalized": 0.5,
               "contribution": 0.5,
-              "note": "заявлено 79.0%, в прогоне 0 из 5; нижняя граница 43.8% при доверии 95.0% на 25 эффективных наблюдениях"
+              "note": "заявлено 79.0%, в прогоне 0 из 4; нижняя граница 45.9% при доверии 95.0% на 24 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -2105,7 +2078,7 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 0.7,
-              "raw": 0.8625,
+              "raw": 0.8621,
               "normalized": 0.5,
               "contribution": 0.35,
               "note": "загрузка 13.8%, узкое место — дневной оборот (13.8%)"
@@ -2430,10 +2403,10 @@
               "factor": "conversion",
               "tier": 2,
               "weight": 1.0,
-              "raw": 0.4547,
+              "raw": 0.4762,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 79.0%, в прогоне 1 из 6; нижняя граница 45.5% при доверии 95.0% на 26 эффективных наблюдениях"
+              "note": "заявлено 79.0%, в прогоне 1 из 5; нижняя граница 47.6% при доверии 95.0% на 25 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -2457,7 +2430,7 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 0.7,
-              "raw": 0.8573,
+              "raw": 0.8569,
               "normalized": 1.0,
               "contribution": 0.7,
               "note": "загрузка 14.3%, узкое место — дневной оборот (14.3%)"
@@ -2769,10 +2742,10 @@
               "factor": "conversion",
               "tier": 2,
               "weight": 1.0,
-              "raw": 0.4547,
+              "raw": 0.4762,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 79.0%, в прогоне 1 из 6; нижняя граница 45.5% при доверии 95.0% на 26 эффективных наблюдениях"
+              "note": "заявлено 79.0%, в прогоне 1 из 5; нижняя граница 47.6% при доверии 95.0% на 25 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -2796,7 +2769,7 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 0.7,
-              "raw": 0.8573,
+              "raw": 0.8569,
               "normalized": 1.0,
               "contribution": 0.7,
               "note": "загрузка 14.3%, узкое место — дневной оборот (14.3%)"

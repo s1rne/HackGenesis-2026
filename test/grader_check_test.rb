@@ -8,6 +8,11 @@ require_relative "test_helper"
 # файл валиден, все заявки покрыты, поля на месте — а выбранный провайдер
 # расходится с тем, кого считает допустимым скрипт организаторов. Причина
 # в том, что он считает по снимку, а роутер — по накопленному состоянию.
+#
+# Разойтись при этом можно двумя способами, и разница между ними принципиальна.
+# Расхождение без причины — ошибка. Расхождение, потому что партнёр исчерпал
+# дневной лимит в ходе прогона, — следствие ТЗ, которое требует обновлять
+# оборот после каждой заявки, и оно обязано быть записано тревогой.
 class GraderCheckTest < Minitest::Test
   include RoutingTest
 
@@ -28,50 +33,75 @@ class GraderCheckTest < Minitest::Test
     assert_operator result.deterministic, :>, 0, "в публичной очереди есть детерминированные заявки"
   end
 
-  # Регрессия на самую дорогую ошибку. Раньше исчерпанный дневной лимит
-  # опустошал пул, заявка уходила на self-провайдера, и проверяющий,
-  # считающий по снимку, видел расхождение.
-  def test_exhausted_capacity_does_not_divert_the_operation_to_the_self_provider
-    with_queue(EXHAUSTING_QUEUE) do |queue_path|
-      run = run_pipeline(["--queue", queue_path])
-      result = check(run[:decisions_path], queue_path)
-
-      assert_empty result.deterministic_missed,
-                   "заявки ушли не тому, кого считает допустимым проверяющий"
-      chosen = JSON.parse(File.read(run[:decisions_path])).map { |d| d["selected_provider"] }.uniq
-      assert_equal ["payflow"], chosen,
-                   "все заявки может взять только payflow — уводить их на себя нельзя"
-    end
-  end
-
-  def test_breach_of_capacity_is_recorded_and_not_hidden
+  # Исчерпанный дневной лимит — жёсткое ограничение, а не пожелание: ТЗ
+  # перечисляет его среди hard-constraints и дальше говорит прямо, что при
+  # пустом пуле заявка уходит на self-провайдера. Проверяем, что так и есть.
+  def test_exhausted_capacity_sends_the_operation_to_the_self_provider
     with_queue(EXHAUSTING_QUEUE) do |queue_path|
       run = run_pipeline(["--queue", queue_path])
       decisions = JSON.parse(File.read(run[:decisions_path]))
-      breached = decisions.select { |d| d["events"].any? { |e| e["type"] == "limit_breach" } }
+      chosen = decisions.map { |d| d["selected_provider"] }.tally
 
-      refute_empty breached, "превышение ёмкости обязано быть записано событием"
-      attempt = breached.first["attempts"].find { |a| a["reason"] == "capacity_exceeded" }
-      refute_nil attempt, "в попытках должна быть отдельная причина превышения"
-
-      # Тот же провайдер обязан присутствовать и с записью об отсеве по лимиту:
-      # сначала лимит сработал, и только потом было решено всё равно отдать
-      # заявку ему. Обе записи вместе и составляют объяснение.
-      same = breached.first["attempts"].select { |a| a["provider"] == attempt["provider"] }
-      assert_equal 2, same.size
-      assert_includes same.map { |a| a["reason"] }, "daily_limit_exceeded"
-
-      report = JSON.parse(File.read(run[:report_path]))
-      refute_nil report["limit_breaches"], "отчёт обязан показывать превышения отдельным разделом"
-      assert_operator report.dig("limit_breaches", "operations"), :>, 0
+      assert_operator chosen.fetch("payflow", 0), :>, 0, "пока ёмкость есть, заявки берёт payflow"
+      assert_operator chosen.fetch("spacepayments", 0), :>, 0,
+                      "когда дневной лимит выбран, заявка обязана уйти на собственного провайдера"
     end
   end
 
-  # Обратная проверка: политика fallback возвращает прежнее поведение,
-  # и сверка обязана его поймать. Иначе проверка ничего не проверяет.
-  def test_the_check_actually_catches_the_divergence_it_was_written_for
+  # Уход на себя не должен быть тихим: иначе в отчёте выйдет ровное
+  # распределение, а то, что у партнёра кончились деньги, не увидит никто.
+  def test_capacity_alarm_is_raised_and_reaches_the_report
+    with_queue(EXHAUSTING_QUEUE) do |queue_path|
+      run = run_pipeline(["--queue", queue_path])
+      decisions = JSON.parse(File.read(run[:decisions_path]))
+      alarms = decisions.flat_map { |d| d["events"].select { |e| e["type"] == "capacity_alarm" } }
+
+      refute_empty alarms, "уход на себя по исчерпанной ёмкости обязан быть записан тревогой"
+      first = alarms.first
+
+      assert_includes first["providers"], "payflow", "тревога обязана называть партнёра"
+      assert_equal "daily_limit_exceeded", first["blocked_by"].first["constraint"],
+                   "тревога обязана называть упёршееся ограничение"
+
+      report = JSON.parse(File.read(run[:report_path]))
+      section = report["capacity_alarms"]
+
+      refute_nil section, "отчёт обязан показывать тревоги отдельным разделом"
+      assert_operator section["operations"], :>, 0
+      assert_operator section["amount_diverted"], :>, 0
+      assert_equal alarms.size, section["operations"]
+      assert_operator section.dig("by_provider", "payflow", "operations"), :>, 0
+    end
+  end
+
+  # Сверка обязана отличать объяснённое расхождение от ошибки. Здесь оно
+  # объяснено: партнёр исчерпал лимит в ходе прогона, тревога записана.
+  def test_the_grader_divergence_is_explained_by_the_capacity_alarm
+    result = route_with_policy("fallback")
+
+    assert_empty result.deterministic_missed,
+                 "расхождение по исчерпанной ёмкости объяснено тревогой и ошибкой не считается"
+    refute_empty result.explained,
+                 "и при этом оно обязано быть видно отдельным списком, а не пропасть"
+  end
+
+  # Обратная проверка: без тревоги то же расхождение обязано считаться ошибкой.
+  # Иначе объяснение превращается в способ замолчать что угодно.
+  def test_a_divergence_without_an_alarm_is_still_an_error
+    result = route_with_policy("fallback", strip_events: true)
+
+    refute_empty result.deterministic_missed,
+                 "решение без тревоги не объясняет ничего — расхождение обязано остаться ошибкой"
+  end
+
+  private
+
+  # Прогон исчерпывающей очереди с заданной политикой и сверка с моделью
+  # проверяющего. strip_events убирает события из решений — так проверяется,
+  # что объяснением служит именно записанная тревога, а не сам факт ухода.
+  def route_with_policy(policy, strip_events: false)
     config = Routing::Config.load(RoutingTest::CONFIG_PATH)
-                            .merge("run" => { "capacity_exhausted_policy" => "fallback" })
+                            .merge("run" => { "capacity_exhausted_policy" => policy })
     router = Routing::Router.build(config: config,
                                    providers_path: RoutingTest::PROVIDERS_PATH,
                                    history_path: RoutingTest::HISTORY_PATH)
@@ -79,15 +109,12 @@ class GraderCheckTest < Minitest::Test
     with_queue(EXHAUSTING_QUEUE) do |queue_path|
       operations = Routing::Ingest::Loader.new(config, issues: router.issues).load_operations(queue_path)
       decisions = router.route_all(operations)
+      decisions = decisions.map { |d| DecisionStub.new(d.operation, d.selected_provider) } if strip_events
       providers = JSON.parse(File.read(RoutingTest::PROVIDERS_PATH))["providers"]
-      result = Routing::GraderCheck.run(operations: operations, decisions: decisions, providers: providers)
 
-      refute_empty result.deterministic_missed,
-                   "при политике fallback расхождение обязано появиться — иначе тест ничего не значит"
+      Routing::GraderCheck.run(operations: operations, decisions: decisions, providers: providers)
     end
   end
-
-  private
 
   def check(decisions_path, queue_path)
     config = Routing::Config.load(RoutingTest::CONFIG_PATH)

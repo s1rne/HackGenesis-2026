@@ -18,7 +18,9 @@ module Routing
         "max_attempts" => 3,
         "fallback_provider" => "spacepayments",
         "seed" => 20_260_906,
-        "exhausted_pool_policy" => "retry_best"
+        "exhausted_pool_policy" => "retry_best",
+        "capacity_exhausted_policy" => "fallback",
+        "timeout_policy" => "pending_success"
       },
       "ingest" => {
         "field_aliases" => {},
@@ -64,7 +66,7 @@ module Routing
       },
       "simulation" => {
         "enabled" => true,
-        "cascade_on" => %w[rejected expired],
+        "cascade_on" => %w[rejected],
         "expired_share_of_failures" => 0.5,
         "history_weight" => 0.5,
         "latency" => { "base_sec" => 30.0, "spread" => 0.4, "rejected_sec" => 46.0, "expired_sec" => 540.0 }
@@ -144,6 +146,8 @@ module Routing
     SCORING_MODES = %w[weighted lexicographic lexicographic_weighted].freeze
     TIE_BREAK_KEYS = %w[provider_id cascade_priority conversion load margin].freeze
     EXHAUSTED_POLICIES = %w[retry_best fallback].freeze
+    CAPACITY_POLICIES = %w[fallback route_anyway].freeze
+    TIMEOUT_POLICIES = %w[pending_success retry_next].freeze
 
     # Проверка настроек до первого прогона.
     #
@@ -203,6 +207,16 @@ module Routing
       policy = fetch("run", "exhausted_pool_policy").to_s
       unless EXHAUSTED_POLICIES.include?(policy)
         problems << "run.exhausted_pool_policy = #{policy.inspect}, допустимо: #{EXHAUSTED_POLICIES.join(', ')}"
+      end
+
+      capacity = fetch("run", "capacity_exhausted_policy").to_s
+      unless CAPACITY_POLICIES.include?(capacity)
+        problems << "run.capacity_exhausted_policy = #{capacity.inspect}, допустимо: #{CAPACITY_POLICIES.join(', ')}"
+      end
+
+      timeout = fetch("run", "timeout_policy").to_s
+      unless TIMEOUT_POLICIES.include?(timeout)
+        problems << "run.timeout_policy = #{timeout.inspect}, допустимо: #{TIMEOUT_POLICIES.join(', ')}"
       end
 
       attempts = fetch("run", "max_attempts")

@@ -21,8 +21,11 @@ module Routing
   module GraderCheck
     SELF_PROVIDER = "spacepayments"
 
-    Result = Struct.new(:total, :deterministic, :not_allowed, :deterministic_missed, keyword_init: true) do
+    Result = Struct.new(:total, :deterministic, :not_allowed, :deterministic_missed,
+                        :explained_by_capacity, keyword_init: true) do
       def clean? = not_allowed.empty? && deterministic_missed.empty?
+
+      def explained = Array(explained_by_capacity)
     end
 
     module_function
@@ -33,6 +36,9 @@ module Routing
       missed = []
       deterministic = 0
 
+      by_id = decisions.to_h { |decision| [decision.operation.id, decision] }
+      explained = []
+
       operations.each do |operation|
         allowed = eligible(operation, providers)
         pick = chosen[operation.id]
@@ -42,11 +48,35 @@ module Routing
         next unless external.size == 1
 
         deterministic += 1
-        missed << [operation.id, pick, external.first] unless pick == external.first
+        next if pick == external.first
+
+        # Расхождение расхождению рознь. Проверяющий считает по снимку и не
+        # знает, сколько партнёр уже принял за прогон; мы знаем и обязаны
+        # знать — ТЗ прямо требует обновлять оборот после каждой заявки.
+        # Если заявка ушла на себя, потому что у партнёра кончилась ёмкость,
+        # и это записано тревогой — расхождение объяснимо и не ошибка.
+        row = [operation.id, pick, external.first]
+        if capacity_alarm?(by_id[operation.id], external.first)
+          explained << row
+        else
+          missed << row
+        end
       end
 
       Result.new(total: operations.size, deterministic: deterministic,
-                 not_allowed: not_allowed, deterministic_missed: missed)
+                 not_allowed: not_allowed, deterministic_missed: missed,
+                 explained_by_capacity: explained)
+    end
+
+    # Записана ли на этой заявке тревога об исчерпанной ёмкости именно у того
+    # провайдера, которого ждал проверяющий. Решения без событий (заглушки в
+    # тестах, чужие выгрузки) объяснением не считаются: молчание не оправдание.
+    def capacity_alarm?(decision, expected)
+      return false unless decision.respond_to?(:events)
+
+      Array(decision.events).any? do |event|
+        event["type"] == "capacity_alarm" && Array(event["providers"]).include?(expected)
+      end
     end
 
     # Допустимость по снимку — ровно те условия и в том же порядке, что
@@ -98,7 +128,19 @@ module Routing
         [result.deterministic_missed.empty?,
          "совпали на #{result.deterministic} заявках, где допустим ровно один провайдер" +
          (result.deterministic_missed.empty? ? "" : ": #{describe(result.deterministic_missed.first(3))}")]
-      ]
+      ] + capacity_note(result)
+    end
+
+    # Объяснённые расхождения — не ошибка, но и не то, о чём стоит молчать:
+    # это ровно те заявки, где партнёр исчерпал ёмкость и проверяющий,
+    # считающий по снимку, этого не видит.
+    def capacity_note(result)
+      return [] if result.explained.empty?
+
+      [[true,
+        "#{result.explained.size} расхождений с моделью проверяющего объяснены исчерпанной " \
+        "ёмкостью и записаны тревогами (проверяющий считает по снимку, роутер — по " \
+        "накопленному состоянию, как требует ТЗ)"]]
     end
 
     def describe(rows)

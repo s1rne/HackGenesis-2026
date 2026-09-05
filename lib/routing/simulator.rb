@@ -30,6 +30,7 @@ module Routing
       @seed = config.fetch("run", "seed", default: 0).to_i
       @settings = config.section("simulation")
       @latency = @settings.fetch("latency", {})
+      @timeout_policy = config.fetch("run", "timeout_policy", default: "pending_success").to_s
     end
 
     def enabled? = @settings.fetch("enabled", true)
@@ -95,8 +96,19 @@ module Routing
     # Каскад продолжается только по тем исходам, которые описаны как отказ
     # в приёме. Настройка — в конфигурации, чтобы поведение можно было
     # переключить, не трогая код.
+    #
+    # Таймаут вынесен из общего списка отдельным вопросом, потому что о нём
+    # текст ТЗ и практика расходятся. ТЗ говорит «при отказе или таймауте
+    # исключить провайдера и выбрать следующего». Организаторы на разборе
+    # уточнили, как это работает у них: таймаут не отказ, заявка считается
+    # принятой до статус-чека, и повторно её никуда не отправляют — иначе
+    # можно заплатить дважды. По умолчанию мы следуем практике, буквальное
+    # чтение ТЗ включается значением retry_next.
     def refusal?(outcome)
-      Array(@settings.fetch("cascade_on", %w[rejected expired])).map(&:to_s).include?(outcome.to_s)
+      outcome = outcome.to_s
+      return @timeout_policy == "retry_next" if outcome == "expired"
+
+      Array(@settings.fetch("cascade_on", %w[rejected])).map(&:to_s).include?(outcome)
     end
 
     # Задержка берётся из истории, если она там есть: медиана по этому

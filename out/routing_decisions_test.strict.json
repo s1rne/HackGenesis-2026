@@ -101,19 +101,13 @@
       },
       {
         "provider": "quickpay",
-        "decision": "skipped",
-        "reason": "provider_timeout",
-        "details": "попытка 1: ответ expired за 314 с, других допустимых кандидатов нет"
-      },
-      {
-        "provider": "quickpay",
         "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
       }
     ],
     "simulated_result": "expired",
-    "latency_sec": 856
+    "latency_sec": 314
   },
   {
     "operation_id": "op_105",

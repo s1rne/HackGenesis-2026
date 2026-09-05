@@ -41,6 +41,7 @@ module Routing
           "routing_events" => routing_events,
           "limits_at_risk" => limits_at_risk,
           "limit_breaches" => limit_breaches,
+          "capacity_alarms" => capacity_alarms,
           "target_achievability" => target_achievability,
           "history_baseline" => history_baseline,
           "recommendations_detailed" => recommendations,
@@ -210,6 +211,52 @@ module Routing
                     "было только у него. Заявка оставлена ему, а превышение записано: увести её " \
                     "на собственного провайдера значило бы спрятать проблему партнёра за своим оборотом"
         }
+      end
+
+      # Тревоги об исчерпанной ёмкости.
+      #
+      # Заявка ушла на собственного гейт не потому, что партнёры ей не подходят,
+      # а потому что у подходящего кончились деньги, слоты или реквизиты. Для
+      # того, кто отвечает за отношения с партнёрами, это самая дорогая строка
+      # отчёта: она означает объём, который партнёр сегодня уже не возьмёт,
+      # и называет параметр, который упёрся.
+      #
+      # Без этого раздела уход на себя выглядел бы как ровное распределение,
+      # и проблема партнёра растворилась бы в собственном обороте.
+      def capacity_alarms
+        events = events_of_type("capacity_alarm")
+        return nil if events.empty?
+
+        per_provider = Hash.new { |hash, key| hash[key] = { "operations" => 0, "amount" => 0.0, "constraints" => [] } }
+        events.each do |event|
+          amount = amount_of(event["operation_id"])
+          Array(event["blocked_by"]).each do |row|
+            entry = per_provider[row["provider"]]
+            entry["operations"] += 1
+            entry["amount"] += amount
+            entry["constraints"] << row["constraint"]
+          end
+        end
+
+        {
+          "operations" => events.size,
+          "of_total" => @decisions.size,
+          "amount_diverted" => events.sum { |event| amount_of(event["operation_id"]) }.round(2),
+          "by_provider" => per_provider.transform_values do |entry|
+            { "operations" => entry["operations"],
+              "amount" => entry["amount"].round(2),
+              "constraints" => entry["constraints"].compact.tally }
+          end,
+          "note" => "эти заявки ушли на собственного провайдера: по правилам допуска партнёр им " \
+                    "подходит, но ёмкость у него исчерпана. Дневной лимит — жёсткое ограничение, " \
+                    "поэтому заявка уходит на себя, а факт записывается: это объём, который партнёр " \
+                    "сегодня уже не возьмёт"
+        }
+      end
+
+      def amount_of(operation_id)
+        decision = @decisions.find { |item| item.operation.id == operation_id }
+        decision ? decision.operation.amount.to_major.to_f : 0.0
       end
 
       def goal_relaxations = events_of_type("goal_relaxation")

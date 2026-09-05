@@ -12,7 +12,7 @@ module Routing
     attr_reader :provider, :daily_amount, :in_progress_count, :in_progress_amount,
                 :available_requisites, :selected_count, :selected_amount,
                 :attempt_count, :approved_count, :approved_amount,
-                :declined_count, :expired_count, :skipped_count, :request_times,
+                :declined_count, :expired_count, :pending_count, :skipped_count, :request_times,
                 :consecutive_failures, :last_failure_at
 
     # zeroed: начать сутки с нуля вместо снимка из входных данных.
@@ -30,6 +30,7 @@ module Routing
       @approved_count = 0
       @approved_amount = Money.zero
       @declined_count = 0
+      @pending_count = 0
       @expired_count = 0
       @skipped_count = 0
       @request_times = []
@@ -86,6 +87,29 @@ module Routing
       @approved_amount += operation.amount
       # Успех обнуляет серию отказов: провайдер снова здоров.
       @consecutive_failures = 0
+      self
+    end
+
+    # Таймаут при политике pending_success: «считается успехом до статус-чека».
+    #
+    # Раз считается успехом — деньги считаются ушедшими, и заявка занимает
+    # дневной лимит наравне с одобренной. Иначе получилась бы удобная дыра:
+    # таймауты не расходуют лимит, партнёр берёт больше оговорённого, а в
+    # отчёте всё ровно.
+    #
+    # И это не отказ: серия неудач не растёт, здоровье провайдера не падает.
+    # Наказывать партнёра за то, что он, возможно, всё сделал правильно,
+    # значило бы уводить от него трафик по недоразумению.
+    #
+    # Слот и реквизит при этом освобождаются: в проде незавершённую выплату
+    # закрывает статус-чек, которого в модели нет. Держать их до конца прогона
+    # значило бы намертво запереть партнёра после нескольких таймаутов —
+    # это была бы уже не осторожность, а артефакт модели.
+    def settle_pending(operation)
+      release(operation)
+      @daily_amount += operation.amount
+      @expired_count += 1
+      @pending_count += 1
       self
     end
 
