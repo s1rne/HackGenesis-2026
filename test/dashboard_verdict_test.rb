@@ -58,6 +58,32 @@ class DashboardVerdictTest < Minitest::Test
     assert(dashboard.findings.any? { |item| item.title.include?("Отклонение") })
   end
 
+  # Регрессия на противоречие: плитка ниже называла отклонение по объёму
+  # критичным, а вердикт наверху молчал. Читать такую страницу нельзя.
+  def test_volume_deviation_is_not_silently_dropped
+    dashboard = view(report: {
+                       "distribution" => {
+                         "vipay" => { "deviation_pct" => 0.0, "volume_deviation_pct" => -20.0 }
+                       }
+                     })
+    finding = dashboard.findings.find { |item| item.title.include?("по объёму") }
+
+    assert_equal "warn", dashboard.verdict_level
+    refute_nil finding, "отклонение по объёму обязано попадать на первый экран"
+    assert_match(/недобирает/, finding.title)
+    assert_match(/размеры чеков/, finding.detail)
+  end
+
+  def test_volume_deviation_within_the_threshold_stays_quiet
+    dashboard = view(report: {
+                       "distribution" => {
+                         "vipay" => { "deviation_pct" => 0.0, "volume_deviation_pct" => -3.0 }
+                       }
+                     })
+
+    assert_equal "ok", dashboard.verdict_level
+  end
+
   # Конверсия на крошечной выборке — не новость. Если поднимать тревогу
   # по трём заявкам, их перестанут читать.
   def test_small_sample_does_not_raise_a_conversion_alarm

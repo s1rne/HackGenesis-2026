@@ -770,6 +770,14 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
     <li class="finding finding-warn">
       <span class="finding-mark" aria-hidden="true"></span>
       <div class="finding-body">
+        <span class="finding-title">vipay недобирает по объёму на 20,0 п.п.</span>
+        <span class="finding-detail">по количеству заявок отклонение 0,0 п.п. — значит, расходятся не маршруты, а размеры чеков</span>
+        <span class="finding-action">настроить полосы сумм в amount_band; цель по объёму выведена нами, а не задана в данных</span>
+      </div>
+    </li>
+    <li class="finding finding-warn">
+      <span class="finding-mark" aria-hidden="true"></span>
+      <div class="finding-body">
         <span class="finding-title">У quickpay принято 20% заявок из 5</span>
         <span class="finding-detail">заявлено 79%; порог внимания — 60%. Выборка мала, вывод предварительный</span>
         <span class="finding-action">сверить conversion_24h в данных партнёра с фактом</span>
@@ -3682,7 +3690,7 @@ tr.detail > td { background: var(--surface-2); padding: 0 12px; border-bottom: 2
 
 <footer class="footer">
   <span>HackGenesis 2026 · Умный роутинг выплат</span>
-  <span>собрано 05.09.2026 12:16 из routing_decisions.json, routing_report.json</span>
+  <span>собрано 05.09.2026 12:17 из routing_decisions.json, routing_report.json</span>
 </footer>
 
 <script>

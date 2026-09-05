@@ -263,7 +263,7 @@ module Routing
       def findings
         @findings ||= [
           finding_unrouted, finding_data_errors, finding_capacity,
-          finding_limits, finding_deviation, finding_conversion
+          finding_limits, finding_deviation, finding_volume_deviation, finding_conversion
         ].compact
       end
 
@@ -352,6 +352,26 @@ module Routing
       # Один отказ из трёх даёт 33%, и кричать об этом значит приучить
       # к тому, что тревоги можно не читать.
       MIN_ATTEMPTS_FOR_CONVERSION_ALERT = 5
+
+      # Отклонение по объёму считается отдельно от отклонения по количеству:
+      # партнёр может получать ровно свою долю заявок и при этом сильно
+      # недобирать в рублях — расходятся размеры чеков, а не маршрутизация.
+      # Без этой находки вердикт молчал бы о числе, которое плитка ниже
+      # называет критичным.
+      def finding_volume_deviation
+        worst = (section("distribution") || {})
+                .map { |id, row| [id, row["volume_deviation_pct"].to_f] }
+                .max_by { |_, value| value.abs }
+        return nil if worst.nil? || worst.last.abs <= @options[:drift_pct].to_f
+
+        provider, value = worst
+        count_deviation = section("distribution", provider, "deviation_pct").to_f
+        Finding.new(severity: "warn",
+                    title: "#{provider} #{value.negative? ? 'недобирает' : 'перебирает'} по объёму на #{num(value.abs, 1)} п.п.",
+                    detail: "по количеству заявок отклонение #{signed(count_deviation, 1, ' п.п.')} — " \
+                            "значит, расходятся не маршруты, а размеры чеков",
+                    action: "настроить полосы сумм в amount_band; цель по объёму выведена нами, а не задана в данных")
+      end
 
       def finding_conversion
         threshold = @options[:conversion_alert].to_f
