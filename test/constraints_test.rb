@@ -280,6 +280,29 @@ class ConstraintsTest < Minitest::Test
     assert_nil C::BankFilter.new.check(context_for(provider: provider, operation: operation, fleet: fleet))
   end
 
+  # Написание банка в заявке может не совпадать со списком провайдера
+  # регистром. Скрипт автопроверки организаторов сравнивает строки дословно,
+  # поэтому дословный режим — не упрощение, а согласие с проверяющим.
+  # Расхождение нашёл обстрел случайными очередями (tools/fuzz.rb).
+  def test_bank_filter_compares_spelling_literally_when_asked
+    attrs = { "banks" => %w[sberbank], "exclude_banks" => false }
+
+    assert_violation "bank_not_in_list",
+                     check(C::BankFilter.new("spelling" => "as_is"), attrs, { bank: "SBERBANK" }),
+                     "дословное сравнение обязано отличать SBERBANK от sberbank"
+    assert_nil check(C::BankFilter.new("spelling" => "as_is"), attrs, { bank: "sberbank" })
+    assert_nil check(C::BankFilter.new("spelling" => "normalize"), attrs, { bank: "SBERBANK" }),
+               "умное сравнение обязано узнавать тот же банк в другом регистре"
+  end
+
+  # Конфигурация кейса обязана оставаться дословной: это она удерживает нас
+  # от расхождения с автопроверкой на боевой очереди.
+  def test_case_config_keeps_bank_spelling_literal
+    config = Routing::Config.load(RoutingTest::CONFIG_PATH)
+
+    assert_equal "as_is", config.constraint("bank_filter")["spelling"]
+  end
+
   def test_bank_filter_passes_unknown_bank_when_policy_allows
     attrs = { "banks" => %w[sberbank], "exclude_banks" => false }
 

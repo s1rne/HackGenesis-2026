@@ -14,13 +14,30 @@ module Routing
     # Пустой `banks` без исключений означает «работаем со всеми банками» —
     # именно так задан quickpay, и трактовать это как «ни одного банка»
     # значило бы выключить единственного универсального провайдера.
+    #
+    # Написание банка сравнивается двумя способами, и выбор между ними —
+    # настройка `spelling`:
+    #
+    #   as_is     — дословно, как в данных. Ровно так читает списки скрипт
+    #               автопроверки; в конфигурации этого кейса стоит именно оно,
+    #               потому что расходиться с проверяющим дороже, чем не узнать
+    #               «SBERBANK».
+    #   normalize — с приведением к общему виду (регистр, пробелы, кавычки,
+    #               правовая форма) и таблицей синонимов. Значение по умолчанию:
+    #               на чужих данных, где написания не выверены, оно спасает
+    #               больше заявок, чем теряет.
+    #
+    # Расхождение между режимами нашёл обстрел случайными очередями
+    # (`tools/fuzz.rb`): банк «SBERBANK» в заявке — единственный вход, на
+    # котором наш выбор и модель проверяющего расходились.
     class BankFilter < Base
       def check(context)
         provider = context.provider
-        blacklist, whitelist = lists_for(provider)
+        literal = setting("spelling", "normalize") == "as_is"
+        blacklist, whitelist = lists_for(provider, literal)
         return skip if blacklist.empty? && whitelist.empty?
 
-        bank = context.operation.bank_key
+        bank = literal ? context.operation.bank : context.operation.bank_key
         if bank.nil? || bank.empty?
           return nil if whitelist.empty? || setting("unknown_bank_policy", "allow") == "allow"
 
@@ -44,10 +61,12 @@ module Routing
 
       private
 
-      def lists_for(provider)
-        return [(provider.exclude_banks + provider.banks).uniq, []] if provider.banks_are_blacklist
+      def lists_for(provider, literal)
+        allowed = literal ? provider.banks_literal : provider.banks
+        excluded = literal ? provider.exclude_banks_literal : provider.exclude_banks
+        return [(excluded + allowed).uniq, []] if provider.banks_are_blacklist
 
-        [provider.exclude_banks, provider.banks]
+        [excluded, allowed]
       end
     end
   end

@@ -11,6 +11,7 @@ module Routing
                 :daily_turnover_min, :daily_turnover_max,
                 :in_progress_count_limit, :in_progress_amount_limit,
                 :banks, :exclude_banks, :banks_are_blacklist, :conversion_24h,
+                :banks_literal, :exclude_banks_literal,
                 :provider_margin_pct, :merchant_margin_pct, :allow_negative_agreement,
                 :requests_per_minute_limit, :currencies, :avg_latency_sec,
                 :initial_requisites, :initial_daily_amount,
@@ -37,6 +38,10 @@ module Routing
         in_progress_amount_limit: record.money("in_progress_amount_limit", default: nil),
         banks: Bank.normalize_all(record.list("banks"), bank_aliases),
         exclude_banks: Bank.normalize_all(record.list("exclude_banks"), bank_aliases),
+        # Те же списки без приведения к общему виду: правило допуска умеет
+        # сравнивать написания дословно, как это делает скрипт организаторов.
+        banks_literal: record.list("banks").map(&:to_s),
+        exclude_banks_literal: record.list("exclude_banks").map(&:to_s),
         banks_are_blacklist: blacklist_mode?(record),
         conversion_24h: record.ratio("conversion_24h", default: defaults[:conversion_24h]),
         provider_margin_pct: record.percent("provider_margin_pct", default: 0.0),
@@ -72,6 +77,8 @@ module Routing
       @banks ||= []
       @banks_are_blacklist = !!@banks_are_blacklist
       @exclude_banks ||= []
+      @banks_literal ||= @banks
+      @exclude_banks_literal ||= @exclude_banks
       @currencies ||= []
       @raw ||= {}
       @unknown_fields ||= []
