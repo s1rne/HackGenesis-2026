@@ -43,6 +43,22 @@ module Routing
       }
     end
 
+    # Сравнение кандидатов имеет смысл, только когда кандидатов больше одного.
+    # При единственном допустимом нормировка min-max сжимает все факторы
+    # в нейтральные 0.5, и таблица из восьми строк с одним и тем же числом
+    # изображает сравнение, которого не было. В выгрузке остаются провайдер,
+    # скор и прямое объяснение; полная раскладка живёт в `ranking` и доступна
+    # тестам и аналитике.
+    def compact_ranking
+      return ranking if ranking.size > 1
+
+      ranking.map do |row|
+        { "provider" => row["provider"], "score" => row["score"],
+          "note" => "единственный допустимый кандидат: сравнивать не с кем, " \
+                    "поэтому раскладка по целям не приводится" }
+      end
+    end
+
     # Полная форма — то же самое плюс объяснение.
     def to_h
       to_strict_h.merge(
@@ -53,7 +69,7 @@ module Routing
           "reason" => selection_reason,
           "details" => selection_details,
           "profile" => strategy_profile,
-          "candidates" => ranking
+          "candidates" => compact_ranking
         }.compact,
         "cascade" => {
           "path" => cascade_path,

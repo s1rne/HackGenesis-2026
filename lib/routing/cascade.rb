@@ -453,6 +453,7 @@ module Routing
     # повторная попытка после отказа видна как два шага, а не как один.
     # Настоящая хронология целиком не теряется в любом случае: у каждой записи
     # есть sequence, а путь каскада лежит отдельно в cascade.path.
+
     def build_decision(operation, outcome, records, events, path)
       order = @fleet.providers.each_with_index.to_h { |provider, index| [provider.id, index] }
       ordered = records.sort_by { |record| [order.fetch(record["provider"], 999), record["sequence"].to_i] }

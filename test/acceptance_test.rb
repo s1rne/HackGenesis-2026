@@ -162,6 +162,30 @@ class AcceptanceTest < Minitest::Test
     end
   end
 
+  # Раскладка по целям имеет смысл только там, где был выбор. При единственном
+  # допустимом нормировка min-max сжимает все факторы в нейтральные 0.5,
+  # и восемь строк с одним и тем же числом изображают сравнение, которого
+  # не было: читающий решает, что скоринг сломан.
+  def test_single_candidate_does_not_pretend_there_was_a_comparison
+    single, several = JSON.parse(File.read(RoutingTest.pipeline[:decisions_path]))
+                          .map { |item| item.dig("selection", "candidates") }
+                          .compact
+                          .partition { |candidates| candidates.size == 1 }
+
+    refute_empty single, "в публичной очереди есть заявки с единственным допустимым"
+    refute_empty several, "и заявки, где выбор был"
+
+    single.flatten.each do |candidate|
+      refute candidate.key?("factors"), "сравнивать не с кем — раскладки быть не должно"
+      refute candidate.key?("tiers")
+      assert candidate["note"].to_s.include?("единственный"), "и это должно быть сказано словами"
+    end
+
+    several.flatten.each do |candidate|
+      assert candidate.key?("factors"), "там, где выбор был, раскладка обязана остаться"
+    end
+  end
+
   def test_strict_dump_repeats_the_contract_without_a_single_extra_field
     refute_nil pipeline[:strict_path], "строгая выгрузка не найдена ни рядом с решениями, ни в out/"
     assert_path_exists pipeline[:strict_path]
