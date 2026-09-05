@@ -359,18 +359,30 @@ module Routing
     # правильно. Человек, набравший «bin/route scripts/validate_10.rb», не поймёт
     # из общего списка команд, чего от него хотят.
     def usage(command = nil)
+      # Запуск без аргументов — это не ошибка пользователя, а первое знакомство.
+      # Список из девяти команд в алфавитном порядке на этот вопрос не отвечает:
+      # человеку нужно знать, с чего начать, а не что вообще бывает.
       if command.nil? || command.empty?
-        warn "Не указана команда."
-      else
-        warn "Неизвестная команда: #{command}"
-        near = closest(command)
-        warn "Возможно, имелось в виду: bin/route #{near}" if near
-        if command.include?("/") || command.end_with?(".rb", ".json")
-          warn "Похоже на путь к файлу. Пути передаются опциями, а не первым словом:"
-          warn "  bin/route run --queue <файл>      маршрутизировать другую очередь"
-          warn "  bin/route validate               автопроверка организаторов"
-          warn "  ruby scripts/validate_10.rb <файл решений>"
-        end
+        warn "Роутер выплат: выбирает провайдера для каждой заявки и объясняет выбор."
+        warn ""
+        warn "С чего начать:"
+        warn "  bin/route run              разложить очередь, собрать выгрузку и отчёт"
+        warn "  bin/route plan             какие правила и цели сейчас включены"
+        warn "  bin/route explain op_103   почему конкретная заявка ушла именно туда"
+        warn ""
+        warn "Ещё есть: #{(COMMANDS - %w[run plan explain]).join(', ')}"
+        warn "Подробности по любой: bin/route --help"
+        return 1
+      end
+
+      warn "Неизвестная команда: #{command}"
+      near = closest(command)
+      warn "Возможно, имелось в виду: bin/route #{near}" if near
+      if command.include?("/") || command.end_with?(".rb", ".json")
+        warn "Похоже на путь к файлу. Пути передаются опциями, а не первым словом:"
+        warn "  bin/route run --queue <файл>      маршрутизировать другую очередь"
+        warn "  bin/route validate               автопроверка организаторов"
+        warn "  ruby scripts/validate_10.rb <файл решений>"
       end
 
       warn ""

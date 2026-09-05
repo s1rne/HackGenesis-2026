@@ -28,7 +28,8 @@ module Routing
       report: "routing_report.json",
       out: "out/dashboard.html",
       drift_pct: 10.0,
-      utilization_alert_pct: 80.0
+      utilization_alert_pct: 80.0,
+      conversion_alert: 0.6
     }.freeze
 
     def initialize(decisions:, report:, options: {})
@@ -55,9 +56,11 @@ module Routing
       raise ArgumentError, "не разобран JSON #{path}: #{e.message}"
     end
 
-    def render
-      View.new(decisions: @decisions, report: @report, options: @options).render("layout")
-    end
+    def render = view.render("layout")
+
+    # Слой представления доступен снаружи: вердикт первого экрана — это
+    # суждение, а не вёрстка, и проверять его надо отдельно от HTML.
+    def view = View.new(decisions: @decisions, report: @report, options: @options)
 
     def write(path)
       dir = File.dirname(path)
@@ -246,6 +249,145 @@ module Routing
 
       # --- производные показатели ----------------------------------------------
 
+      # --- вердикт прогона -----------------------------------------------------
+
+      Finding = Struct.new(:severity, :title, :detail, :action, keyword_init: true)
+
+      # Первое, что должен узнать человек, открывший отчёт: всё ли в порядке,
+      # а если нет — что именно и что с этим делать. Ниже по странице есть
+      # всё то же самое в разрезах, но разрезы отвечают на вопрос «сколько»,
+      # а не на вопрос «надо ли вмешиваться».
+      #
+      # Порядок фиксированный: сначала то, что ломает выгрузку, потом то, что
+      # стоит денег, потом то, что стоит внимания. Внутри группы — по величине.
+      def findings
+        @findings ||= [
+          finding_unrouted, finding_data_errors, finding_capacity,
+          finding_limits, finding_deviation, finding_conversion
+        ].compact
+      end
+
+      def verdict_level
+        return "error" if findings.any? { |item| item.severity == "error" }
+        return "warn" if findings.any? { |item| item.severity == "warn" }
+
+        "ok"
+      end
+
+      def verdict_headline
+        case verdict_level
+        when "error" then "Требует вмешательства"
+        when "warn" then "Работает, есть на что посмотреть"
+        else "В норме"
+        end
+      end
+
+      private
+
+      def finding_unrouted
+        without = @decisions.count { |item| blank?(item["selected_provider"]) }
+        return nil if without.zero?
+
+        Finding.new(severity: "error",
+                    title: "#{without} #{plural(without, 'заявка', 'заявки', 'заявок')} без провайдера",
+                    detail: "маршрут не найден даже на собственном гейте",
+                    action: "разобрать командой bin/route explain по идентификатору заявки")
+      end
+
+      def finding_data_errors
+        counts = section("data_quality", "counts") || {}
+        errors = counts["error"].to_i
+        warnings = counts["warning"].to_i
+        return nil if errors.zero? && warnings.zero?
+
+        Finding.new(severity: errors.positive? ? "error" : "warn",
+                    title: errors.positive? ? "#{errors} #{plural(errors, 'ошибка', 'ошибки', 'ошибок')} во входных данных" : "#{warnings} #{plural(warnings, 'замечание', 'замечания', 'замечаний')} к входным данным",
+                    detail: "часть значений пришлось достроить по умолчанию",
+                    action: "смотреть раздел «Данные» внизу страницы")
+      end
+
+      def finding_capacity
+        alarms = section("capacity_alarms")
+        return nil if blank?(alarms)
+
+        providers = (alarms["by_provider"] || {}).keys.join(", ")
+        Finding.new(severity: "warn",
+                    title: "#{alarms['operations']} из #{alarms['of_total']} заявок ушли на собственный гейт",
+                    detail: "у партнёра кончилась ёмкость (#{providers}); это #{money(alarms['amount_diverted'])}, которые он сегодня уже не возьмёт",
+                    action: "поднять дневной лимит или перераспределить долю трафика")
+      end
+
+      def finding_limits
+        rows = section("limits_at_risk")
+        return nil if blank?(rows)
+
+        worst = rows.max_by { |row| (row["measures"] || {}).values.map(&:to_f).max || 0.0 }
+        value = (worst["measures"] || {}).values.map(&:to_f).max
+        Finding.new(severity: "warn",
+                    title: "#{worst['provider']} выбрал #{num(value, 1)}% лимита «#{worst['worst']}»",
+                    detail: "когда лимит закончится, партнёр выпадет из распределения до конца суток",
+                    action: "смотреть раздел «Лимиты»")
+      end
+
+      def finding_deviation
+        floors = section("target_achievability", "floors")
+        actual = (section("distribution") || {}).values.map { |row| row["deviation_pct"].to_f.abs }.max
+        return nil if actual.nil?
+
+        minimum = floors && [floors["rounding_pct"], floors["structural_pct"], floors["exact_pct"]].compact.map(&:to_f).max
+        if minimum && (actual - minimum).abs < 0.05
+          Finding.new(severity: "ok",
+                      title: "Распределение на достижимом минимуме",
+                      detail: "отклонение #{num(actual, 1)} п.п. при доказанном минимуме #{num(minimum, 1)} п.п.",
+                      action: "ближе к целевым долям на этих данных подойти нельзя")
+        elsif actual > @options[:drift_pct].to_f
+          Finding.new(severity: "warn",
+                      title: "Отклонение от целевых долей #{num(actual, 1)} п.п.",
+                      detail: minimum ? "достижимый минимум — #{num(minimum, 1)} п.п." : "порог внимания — #{num(@options[:drift_pct], 0)} п.п.",
+                      action: "смотреть раздел «План/факт»")
+        end
+      end
+
+      # Конверсия ниже порога — сигнал, но только вместе с размером выборки.
+      # Один отказ из трёх даёт 33%, и кричать об этом значит приучить
+      # к тому, что тревоги можно не читать.
+      MIN_ATTEMPTS_FOR_CONVERSION_ALERT = 5
+
+      def finding_conversion
+        threshold = @options[:conversion_alert].to_f
+        return nil unless threshold.positive?
+
+        weak = providers_in_report.filter_map do |provider|
+          row = performance(provider)
+          observed = row["observed_conversion"]
+          attempts = row["attempts"].to_i
+          next unless observed && attempts >= MIN_ATTEMPTS_FOR_CONVERSION_ALERT
+          next unless observed.to_f < threshold
+
+          [provider, observed.to_f, attempts, row["declared_conversion"].to_f]
+        end
+        return nil if weak.empty?
+
+        provider, observed, attempts, declared = weak.min_by { |row| row[1] }
+        Finding.new(severity: "warn",
+                    title: "У #{provider} принято #{pct(observed * 100, 0)} заявок из #{attempts}",
+                    detail: "заявлено #{pct(declared * 100, 0)}; порог внимания — #{pct(threshold * 100, 0)}. " \
+                            "Выборка мала, вывод предварительный",
+                    action: "сверить conversion_24h в данных партнёра с фактом")
+      end
+
+      def plural(count, one, few, many)
+        rest10 = count % 10
+        rest100 = count % 100
+        return many if (11..14).cover?(rest100)
+        return one if rest10 == 1
+        return few if (2..4).cover?(rest10)
+
+        many
+      end
+
+      public
+
       def total_operations = section("total_operations") || @decisions.size
 
       def approval_rate_pct
@@ -270,6 +412,7 @@ module Routing
         keys = []
         keys.concat(section("distribution")&.keys || [])
         keys.concat(section("projected_daily_utilization")&.keys || [])
+        keys.concat(section("provider_performance")&.keys || [])
         keys.uniq
       end
 

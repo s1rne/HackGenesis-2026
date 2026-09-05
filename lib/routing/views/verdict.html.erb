@@ -1,0 +1,35 @@
+<%
+  # Первый экран отвечает на один вопрос: надо ли вмешиваться.
+  # Разрезы ниже отвечают на вопрос «сколько» — это уже второй вопрос.
+  level = verdict_level
+-%>
+<section id="verdict" class="verdict verdict-<%= h(level) %>">
+  <div class="verdict-head">
+    <span class="verdict-dot" aria-hidden="true"></span>
+    <div>
+      <h1 class="verdict-title"><%= h(verdict_headline) %></h1>
+      <p class="verdict-sub">
+        <%= h(num(total_operations)) %> заявок за <%= h(section("period") || "период") %><%
+          if present?("source", "gateway") %>, шлюз <%= h(section("source", "gateway")) %><% end %>
+      </p>
+    </div>
+  </div>
+
+<% if findings.empty? -%>
+  <p class="verdict-empty">Ни одна проверка не сработала: маршруты найдены для всех заявок,
+  лимиты не на исходе, отклонение в пределах порога.</p>
+<% else -%>
+  <ul class="findings">
+<% findings.each do |item| -%>
+    <li class="finding finding-<%= h(item.severity) %>">
+      <span class="finding-mark" aria-hidden="true"></span>
+      <div class="finding-body">
+        <span class="finding-title"><%= h(item.title) %></span>
+        <span class="finding-detail"><%= h(item.detail) %></span>
+        <span class="finding-action"><%= h(item.action) %></span>
+      </div>
+    </li>
+<% end -%>
+  </ul>
+<% end -%>
+</section>
