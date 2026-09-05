@@ -32,17 +32,58 @@ module Routing
         items.concat(data_gaps)
 
         limit = @thresholds.fetch("max_recommendations", 12).to_i
-        items.sort_by { |item| [PRIORITY.index(item["priority"]) || 9, -item["impact"].to_f] }.first(limit)
+        collapse(items)
+          .sort_by { |item| [PRIORITY.index(item["priority"]) || 9, -item["impact"].to_f] }
+          .first(limit)
       end
 
       PRIORITY = %w[high medium low].freeze
 
       private
 
-      def item(text:, parameter:, priority:, evidence:, current: nil, suggested: nil, impact: 0.0)
+      # Три одинаковых по смыслу пункта подряд — «у payflow конверсия ниже
+      # заявленной», «у quickpay», «у vipay» — читаются как шум и обесценивают
+      # весь список. Однотипные рекомендации сливаются в одну: общий вывод и
+      # перечисление, у кого именно. Разбор по провайдерам никуда не девается,
+      # он уезжает в parts — там его найдёт машина, а человек прочитает вывод.
+      GROUP_TEXT = {
+        "conversion_24h" => ["Заявленная конверсия расходится с фактической",
+                             "обновить conversion_24h: скоринг опирается на числа, которых история не подтверждает"],
+        "amount_band" => ["Доли по объёму расходятся с долями по количеству",
+                          "заявок партнёры получают ровно свою долю, расходятся размеры чеков: " \
+                          "настроить полосы сумм в amount_band"]
+      }.freeze
+
+      def collapse(items)
+        items.group_by { |item| item["group"] }.flat_map do |group, list|
+          next list if group.nil? || list.size < 2 || !GROUP_TEXT.key?(group)
+
+          [merge(group, list)]
+        end
+      end
+
+      def merge(group, list)
+        lead, tail = GROUP_TEXT.fetch(group)
+        clauses = list.map { |item| item["short"] }.compact
+        best = list.max_by { |item| item["impact"].to_f }
+
+        {
+          "text" => "#{lead} у #{list.size} #{plural(list.size, 'партнёра', 'партнёров', 'партнёров')}: " \
+                    "#{clauses.join('; ')} — #{tail}",
+          "parameter" => list.map { |item| item["parameter"] }.uniq.join(", "),
+          "evidence" => list.map { |item| item["evidence"] }.compact.join("; "),
+          "priority" => best["priority"],
+          "impact" => list.sum { |item| item["impact"].to_f }.round(2),
+          "parts" => list.map { |item| item.slice("parameter", "current", "suggested", "evidence") }
+        }
+      end
+
+      def item(text:, parameter:, priority:, evidence:, current: nil, suggested: nil, impact: 0.0,
+               group: nil, short: nil)
         {
           "text" => text, "parameter" => parameter, "current" => current, "suggested" => suggested,
-          "evidence" => evidence, "priority" => priority, "impact" => impact.round(2)
+          "evidence" => evidence, "priority" => priority, "impact" => impact.round(2),
+          "group" => group, "short" => short
         }.compact
       end
 
@@ -95,7 +136,9 @@ module Routing
             current: row["target_volume_pct"], suggested: count_ok ? nil : row["volume_share_pct"],
             evidence: "объём #{row['volume']} из общего по прогону",
             priority: deviation.abs >= threshold * 2 ? "medium" : "low",
-            impact: deviation.abs
+            impact: deviation.abs,
+            group: count_ok ? "amount_band" : nil,
+            short: "#{id} #{deviation.negative? ? 'недобирает' : 'перебирает'} #{deviation.abs.round(1)} п.п."
           )
         end
       end
@@ -153,7 +196,10 @@ module Routing
             current: declared, suggested: observed.round(3),
             evidence: "#{counts[:approved]} одобрено из #{counts[:total]}",
             priority: (observed < alert || gap.abs >= 0.15) ? "high" : "medium",
-            impact: gap.abs * 100
+            impact: gap.abs * 100,
+            group: "conversion_24h",
+            short: "#{provider.id} #{(declared * 100).round}% против #{(observed * 100).round}% " \
+                   "на #{counts[:total]}"
           )
         end
       end

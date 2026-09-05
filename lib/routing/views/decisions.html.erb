@@ -1,10 +1,6 @@
 <% unless decisions.empty? -%>
-<section class="card" id="resheniya">
-  <div class="card-head">
-    <h2>Решения по заявкам</h2>
-    <span class="badge flat">строк: <%= h(num(decisions.size)) %></span>
-  </div>
-  <p class="card-note">Строка раскрывается по клику: кого рассматривали, почему выбран этот, разбор скоринга.</p>
+<section id="resheniya">
+  <h2 class="label">Заявки — <%= h(num(decisions.size)) %>, строка раскрывается по клику</h2>
 
   <div class="controls">
     <input type="search" id="op-search" placeholder="Поиск: id, провайдер, банк" aria-label="Поиск по решениям">

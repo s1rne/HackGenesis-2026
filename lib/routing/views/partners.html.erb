@@ -1,0 +1,76 @@
+<% if present?("distribution") -%>
+<%
+  rows = section("distribution")
+  utilization = section("projected_daily_utilization") || {}
+  performance = section("provider_performance") || {}
+  drift = options[:drift_pct].to_f
+  alert = options[:utilization_alert_pct].to_f
+
+  delta_class = lambda do |value|
+    v = value.to_f.abs
+    next "delta-crit" if v >= drift * 2
+    next "delta-warn" if v >= drift
+
+    "delta-ok"
+  end
+-%>
+<section id="partners">
+  <h2 class="label">Партнёры</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr class="group">
+          <th></th>
+          <th class="num" colspan="3">По количеству заявок</th>
+          <th class="num" colspan="3">По объёму выплат</th>
+          <th colspan="2"></th>
+        </tr>
+        <tr>
+          <th>Партнёр</th>
+          <th class="num">Заявок</th>
+          <th class="num">Факт / цель</th>
+          <th class="num">Δ п.п.</th>
+          <th class="num">Рублей</th>
+          <th class="num">Факт / цель</th>
+          <th class="num">Δ п.п.</th>
+          <th>Дневной лимит</th>
+          <th class="num">Принято</th>
+        </tr>
+      </thead>
+      <tbody>
+<% rows.each do |id, row| -%>
+<%
+        use = utilization[id] || {}
+        used_pct = use["utilization_pct"].to_f
+        meter = if used_pct >= 95 then "meter hot"
+                elsif used_pct >= alert then "meter near"
+                else "meter"
+                end
+        stat = performance[id] || {}
+        approved = stat["approved"].to_i
+        attempts = stat["attempts"].to_i
+-%>
+        <tr>
+          <td class="who"><%= h(id) %></td>
+          <td class="num"><%= h(num(row["count"])) %></td>
+          <td class="num"><%= h(pct(row["share_pct"])) %> <span class="dim">/ <%= h(pct(row["target_pct"])) %></span></td>
+          <td class="num <%= h(delta_class.call(row["deviation_pct"])) %>"><%= h(signed(row["deviation_pct"], 1)) %></td>
+          <td class="num"><%= h(money(row["volume"])) %></td>
+          <td class="num"><%= h(pct(row["volume_share_pct"])) %> <span class="dim">/ <%= h(pct(row["target_volume_pct"])) %></span></td>
+          <td class="num <%= h(delta_class.call(row["volume_deviation_pct"])) %>"><%= h(signed(row["volume_deviation_pct"], 1)) %></td>
+          <td>
+<% if use["limit"] -%>
+            <span class="<%= h(meter) %>" title="<%= h(money(use['used'])) %> из <%= h(money(use['limit'])) %>"><i style="width:<%= h([used_pct, 100].min.round(1)) %>%"></i></span>
+            <span class="dim"><%= h(pct(used_pct, used_pct >= 95 && used_pct < 100 ? 1 : 0)) %></span>
+<% else -%>
+            <span class="dim">—</span>
+<% end -%>
+          </td>
+          <td class="num"><%= attempts.positive? ? h("#{approved} / #{attempts}") : "—" %></td>
+        </tr>
+<% end -%>
+      </tbody>
+    </table>
+  </div>
+</section>
+<% end -%>

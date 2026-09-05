@@ -76,12 +76,6 @@ module Routing
     class View
       NBSP = " "
 
-      STATUS_WORDS = {
-        good: "в норме",
-        warn: "внимание",
-        crit: "критично"
-      }.freeze
-
       attr_reader :report, :decisions, :options
 
       def initialize(decisions:, report:, options:)
@@ -179,36 +173,7 @@ module Routing
 
       # Верхняя граница шкалы: округляем вверх до «круглого» числа, чтобы
       # засечки сетки читались, а самый длинный столбик не упирался в край.
-      def nice_domain(values, minimum: 10.0)
-        top = Array(values).compact.map { |v| v.to_f.abs }.max.to_f
-        top = minimum if top < minimum
-        step = 10.0**Math.log10(top).floor
-        step /= 2 if top / step <= 2
-        (top / step).ceil * step
-      end
-
-      def ticks(domain, count = 4)
-        (0..count).map { |i| (domain.to_f * i / count).round(2) }
-      end
-
       # --- статусы (цвет всегда в паре со словом) ------------------------------
-
-      def utilization_status(value)
-        alert = @options[:utilization_alert_pct].to_f
-        return :crit if value.to_f >= 95.0
-        return :crit if value.to_f >= alert
-        return :warn if value.to_f >= alert * 0.75
-
-        :good
-      end
-
-      def deviation_status(value)
-        limit = @options[:drift_pct].to_f
-        return :crit if value.to_f.abs >= limit * 2
-        return :warn if value.to_f.abs >= limit
-
-        :good
-      end
 
       def outcome_status(outcome)
         case outcome
@@ -223,15 +188,6 @@ module Routing
           .fetch(outcome.to_s, outcome.to_s)
       end
 
-      def priority_status(priority)
-        { "high" => :crit, "medium" => :warn, "low" => :good }.fetch(priority.to_s, :good)
-      end
-
-      def priority_label(priority)
-        { "high" => "высокий", "medium" => "средний", "low" => "низкий" }
-          .fetch(priority.to_s, priority.to_s)
-      end
-
       def severity_status(severity)
         { "error" => :crit, "warning" => :warn, "info" => :good }.fetch(severity.to_s, :good)
       end
@@ -240,8 +196,6 @@ module Routing
         { "error" => "ошибка", "warning" => "предупреждение", "info" => "замечание" }
           .fetch(severity.to_s, severity.to_s)
       end
-
-      def status_word(status) = STATUS_WORDS.fetch(status, "")
 
       def verdict_status(verdict)
         verdict.to_s.start_with?("достижима") ? :good : :crit
@@ -303,7 +257,7 @@ module Routing
         Finding.new(severity: errors.positive? ? "error" : "warn",
                     title: errors.positive? ? "#{errors} #{plural(errors, 'ошибка', 'ошибки', 'ошибок')} во входных данных" : "#{warnings} #{plural(warnings, 'замечание', 'замечания', 'замечаний')} к входным данным",
                     detail: "часть значений пришлось достроить по умолчанию",
-                    action: "смотреть раздел «Данные» внизу страницы")
+                    action: "разбор — в «Входные данные» внизу страницы")
       end
 
       def finding_capacity
@@ -326,7 +280,7 @@ module Routing
         Finding.new(severity: "warn",
                     title: "#{worst['provider']} выбрал #{num(value, 1)}% лимита «#{worst['worst']}»",
                     detail: "когда лимит закончится, партнёр выпадет из распределения до конца суток",
-                    action: "смотреть раздел «Лимиты»")
+                    action: "колонка «Дневной лимит» в таблице партнёров")
       end
 
       def finding_deviation
@@ -344,7 +298,7 @@ module Routing
           Finding.new(severity: "warn",
                       title: "Отклонение от целевых долей #{num(actual, 1)} п.п.",
                       detail: minimum ? "достижимый минимум — #{num(minimum, 1)} п.п." : "порог внимания — #{num(@options[:drift_pct], 0)} п.п.",
-                      action: "смотреть раздел «План/факт»")
+                      action: "колонка «Δ п.п.» в таблице партнёров")
         end
       end
 
@@ -409,13 +363,6 @@ module Routing
       public
 
       def total_operations = section("total_operations") || @decisions.size
-
-      def approval_rate_pct
-        rate = section("outcomes", "approval_rate")
-        return nil if rate.nil?
-
-        rate.to_f * 100.0
-      end
 
       def selected_attempt(decision)
         Array(decision["attempts"]).find { |attempt| attempt["decision"] == "selected" }

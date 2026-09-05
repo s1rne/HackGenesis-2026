@@ -1,44 +1,29 @@
 <% if present?("skip_reasons") -%>
 <%
   reasons = section("skip_reasons").sort_by { |code, count| [-count.to_i, code.to_s] }
-  domain = nice_domain(reasons.map { |_, count| count }, minimum: 1.0)
-  total_skips = reasons.sum { |_, count| count.to_i }
+  peak = reasons.map { |_, count| count.to_i }.max.to_f
+  total = reasons.sum { |_, count| count.to_i }
+  has_soft = reasons.any? { |code, _| reason_category(code) != "жёсткое ограничение" }
 -%>
-<section class="card" id="otsev">
-  <div class="card-head">
-    <h2>Причины отсева</h2>
-    <span class="badge flat">всего отсевов: <%= h(num(total_skips)) %></span>
-  </div>
-  <p class="card-note">
-    Сколько раз каждая причина сработала за прогон. Формулировки берутся из каталога причин решения,
-    поэтому агрегат всегда сходится с попытками в решениях. Жёсткое ограничение — провайдер не имел
-    права взять заявку; выбор среди допустимых — имел право, но уступил.
-  </p>
+<section id="otsev">
+  <h2 class="label">Почему партнёров отсеивали — <%= h(num(total)) %> раз</h2>
 
-  <div class="chart">
+  <div class="bars">
 <% reasons.each do |code, count| -%>
-    <div class="bar-row" style="grid-template-columns:minmax(280px,380px) minmax(180px,1fr) auto">
-      <div class="bar-name"><%= h(reason_text(code)) %><span class="sub"><%= h(code) %> · <%= h(reason_category(code)) %></span></div>
-      <div class="track">
-<% ticks(domain).each do |tick| -%>
-        <i class="gridline" style="left:<%= h(scale(tick, domain)) %>%"></i>
-<% end -%>
-        <div class="fill" style="width:<%= h(scale(count, domain)) %>%"></div>
-      </div>
-      <div class="bar-values">
-        <span class="v"><%= h(num(count)) %></span>
-      </div>
+<%    hard = reason_category(code) == "жёсткое ограничение" -%>
+    <div class="bar <%= hard ? "bar-hard" : "bar-soft" %>">
+      <span class="bar-name"><%= h(reason_text(code)) %></span>
+      <span class="bar-track"><i class="bar-fill" style="width:<%= h(((count.to_f / peak) * 100).round(1)) %>%"></i></span>
+      <span class="bar-value"><%= h(num(count)) %></span>
     </div>
 <% end -%>
-    <div class="axis" style="grid-template-columns:minmax(280px,380px) minmax(180px,1fr) auto">
-      <div></div>
-      <div class="axis-ticks">
-<% ticks(domain).each do |tick| -%>
-        <span style="left:<%= h(scale(tick, domain)) %>%"><%= h(num(tick, 0)) %></span>
-<% end -%>
-      </div>
-      <div></div>
-    </div>
   </div>
+
+<% if has_soft -%>
+  <p class="bars-legend">
+    <span class="legend-hard"><i></i>не имел права взять заявку</span>
+    <span class="legend-soft"><i></i>имел право, но уступил</span>
+  </p>
+<% end -%>
 </section>
 <% end -%>

@@ -3,110 +3,62 @@
   ach = section("target_achievability")
   bounds = ach["bounds"] || {}
   floors = ach["floors"] || {}
-  overall_ok = bounds.values.all? { |b| verdict_status(b["verdict"]) == :good }
   minimum = ach["min_total_variation_distance"].to_f * 100
-  achieved = (section("distribution") || {}).reject { |id, _| (section("routing_setup", "providers") || []).empty? && false }
-                                            .sum { |_, row| (row["deviation_pct"].to_f - 0).abs }
   achieved = (section("distribution") || {}).sum { |_, row| row["deviation_pct"].to_f.abs } / 2.0
   at_optimum = (achieved - minimum).abs < 0.05
+  unreachable = bounds.reject { |_, b| verdict_status(b["verdict"]) == :good }
 -%>
-<section class="card" id="dostizhimost">
-  <div class="card-head">
-    <h2>Достижимость целевых долей</h2>
-    <span class="badge <%= overall_ok ? "good" : "warn" %>"><%= overall_ok ? "цели достижимы" : "цель недостижима" %></span>
-  </div>
+<section id="dostizhimost">
+  <h2 class="label">Насколько близко к плану можно подойти</h2>
 
-  <div class="tiles">
-    <div class="tile">
-      <div class="tile-label">Минимум возможного</div>
-      <div class="tile-value mono"><%= h(num(minimum, 1)) %><span class="unit"> п.п.</span></div>
-      <div class="tile-sub">ближе к плану подойти нельзя</div>
-    </div>
-    <div class="tile">
-      <div class="tile-label">Достигнуто</div>
-      <div class="tile-value mono"><%= h(num(achieved, 1)) %><span class="unit"> п.п.</span></div>
-      <div class="tile-sub">
-        <span class="badge <%= at_optimum ? "good" : "warn" %>"><%= at_optimum ? "на минимуме" : "выше минимума" %></span>
-      </div>
-    </div>
-<% if floors["rounding_pct"] -%>
-    <div class="tile">
-      <div class="tile-label">Из-за неделимости заявки</div>
-      <div class="tile-value mono"><%= h(num(floors["rounding_pct"], 1)) %><span class="unit"> п.п.</span></div>
-      <div class="tile-sub">половину выплаты отправить нельзя</div>
-    </div>
+  <p class="lede">
+<% if at_optimum -%>
+    Отклонение <b><%= h(num(achieved, 1)) %> п.п.</b> — это минимум: ближе к целевым долям
+    на этих данных подойти нельзя.
+<% else -%>
+    Отклонение <b><%= h(num(achieved, 1)) %> п.п.</b> при минимально возможном
+    <b><%= h(num(minimum, 1)) %> п.п.</b>
 <% end -%>
-<% if floors["structural_pct"] -%>
-    <div class="tile">
-      <div class="tile-label">Из-за ограничений</div>
-      <div class="tile-value mono"><%= h(num(floors["structural_pct"], 1)) %><span class="unit"> п.п.</span></div>
-      <div class="tile-sub">банки, суммы, дневные лимиты</div>
-    </div>
+<% if floors["rounding_pct"].to_f.positive? -%>
+    Из них <%= h(num(floors["rounding_pct"], 1)) %> п.п. — из-за того, что заявка неделима:
+    целевая доля от <%= h(num(ach["operations"])) %> заявок даёт дробное число,
+    а половину выплаты отправить нельзя.
 <% end -%>
 <% if floors["exact_pct"] -%>
-    <div class="tile">
-      <div class="tile-label">Полный перебор</div>
-      <div class="tile-value mono"><%= h(num(floors["exact_pct"], 1)) %><span class="unit"> п.п.</span></div>
-      <div class="tile-sub">все допустимые раскладки проверены</div>
-    </div>
+    Минимум подтверждён полным перебором допустимых раскладок.
 <% end -%>
-  </div>
-
-  <p class="card-note">
-    Полоса — коридор «пол..потолок»: пол — доля заявок, где провайдер единственный допустимый,
-    потолок — сколько он вообще вправе взять. Засечка — цель. Цель вне коридора недостижима.
   </p>
 
-  <div class="chart">
+  <div class="table-scroll table-tight">
+    <table>
+      <thead>
+        <tr>
+          <th>Партнёр</th>
+          <th class="num">Цель</th>
+          <th class="num">Может взять</th>
+          <th>Упирается в</th>
+          <th>Вердикт</th>
+        </tr>
+      </thead>
+      <tbody>
 <% bounds.each do |id, bound| -%>
-<%
-    status = verdict_status(bound["verdict"])
-    floor_pct = bound["floor_pct"].to_f
-    ceiling_pct = bound["ceiling_pct"].to_f
-    width = [ceiling_pct - floor_pct, 0].max
--%>
-    <div class="bar-row">
-      <div class="bar-name"><%= h(id) %><span class="sub">коридор <%= h(num(floor_pct, 1)) %>..<%= h(num(ceiling_pct, 1)) %>%</span></div>
-      <div class="track">
-<% ticks(100.0).each do |tick| -%>
-        <i class="gridline" style="left:<%= h(scale(tick, 100.0)) %>%"></i>
+<%      status = verdict_status(bound["verdict"]) -%>
+        <tr>
+          <td class="who"><%= h(id) %></td>
+          <td class="num"><%= h(pct(bound["target_pct"])) %></td>
+          <td class="num dim"><%= h(num(bound["floor_pct"], 1)) %>–<%= h(num(bound["ceiling_pct"], 1)) %>%</td>
+          <td class="dim"><%= h(status == :good ? "—" : bound["binding_limit"]) %></td>
+          <td><span class="badge <%= h(status) %>"><%= h(bound["verdict"]) %></span></td>
+        </tr>
 <% end -%>
-        <div class="corridor" style="left:<%= h(scale(floor_pct, 100.0)) %>%;width:<%= h(scale(width, 100.0)) %>%"></div>
-        <i class="marker" style="left:<%= h(scale(bound["target_pct"], 100.0)) %>%"></i>
-      </div>
-      <div class="bar-values">
-        <span class="t">цель <%= h(pct(bound["target_pct"])) %></span>
-        <span class="badge <%= h(status) %>"><%= h(bound["verdict"]) %></span>
-      </div>
-    </div>
-<% if bound["binding_limit"] && status != :good -%>
-    <div class="bar-row" style="padding-top:0">
-      <div></div>
-      <div style="grid-column:2 / -1;font-size:13.5px;color:var(--ink-2)">
-        <span class="tag">упирается в: <%= h(bound["binding_limit"]) %></span>
-<% (bound["blocking_reasons"] || {}).first(2).each do |code, count| -%>
-        <span class="tag"><%= h(reason_text(code)) %> — <%= h(num(count)) %></span>
-<% end -%>
-      </div>
-    </div>
-<% end -%>
-<% end -%>
-    <div class="axis">
-      <div></div>
-      <div class="axis-ticks">
-<% ticks(100.0).each do |tick| -%>
-        <span style="left:<%= h(scale(tick, 100.0)) %>%"><%= h(num(tick, 0)) %>%</span>
-<% end -%>
-      </div>
-      <div></div>
-    </div>
+      </tbody>
+    </table>
   </div>
 
 <% if ach["unroutable"].to_i.positive? -%>
-  <div class="alert">
-    <span class="badge crit">без маршрута</span>
-    <span>заявок, которые не может взять ни один провайдер: <b class="mono"><%= h(num(ach["unroutable"])) %></b></span>
-  </div>
+  <p class="lede" style="margin-top:16px">
+    Заявок, которые не может взять ни один партнёр: <b><%= h(num(ach["unroutable"])) %></b>.
+  </p>
 <% end -%>
 </section>
 <% end -%>

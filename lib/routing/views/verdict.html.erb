@@ -1,33 +1,31 @@
 <%
-  # Первый экран отвечает на один вопрос: надо ли вмешиваться.
-  # Разрезы ниже отвечают на вопрос «сколько» — это уже второй вопрос.
-  level = verdict_level
+  outcomes = section("outcomes") || {}
+  cascade = section("cascade") || {}
 -%>
-<section id="verdict" class="verdict verdict-<%= h(level) %>">
-  <div class="verdict-head">
-    <span class="verdict-dot" aria-hidden="true"></span>
-    <div>
-      <h1 class="verdict-title"><%= h(verdict_headline) %></h1>
-      <p class="verdict-sub">
-        <%= h(num(total_operations)) %> заявок за <%= h(section("period") || "период") %><%
-          if present?("source", "gateway") %>, шлюз <%= h(section("source", "gateway")) %><% end %>
-      </p>
-    </div>
+<section class="status status-<%= h(verdict_level) %>" id="status">
+  <div class="status-line">
+    <h1 class="status-title"><%= h(verdict_headline) %></h1>
   </div>
+  <p class="status-facts">
+    <b><%= h(num(total_operations)) %></b> заявок<%
+      unless outcomes.empty? %> · одобрено <b><%= h(num(outcomes["approved"])) %></b><%
+      end %><%
+      if outcomes["avg_latency_sec"] %> · средняя задержка <b><%= h(num(outcomes["avg_latency_sec"], 0)) %> с</b><%
+      end %><%
+      if cascade["avg_depth"] %> · глубина каскада <b><%= h(num(cascade["avg_depth"], 2)) %></b><%
+      end %><%
+      if cascade["fallback_used"].to_i.positive? %> · на свой гейт <b><%= h(num(cascade["fallback_used"])) %></b><%
+      end %>
+  </p>
 
-<% if findings.empty? -%>
-  <p class="verdict-empty">Ни одна проверка не сработала: маршруты найдены для всех заявок,
-  лимиты не на исходе, отклонение в пределах порога.</p>
-<% else -%>
+<% unless findings.empty? -%>
   <ul class="findings">
 <% findings.each do |item| -%>
     <li class="finding finding-<%= h(item.severity) %>">
       <span class="finding-mark" aria-hidden="true"></span>
-      <div class="finding-body">
-        <span class="finding-title"><%= h(item.title) %></span>
-        <span class="finding-detail"><%= h(item.detail) %></span>
+      <span class="finding-title"><b><%= h(item.title) %></b> — <%= h(item.detail) %>
         <span class="finding-action"><%= h(item.action) %></span>
-      </div>
+      </span>
     </li>
 <% end -%>
   </ul>

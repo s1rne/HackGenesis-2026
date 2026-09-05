@@ -1,72 +1,29 @@
-<% if present?("goal_relaxations") || present?("data_quality") -%>
-<section class="two-col" id="kachestvo">
-
-<% if present?("goal_relaxations") -%>
-<%
-  grouped = section("goal_relaxations").group_by { |event| [event["type"], event["note"]] }
-                                       .map { |(type, note), items| [type, note, items] }
-                                       .sort_by { |_, _, items| -items.size }
--%>
-  <div class="card">
-    <div class="card-head">
-      <h2>Уступки по целям</h2>
-      <span class="badge flat">событий: <%= h(num(section("goal_relaxations").size)) %></span>
-    </div>
-    <p class="card-note">
-      Что роутер сделал, когда цель нельзя было выполнить буквально: чью долю пришлось перераспределить
-      и на каких заявках пул допустимых провайдеров оказался пуст.
-    </p>
-    <div class="table-scroll">
-    <table>
-      <thead>
-        <tr><th>Событие</th><th>Что произошло</th><th class="num">Заявок</th><th>Операции</th></tr>
-      </thead>
-      <tbody>
-<% grouped.each do |type, note, items| -%>
-        <tr>
-          <td><span class="tag"><%= h(type) %></span></td>
-          <td><%= h(note) %></td>
-          <td class="num"><%= h(num(items.size)) %></td>
-          <td style="font-size:13px;color:var(--ink-2)"><%= h(items.map { |i| i["operation_id"] }.compact.join(", ")) %></td>
-        </tr>
-<% end -%>
-      </tbody>
-    </table>
-    </div>
-  </div>
-<% end -%>
-
 <% if present?("data_quality") -%>
-<%  quality = section("data_quality") -%>
-  <div class="card">
-    <div class="card-head">
-      <h2>Качество входных данных</h2>
-<% (quality["counts"] || {}).each do |severity, count| -%>
-      <span class="badge <%= h(severity_status(severity)) %>"><%= h(severity_label(severity)) %>: <%= h(num(count)) %></span>
+<%
+  quality = section("data_quality")
+  counts = quality["counts"] || {}
+  words = {
+    "error" => %w[ошибка ошибки ошибок],
+    "warning" => %w[предупреждение предупреждения предупреждений],
+    "info" => %w[замечание замечания замечаний]
+  }
+  order = %w[error warning info]
+  summary = counts.sort_by { |severity, _| order.index(severity) || 9 }
+                  .map { |severity, count| "#{count} #{plural(count.to_i, *words.fetch(severity, [severity] * 3))}" }
+                  .join(", ")
+  items = Array(quality["items"])
+-%>
+<section id="kachestvo">
+  <details class="data">
+    <summary>Входные данные: <%= h(summary.empty? ? "без замечаний" : summary) %></summary>
+    <ul class="data-list">
+<% items.each do |item| -%>
+      <li>
+        <span class="sev <%= h(severity_status(item["severity"])) %>"><%= h(severity_label(item["severity"])) %></span>
+        <span><%= h(item["source"]) %><%= blank?(item["field"]) ? "" : " · #{h(item["field"])}" %> — <%= h(item["message"]) %></span>
+      </li>
 <% end -%>
-    </div>
-    <p class="card-note">
-      Замечания, найденные при чтении входных файлов. Прогон на них не падает — они фиксируются,
-      чтобы результат можно было объяснить.
-    </p>
-    <div class="table-scroll">
-    <table>
-      <thead>
-        <tr><th>Уровень</th><th>Источник</th><th>Замечание</th></tr>
-      </thead>
-      <tbody>
-<% Array(quality["items"]).each do |item| -%>
-        <tr>
-          <td><span class="badge <%= h(severity_status(item["severity"])) %>"><%= h(severity_label(item["severity"])) %></span></td>
-          <td style="font-size:14px"><%= h(item["source"]) %><%= blank?(item["field"]) ? "" : " · #{h(item["field"])}" %></td>
-          <td style="font-size:14px"><%= h(item["message"]) %></td>
-        </tr>
-<% end -%>
-      </tbody>
-    </table>
-    </div>
-  </div>
-<% end -%>
-
+    </ul>
+  </details>
 </section>
 <% end -%>
