@@ -41,6 +41,47 @@ class StrategiesTest < Minitest::Test
                     message || "#{strategy.id}: ожидалось #{better_context.id} > #{worse_context.id}"
   end
 
+  # --- цена заявки для партнёра --------------------------------------------
+
+  # Лимит задан в деньгах, доля — в заявках. Крупный чек, отданный партнёру
+  # с узким остатком, стоит ему нескольких заявок собственной доли.
+  def test_headroom_fit_prefers_the_provider_for_whom_the_operation_is_cheaper
+    _, tight, roomy = pair({ "daily_amount_limit" => 100_000, "daily_approved_amount" => 0 },
+                           { "daily_amount_limit" => 5_000_000, "daily_approved_amount" => 0 },
+                           operation: { amount: 47_000 })
+
+    assert_prefers(S::HeadroomFit.new, roomy, tight,
+                   "47 000 — половина остатка у первого и процент у второго")
+  end
+
+  def test_headroom_fit_says_nothing_when_there_is_no_daily_limit
+    _, without, _with = pair({}, { "daily_amount_limit" => 1_000_000 })
+
+    assert_nil S::HeadroomFit.new.raw_score(without),
+               "без дневного лимита сравнивать нечего — цель обязана промолчать"
+    assert_match(/запас неограничен/, S::HeadroomFit.new.explain(without))
+  end
+
+  # Величина у этой цели имеет собственный смысл: 0.47 — «половина остатка».
+  # Нормализация по кандидатам растянула бы разницу в три процента до максимума.
+  def test_headroom_fit_is_measured_on_its_own_scale
+    assert S::HeadroomFit.new.absolute?, "доля запаса — готовая шкала 0..1"
+    refute S::CountShare.new.absolute?, "заявки недобора — не шкала 0..1"
+  end
+
+  def test_absolute_scale_survives_the_scorer_untouched
+    _, tight, roomy = pair({ "daily_amount_limit" => 100_000, "daily_approved_amount" => 0 },
+                           { "daily_amount_limit" => 5_000_000, "daily_approved_amount" => 0 },
+                           operation: { amount: 50_000 })
+    scorer = Routing::Scorer.new([S::HeadroomFit.new("weight" => 1.0, "tier" => 2)],
+                                 Routing::Config.new(Routing::Config::DEFAULTS))
+    ranked = scorer.rank([tight, roomy])
+    values = ranked.to_h { |row| [row.provider_id, row.contributions.first.normalized] }
+
+    assert_in_delta 0.5, values["left"], 1e-6, "половина остатка обязана остаться половиной"
+    assert_operator values["right"], :>, 0.98, "процент остатка обязан остаться процентом"
+  end
+
   # --- 1. доля по количеству заявок ----------------------------------------
 
   def test_count_share_prefers_the_provider_with_the_bigger_deficit

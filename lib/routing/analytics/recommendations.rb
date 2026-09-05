@@ -24,6 +24,7 @@ module Routing
         items.concat(share_drift)
         items.concat(volume_drift)
         items.concat(capacity_pressure)
+        items.concat(capacity_efficiency)
         items.concat(conversion_gap)
         items.concat(structural_blocks)
         items.concat(turnover_commitments)
@@ -173,6 +174,56 @@ module Routing
       end
 
       # 3. Заявленная конверсия против наблюдаемой.
+      # Лимит в деньгах, цель в заявках.
+      #
+      # Партнёр может выбрать дневной лимит целиком и всё равно недобрать свою
+      # долю — если ему достались крупные чеки. Те же деньги, потраченные на
+      # мелкие выплаты, дали бы больше заявок. Разрыв виден точно: потолок по
+      # ёмкости в разделе достижимости считается жадным набором самых дешёвых
+      # заявок в пределах свободного лимита, и если факт ниже потолка, значит
+      # деньги ушли на чеки крупнее, чем следовало.
+      #
+      # Это не абстракция: на прогоне из шестидесяти заявок payflow забрал семь
+      # штук на 99 300 ₽ при потолке в одиннадцать.
+      CAPACITY_EFFICIENCY_GAP_PCT = 2.0
+
+      def capacity_efficiency
+        total = @report.distribution.sum { |_, row| row["count"].to_i }
+        return [] if total.zero?
+
+        @fleet.providers.filter_map do |provider|
+          next if provider.self_provider? || provider.daily_amount_limit.nil?
+
+          state = @fleet[provider.id]
+          next if (state.daily_utilization * 100) < 95.0
+
+          row = @report.distribution[provider.id]
+          ceiling = achievable_ceiling(provider.id)
+          next if row.nil? || ceiling.nil?
+
+          gap = ceiling.to_f - row["share_pct"].to_f
+          next if gap < CAPACITY_EFFICIENCY_GAP_PCT
+
+          count = row["count"].to_i
+          fits = (ceiling.to_f * total / 100.0).round
+          average = count.positive? ? (row["volume"].to_f / count).round : 0
+
+          item(
+            text: "#{provider.id} исчерпал дневной лимит на #{count} " \
+                  "#{plural(count, 'заявке', 'заявках', 'заявках')} при среднем чеке #{average} — " \
+                  "теми же деньгами он вместил бы #{fits}: его потолок по ёмкости #{ceiling}% " \
+                  "против фактических #{row['share_pct']}%. Лимит задан в деньгах, а доля в заявках, " \
+                  "поэтому крупные выплаты стоят ему собственной доли: сузить верхнюю границу чека " \
+                  "или отдать ему полосу мелких сумм",
+            parameter: "providers.#{provider.id}.limit_amount_max",
+            current: provider.limit_amount_max&.to_major,
+            evidence: "#{count} заявок на #{row['volume']} при свободном лимите на #{fits}",
+            priority: "high",
+            impact: gap
+          )
+        end
+      end
+
       def conversion_gap
         return [] if @calibration.nil? || @calibration.empty?
 

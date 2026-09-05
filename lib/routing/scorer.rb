@@ -114,7 +114,10 @@ module Routing
           end
         end
 
-        normalized = Statistics.min_max_normalize(raws)
+        # Цель с собственной шкалой 0..1 берётся как есть: растягивать её
+        # по кандидатам значило бы стирать величину разницы, ради которой
+        # она и считается.
+        normalized = strategy.absolute? ? raws.map { |raw| raw&.clamp(0.0, 1.0) } : Statistics.min_max_normalize(raws)
         contexts.each_with_index.map do |context, index|
           value = normalized[index] || 0.5
           Contribution.new(

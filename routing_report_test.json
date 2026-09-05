@@ -505,7 +505,7 @@
     }
   ],
   "routing_setup": {
-    "run_id": "f58b15c22ed6",
+    "run_id": "d5122831af52",
     "profile": "balanced",
     "scoring_mode": "lexicographic_weighted",
     "seed": 20260906,
@@ -565,6 +565,11 @@
         "tier": 3
       },
       {
+        "id": "headroom_fit",
+        "weight": 0.7,
+        "tier": 2
+      },
+      {
         "id": "margin",
         "weight": 0.4,
         "tier": 3
@@ -580,7 +585,7 @@
     "inputs": {
       "providers": "sha256:ddcf33dd1b7da401",
       "history": "sha256:97c3b1eb7fdc04bc",
-      "config": "sha256:e128921edd7d2f9b"
+      "config": "sha256:5d14604ef47f102e"
     },
     "note": "run_id детерминирован: это функция входов и настроек, а не времени. Одинаковые входы дают одинаковый run_id — по нему сверяют, тот ли это прогон"
   },

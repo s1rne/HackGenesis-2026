@@ -3,34 +3,34 @@
   "total_operations": 25,
   "distribution": {
     "tenge_rail": {
-      "count": 8,
-      "share_pct": 32.0,
+      "count": 9,
+      "share_pct": 36.0,
       "target_pct": 42.9,
-      "deviation_pct": -10.9,
-      "volume": 835499.0,
-      "volume_share_pct": 12.4,
+      "deviation_pct": -6.9,
+      "volume": 860499.5,
+      "volume_share_pct": 12.8,
       "target_volume_pct": 42.9,
-      "volume_deviation_pct": -30.4
+      "volume_deviation_pct": -30.1
     },
     "altair_pay": {
       "count": 8,
       "share_pct": 32.0,
       "target_pct": 28.6,
       "deviation_pct": 3.4,
-      "volume": 249480.5,
+      "volume": 249480.0,
       "volume_share_pct": 3.7,
       "target_volume_pct": 28.6,
       "volume_deviation_pct": -24.9
     },
     "orbita_gate": {
-      "count": 7,
-      "share_pct": 28.0,
+      "count": 6,
+      "share_pct": 24.0,
       "target_pct": 17.1,
-      "deviation_pct": 10.9,
-      "volume": 5581500.0,
-      "volume_share_pct": 83.0,
+      "deviation_pct": 6.9,
+      "volume": 5556500.0,
+      "volume_share_pct": 82.7,
       "target_volume_pct": 17.1,
-      "volume_deviation_pct": 65.9
+      "volume_deviation_pct": 65.5
     },
     "nordwind_pay": {
       "count": 0,
@@ -55,13 +55,12 @@
   },
   "skip_reasons": {
     "bank_not_in_list": 34,
-    "not_reached_in_cascade": 11,
+    "not_reached_in_cascade": 12,
     "amount_below_minimum": 9,
     "provider_inactive": 9,
     "amount_exceeds_limit": 7,
     "bank_excluded": 4,
-    "provider_declined": 4,
-    "provider_timeout": 2
+    "provider_declined": 4
   },
   "skip_reasons_by_category": {
     "по жёстким ограничениям": {
@@ -72,34 +71,33 @@
       "bank_excluded": 4
     },
     "по отказу провайдера": {
-      "provider_declined": 4,
-      "provider_timeout": 2
+      "provider_declined": 4
     },
     "не понадобились": {
-      "not_reached_in_cascade": 11
+      "not_reached_in_cascade": 12
     }
   },
   "projected_daily_utilization": {
     "tenge_rail": {
-      "used": 4985499,
+      "used": 5010499.5,
       "limit": 12000000,
-      "utilization_pct": 41.5,
-      "headroom": 7014501,
-      "added_this_run": 835499
+      "utilization_pct": 41.8,
+      "headroom": 6989500.5,
+      "added_this_run": 860499.5
     },
     "altair_pay": {
-      "used": 2029480.5,
+      "used": 2029480,
       "limit": 6000000,
       "utilization_pct": 33.8,
-      "headroom": 3970519.5,
-      "added_this_run": 249480.5
+      "headroom": 3970520,
+      "added_this_run": 249480
     },
     "orbita_gate": {
-      "used": 14981500,
+      "used": 14956500,
       "limit": 25000000,
-      "utilization_pct": 59.9,
-      "headroom": 10018500,
-      "added_this_run": 5581500
+      "utilization_pct": 59.8,
+      "headroom": 10043500,
+      "added_this_run": 5556500
     },
     "nordwind_pay": {
       "used": 25000.5,
@@ -119,57 +117,57 @@
     "nordwind_pay отсеян 12 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, halyk, otbasy",
     "tenge_rail отсеян 11 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, halyk, forte",
     "altair_pay отсеян 11 раз из 25 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: kaspi, jusan, bereke, freedom",
-    "orbita_gate перебирает по объёму: факт 83.0% против цели 17.1% (65.9 п.п. выше) при доле по количеству 28.0% — привести volume_share_pct к 83.0% или пересмотреть долю по количеству",
-    "tenge_rail недобирает по объёму: факт 12.4% против цели 42.9% (30.4 п.п. ниже) при доле по количеству 32.0% — привести volume_share_pct к 12.4% или пересмотреть долю по количеству",
+    "orbita_gate перебирает по объёму: факт 82.7% против цели 17.1% (65.5 п.п. выше) при доле по количеству 24.0% — привести volume_share_pct к 82.7% или пересмотреть долю по количеству",
+    "tenge_rail недобирает по объёму: факт 12.8% против цели 42.9% (30.1 п.п. ниже) при доле по количеству 36.0% — привести volume_share_pct к 12.8% или пересмотреть долю по количеству",
     "altair_pay недобирает по объёму: факт 3.7% против цели 28.6% (24.9 п.п. ниже) при доле по количеству 32.0% — заявок он получает ровно свою долю, расходятся размеры чеков: настроить полосы сумм в amount_band",
     "nordwind_pay недобирает долю: факт 0.0% против цели 11.4% (отклонение -11.4 п.п.) — привести traffic_percentage к 5.7% или снять ограничение, из-за которого он выпадает"
   ],
   "outcomes": {
-    "approved": 25,
+    "approved": 23,
     "rejected": 0,
-    "expired": 0,
-    "approval_rate": 1.0,
-    "avg_latency_sec": 89.6,
-    "total_latency_sec": 2240
+    "expired": 2,
+    "approval_rate": 0.92,
+    "avg_latency_sec": 87.0,
+    "total_latency_sec": 2175
   },
   "provider_performance": {
     "tenge_rail": {
-      "attempts": 11,
-      "selected": 8,
-      "approved": 8,
+      "attempts": 12,
+      "selected": 9,
+      "approved": 9,
       "declined": 3,
       "expired": 0,
-      "skipped": 16,
+      "skipped": 15,
       "declared_conversion": 0.83,
-      "observed_conversion": 0.7273,
-      "conversion_gap": -0.1027,
-      "load_factor": 0.4155,
+      "observed_conversion": 0.75,
+      "conversion_gap": -0.08,
+      "load_factor": 0.4175,
       "available_requisites": 18
     },
     "altair_pay": {
-      "attempts": 9,
+      "attempts": 8,
       "selected": 8,
-      "approved": 8,
+      "approved": 7,
       "declined": 0,
       "expired": 1,
-      "skipped": 16,
+      "skipped": 17,
       "declared_conversion": 0.91,
-      "observed_conversion": 0.8889,
-      "conversion_gap": -0.0211,
+      "observed_conversion": 0.875,
+      "conversion_gap": -0.035,
       "load_factor": 0.3382,
       "available_requisites": 7
     },
     "orbita_gate": {
-      "attempts": 9,
-      "selected": 7,
-      "approved": 7,
+      "attempts": 7,
+      "selected": 6,
+      "approved": 5,
       "declined": 1,
       "expired": 1,
-      "skipped": 17,
+      "skipped": 18,
       "declared_conversion": 0.74,
-      "observed_conversion": 0.7778,
-      "conversion_gap": 0.0378,
-      "load_factor": 0.5993,
+      "observed_conversion": 0.7143,
+      "conversion_gap": -0.0257,
+      "load_factor": 0.5983,
       "available_requisites": 25
     },
     "nordwind_pay": {
@@ -198,12 +196,12 @@
     }
   },
   "cascade": {
-    "avg_depth": 1.24,
+    "avg_depth": 1.16,
     "max_depth": 3,
-    "single_attempt": 20,
-    "multi_attempt": 5,
-    "rescued_by_cascade": 5,
-    "cascade_uplift_pct": 20.0,
+    "single_attempt": 22,
+    "multi_attempt": 3,
+    "rescued_by_cascade": 3,
+    "cascade_uplift_pct": 12.0,
     "fallback_used": 2
   },
   "goal_relaxation_summary": {
@@ -623,15 +621,6 @@
       "type": "pool_exhausted",
       "policy": "retry_best",
       "refused": [
-        "orbita_gate"
-      ],
-      "note": "все допустимые провайдеры отказали в приёме",
-      "operation_id": "pay-2013"
-    },
-    {
-      "type": "pool_exhausted",
-      "policy": "retry_best",
-      "refused": [
         "tenge_rail"
       ],
       "note": "все допустимые провайдеры отказали в приёме",
@@ -704,7 +693,7 @@
       "text": "fallback на собственного провайдера сработал 2 раз — расширить пул внешних провайдеров под эти заявки, каждое такое срабатывание означает, что маршрута не нашлось",
       "parameter": "run.max_attempts",
       "current": 4,
-      "evidence": "средняя глубина каскада 1.24",
+      "evidence": "средняя глубина каскада 1.16",
       "priority": "high",
       "impact": 40
     },
@@ -730,30 +719,34 @@
       "impact": 110
     },
     {
-      "text": "orbita_gate перебирает по объёму: факт 83.0% против цели 17.1% (65.9 п.п. выше) при доле по количеству 28.0% — привести volume_share_pct к 83.0% или пересмотреть долю по количеству",
+      "text": "orbita_gate перебирает по объёму: факт 82.7% против цели 17.1% (65.5 п.п. выше) при доле по количеству 24.0% — привести volume_share_pct к 82.7% или пересмотреть долю по количеству",
       "parameter": "providers.orbita_gate.volume_share_pct",
       "current": 17.1,
-      "suggested": 83.0,
-      "evidence": "объём 5581500.0 из общего по прогону",
+      "suggested": 82.7,
+      "evidence": "объём 5556500.0 из общего по прогону",
       "priority": "medium",
-      "impact": 65.9
+      "impact": 65.5,
+      "short": "orbita_gate перебирает 65.5 п.п."
     },
     {
-      "text": "tenge_rail недобирает по объёму: факт 12.4% против цели 42.9% (30.4 п.п. ниже) при доле по количеству 32.0% — привести volume_share_pct к 12.4% или пересмотреть долю по количеству",
+      "text": "tenge_rail недобирает по объёму: факт 12.8% против цели 42.9% (30.1 п.п. ниже) при доле по количеству 36.0% — привести volume_share_pct к 12.8% или пересмотреть долю по количеству",
       "parameter": "providers.tenge_rail.volume_share_pct",
       "current": 42.9,
-      "suggested": 12.4,
-      "evidence": "объём 835499.0 из общего по прогону",
+      "suggested": 12.8,
+      "evidence": "объём 860499.5 из общего по прогону",
       "priority": "medium",
-      "impact": 30.4
+      "impact": 30.1,
+      "short": "tenge_rail недобирает 30.1 п.п."
     },
     {
       "text": "altair_pay недобирает по объёму: факт 3.7% против цели 28.6% (24.9 п.п. ниже) при доле по количеству 32.0% — заявок он получает ровно свою долю, расходятся размеры чеков: настроить полосы сумм в amount_band",
       "parameter": "strategies.amount_band.bands",
       "current": 28.6,
-      "evidence": "объём 249480.5 из общего по прогону",
+      "evidence": "объём 249480.0 из общего по прогону",
       "priority": "medium",
-      "impact": 24.9
+      "impact": 24.9,
+      "group": "amount_band",
+      "short": "altair_pay недобирает 24.9 п.п."
     },
     {
       "text": "nordwind_pay недобирает долю: факт 0.0% против цели 11.4% (отклонение -11.4 п.п.) — привести traffic_percentage к 5.7% или снять ограничение, из-за которого он выпадает",
@@ -824,6 +817,11 @@
         "id": "turnover_commitment",
         "weight": 0.5,
         "tier": 3
+      },
+      {
+        "id": "headroom_fit",
+        "weight": 0.7,
+        "tier": 2
       }
     ],
     "providers": [

@@ -237,7 +237,7 @@
   },
   {
     "operation_id": "pay-2008",
-    "selected_provider": "orbita_gate",
+    "selected_provider": "altair_pay",
     "attempts": [
       {
         "provider": "tenge_rail",
@@ -247,15 +247,15 @@
       },
       {
         "provider": "altair_pay",
-        "decision": "skipped",
-        "reason": "provider_timeout",
-        "details": "попытка 1: ответ expired за 452 с, заявка передана следующему кандидату"
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, в прогоне 1 из 1; нижняя граница 66.0% при доверии 90.0% на 9 эффективных наблюдениях; решающий фактор против orbita_gate — conversion"
       },
       {
         "provider": "orbita_gate",
-        "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "следующий в каскаде после отказа предыдущего"
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу"
       },
       {
         "provider": "nordwind_pay",
@@ -264,8 +264,8 @@
         "details": "Jusan Bank не входит в banks (kaspi, halyk, otbasy)"
       }
     ],
-    "simulated_result": "approved",
-    "latency_sec": 481
+    "simulated_result": "expired",
+    "latency_sec": 452
   },
   {
     "operation_id": "pay-2009",
@@ -419,15 +419,9 @@
       },
       {
         "provider": "orbita_gate",
-        "decision": "skipped",
-        "reason": "provider_timeout",
-        "details": "попытка 1: ответ expired за 383 с, других допустимых кандидатов нет"
-      },
-      {
-        "provider": "orbita_gate",
         "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был"
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения"
       },
       {
         "provider": "nordwind_pay",
@@ -436,8 +430,8 @@
         "details": "status = \"suspended\", ожидался \"active\""
       }
     ],
-    "simulated_result": "approved",
-    "latency_sec": 408
+    "simulated_result": "expired",
+    "latency_sec": 383
   },
   {
     "operation_id": "pay-2014",
@@ -446,8 +440,8 @@
       {
         "provider": "tenge_rail",
         "decision": "selected",
-        "reason": "amount_band_match",
-        "details": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band"
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 23.1% при цели 48.4% (3 из 13 уже распределённых), недобор 3.77 заявки; решающий фактор против altair_pay — count_share"
       },
       {
         "provider": "altair_pay",
@@ -478,8 +472,8 @@
       {
         "provider": "tenge_rail",
         "decision": "selected",
-        "reason": "amount_band_match",
-        "details": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band"
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 28.6% при цели 48.4% (4 из 14 уже распределённых), недобор 3.26 заявки; решающий фактор против altair_pay — count_share"
       },
       {
         "provider": "altair_pay",
@@ -799,25 +793,25 @@
   },
   {
     "operation_id": "pay-2025",
-    "selected_provider": "altair_pay",
+    "selected_provider": "tenge_rail",
     "attempts": [
       {
         "provider": "tenge_rail",
-        "decision": "skipped",
-        "reason": "not_reached_in_cascade",
-        "details": "заявку принял altair_pay, стоявший выше по скорингу"
+        "decision": "selected",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 33.3% при цели 48.4% (8 из 24 уже распределённых), недобор 4.1 заявки; решающий фактор против altair_pay — count_share"
       },
       {
         "provider": "altair_pay",
-        "decision": "selected",
-        "reason": "highest_conversion",
-        "details": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против tenge_rail — conversion"
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
       },
       {
         "provider": "orbita_gate",
         "decision": "skipped",
         "reason": "not_reached_in_cascade",
-        "details": "заявку принял altair_pay, стоявший выше по скорингу"
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу"
       },
       {
         "provider": "nordwind_pay",
@@ -827,6 +821,6 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 50
+    "latency_sec": 39
   }
 ]

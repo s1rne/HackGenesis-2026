@@ -11,7 +11,7 @@
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.6888,
+        "score": 0.7208,
         "outcome": "approved",
         "latency_sec": 33,
         "factors": [
@@ -85,6 +85,15 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.9956,
+            "normalized": 0.9956,
+            "contribution": 0.6969,
+            "note": "заявка съедает 0.4% оставшегося дневного запаса (34500 из 7850000)"
           }
         ]
       },
@@ -127,10 +136,10 @@
       "candidates": [
         {
           "provider": "tenge_rail",
-          "score": 0.6888,
+          "score": 0.7208,
           "tiers": {
             "1": 0.6829,
-            "2": 0.8696,
+            "2": 0.899,
             "3": 0.4202
           },
           "factors": [
@@ -204,15 +213,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9956,
+              "normalized": 0.9956,
+              "contribution": 0.6969,
+              "note": "заявка съедает 0.4% оставшегося дневного запаса (34500 из 7850000)"
             }
           ]
         },
         {
           "provider": "altair_pay",
-          "score": 0.6235,
+          "score": 0.662,
           "tiers": {
             "1": 0.6364,
-            "2": 0.4744,
+            "2": 0.5951,
             "3": 0.8333
           },
           "factors": [
@@ -286,15 +304,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9918,
+              "normalized": 0.9918,
+              "contribution": 0.6943,
+              "note": "заявка съедает 0.8% оставшегося дневного запаса (34500 из 4220000)"
             }
           ]
         },
         {
           "provider": "orbita_gate",
-          "score": 0.225,
+          "score": 0.3057,
           "tiers": {
             "1": 0.3636,
-            "2": 0.1304,
+            "2": 0.3328,
             "3": 0.1667
           },
           "factors": [
@@ -368,6 +395,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9978,
+              "normalized": 0.9978,
+              "contribution": 0.6985,
+              "note": "заявка съедает 0.2% оставшегося дневного запаса (34500 из 15600000)"
             }
           ]
         }
@@ -413,7 +449,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5521,
         "outcome": "approved",
         "latency_sec": 42
       },
@@ -456,85 +492,8 @@
       "candidates": [
         {
           "provider": "tenge_rail",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.5781,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 83.0%, в прогоне 1 из 1; нижняя граница 57.8% при доверии 90.0% на 9 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.3,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 12400 в полосе 100..20000 -> не в списке предпочтения (altair_pay)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 100.0% при цели 100.0% (1 из 1 уже распределённых), недобор 1.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.2644,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 100.0% при цели 100.0% (34500 из 34500)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -1.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 1"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.6513,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 34.9%, узкое место — дневной оборот (34.9%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5521,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -587,7 +546,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5522,
         "outcome": "approved",
         "latency_sec": 62
       },
@@ -621,85 +580,8 @@
       "candidates": [
         {
           "provider": "altair_pay",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.6291,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 91.0%, наблюдений пока нет — берём нижнюю границу 62.9% при доверии 90.0% и весе априорной оценки 8 наблюдений"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.95,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 780 в полосе 100..20000 -> предпочтителен (altair_pay)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 3.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 0.0% при цели 100.0% (0 из 2 уже распределённых), недобор 3.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 0.0% при цели 100.0% (0 из 46900)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -2.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 2"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.8,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.7033,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5522,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -761,7 +643,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5439,
         "outcome": "approved",
         "latency_sec": 25
       },
@@ -786,85 +668,8 @@
       "candidates": [
         {
           "provider": "orbita_gate",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.4506,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 74.0%, наблюдений пока нет — берём нижнюю границу 45.1% при доверии 90.0% и весе априорной оценки 8 наблюдений"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 1250000 в полосе 400001..+ -> предпочтителен (orbita_gate)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 4.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 0.0% при цели 100.0% (0 из 3 уже распределённых), недобор 4.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 0.0% при цели 100.0% (0 из 47680)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -3.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 3"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.624,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 37.6%, узкое место — дневной оборот (37.6%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5439,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -926,7 +731,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5315,
         "outcome": "approved",
         "latency_sec": 32
       },
@@ -951,85 +756,8 @@
       "candidates": [
         {
           "provider": "orbita_gate",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.4948,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 74.0%, в прогоне 1 из 1; нижняя граница 49.5% при доверии 90.0% на 9 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 2850000 в полосе 400001..+ -> предпочтителен (orbita_gate)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 4.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 25.0% при цели 100.0% (1 из 4 уже распределённых), недобор 4.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.6986,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 96.3% при цели 100.0% (1250000 из 1297680)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -3.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 3"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.574,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 42.6%, узкое место — дневной оборот (42.6%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5315,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -1243,7 +971,7 @@
   },
   {
     "operation_id": "pay-2008",
-    "selected_provider": "orbita_gate",
+    "selected_provider": "altair_pay",
     "attempts": [
       {
         "provider": "tenge_rail",
@@ -1256,90 +984,78 @@
       },
       {
         "provider": "altair_pay",
-        "decision": "skipped",
-        "reason": "provider_timeout",
-        "details": "попытка 1: ответ expired за 452 с, заявка передана следующему кандидату",
+        "decision": "selected",
+        "reason": "highest_conversion",
+        "details": "заявлено 91.0%, в прогоне 1 из 1; нижняя граница 66.0% при доверии 90.0% на 9 эффективных наблюдениях; решающий фактор против orbita_gate — conversion",
         "stage": "cascade_attempt",
         "sequence": 3,
         "attempt_no": 1,
+        "score": 0.7979,
         "outcome": "expired",
         "latency_sec": 452,
-        "explanation": "провайдер не ответил вовремя"
-      },
-      {
-        "provider": "orbita_gate",
-        "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "следующий в каскаде после отказа предыдущего",
-        "stage": "cascade_attempt",
-        "sequence": 4,
-        "attempt_no": 2,
-        "score": 0.5,
-        "outcome": "approved",
-        "latency_sec": 29,
         "factors": [
           {
             "factor": "conversion",
             "tier": 1,
             "weight": 1.4,
-            "raw": 0.5325,
-            "normalized": 0.5,
-            "contribution": 0.7,
-            "note": "заявлено 74.0%, в прогоне 2 из 2; нижняя граница 53.2% при доверии 90.0% на 10 эффективных наблюдениях"
+            "raw": 0.6603,
+            "normalized": 1.0,
+            "contribution": 1.4,
+            "note": "заявлено 91.0%, в прогоне 1 из 1; нижняя граница 66.0% при доверии 90.0% на 9 эффективных наблюдениях"
           },
           {
             "factor": "amount_band",
             "tier": 1,
             "weight": 0.8,
-            "raw": 0.75,
-            "normalized": 0.5,
-            "contribution": 0.4,
-            "note": "сумма 25000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
+            "raw": 0.4,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "сумма 25000 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
           },
           {
             "factor": "count_share",
             "tier": 2,
             "weight": 1.1,
-            "raw": 6.0,
-            "normalized": 0.5,
-            "contribution": 0.55,
-            "note": "доля по количеству 28.6% при цели 100.0% (2 из 7 уже распределённых), недобор 6.0 заявки"
+            "raw": 4.0,
+            "normalized": 1.0,
+            "contribution": 1.1,
+            "note": "доля по количеству 14.3% при цели 62.5% (1 из 7 уже распределённых), недобор 4.0 заявки"
           },
           {
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.5,
-            "raw": 0.0304,
-            "normalized": 0.5,
-            "contribution": 0.25,
-            "note": "доля по объёму 97.5% при цели 100.0% (4100000 из 4203580)"
+            "raw": 0.6248,
+            "normalized": 1.0,
+            "contribution": 0.5,
+            "note": "доля по объёму 0.0% при цели 62.5% (780 из 4203580)"
           },
           {
             "factor": "cascade_priority",
             "tier": 2,
             "weight": 0.4,
-            "raw": -3.0,
-            "normalized": 0.5,
-            "contribution": 0.2,
-            "note": "приоритет в каскаде 3"
+            "raw": -2.0,
+            "normalized": 1.0,
+            "contribution": 0.4,
+            "note": "приоритет в каскаде 2"
           },
           {
             "factor": "margin",
             "tier": 2,
             "weight": 0.3,
-            "raw": 1.0,
-            "normalized": 0.5,
-            "contribution": 0.15,
-            "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
+            "raw": 0.8,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
           },
           {
             "factor": "load_balance",
             "tier": 3,
             "weight": 1.0,
-            "raw": 0.46,
-            "normalized": 0.5,
-            "contribution": 0.5,
-            "note": "загрузка 54.0%, узкое место — дневной оборот (54.0%)"
+            "raw": 0.7032,
+            "normalized": 1.0,
+            "contribution": 1.0,
+            "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
           },
           {
             "factor": "turnover_commitment",
@@ -1348,8 +1064,26 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.9941,
+            "normalized": 0.9941,
+            "contribution": 0.6959,
+            "note": "заявка съедает 0.6% оставшегося дневного запаса (25000 из 4219220)"
           }
         ]
+      },
+      {
+        "provider": "orbita_gate",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял altair_pay, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 4,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
       },
       {
         "provider": "nordwind_pay",
@@ -1361,22 +1095,113 @@
         "explanation": "банк заявки не входит в список поддерживаемых"
       }
     ],
-    "simulated_result": "approved",
-    "latency_sec": 481,
+    "simulated_result": "expired",
+    "latency_sec": 452,
     "amount": 25000,
     "bank": "Jusan Bank",
     "selection": {
-      "reason": "cascade_retry",
-      "details": "следующий в каскаде после отказа предыдущего",
+      "reason": "highest_conversion",
+      "details": "заявлено 91.0%, в прогоне 1 из 1; нижняя граница 66.0% при доверии 90.0% на 9 эффективных наблюдениях; решающий фактор против orbita_gate — conversion",
       "profile": "kzt_card_payout",
       "candidates": [
         {
-          "provider": "orbita_gate",
-          "score": 0.5,
+          "provider": "altair_pay",
+          "score": 0.7979,
           "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
+            "1": 0.6364,
+            "2": 0.8986,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.6603,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 91.0%, в прогоне 1 из 1; нижняя граница 66.0% при доверии 90.0% на 9 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 25000 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 4.0,
+              "normalized": 1.0,
+              "contribution": 1.1,
+              "note": "доля по количеству 14.3% при цели 62.5% (1 из 7 уже распределённых), недобор 4.0 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.6248,
+              "normalized": 1.0,
+              "contribution": 0.5,
+              "note": "доля по объёму 0.0% при цели 62.5% (780 из 4203580)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 1.0,
+              "contribution": 0.4,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.7032,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9941,
+              "normalized": 0.9941,
+              "contribution": 0.6959,
+              "note": "заявка съедает 0.6% оставшегося дневного запаса (25000 из 4219220)"
+            }
+          ]
+        },
+        {
+          "provider": "orbita_gate",
+          "score": 0.3057,
+          "tiers": {
+            "1": 0.3636,
+            "2": 0.3328,
+            "3": 0.1667
           },
           "factors": [
             {
@@ -1384,8 +1209,8 @@
               "tier": 1,
               "weight": 1.4,
               "raw": 0.5325,
-              "normalized": 0.5,
-              "contribution": 0.7,
+              "normalized": 0.0,
+              "contribution": 0.0,
               "note": "заявлено 74.0%, в прогоне 2 из 2; нижняя граница 53.2% при доверии 90.0% на 10 эффективных наблюдениях"
             },
             {
@@ -1393,35 +1218,35 @@
               "tier": 1,
               "weight": 0.8,
               "raw": 0.75,
-              "normalized": 0.5,
-              "contribution": 0.4,
+              "normalized": 1.0,
+              "contribution": 0.8,
               "note": "сумма 25000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
             },
             {
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": 6.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 28.6% при цели 100.0% (2 из 7 уже распределённых), недобор 6.0 заявки"
+              "raw": 1.0,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 28.6% при цели 37.5% (2 из 7 уже распределённых), недобор 1.0 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": 0.0304,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 97.5% при цели 100.0% (4100000 из 4203580)"
+              "raw": -0.5946,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по объёму 97.5% при цели 37.5% (4100000 из 4203580)"
             },
             {
               "factor": "cascade_priority",
               "tier": 2,
               "weight": 0.4,
               "raw": -3.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
+              "normalized": 0.0,
+              "contribution": 0.0,
               "note": "приоритет в каскаде 3"
             },
             {
@@ -1429,8 +1254,8 @@
               "tier": 2,
               "weight": 0.3,
               "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.15,
+              "normalized": 1.0,
+              "contribution": 0.3,
               "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
             },
             {
@@ -1438,8 +1263,8 @@
               "tier": 3,
               "weight": 1.0,
               "raw": 0.46,
-              "normalized": 0.5,
-              "contribution": 0.5,
+              "normalized": 0.0,
+              "contribution": 0.0,
               "note": "загрузка 54.0%, узкое место — дневной оборот (54.0%)"
             },
             {
@@ -1449,6 +1274,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9978,
+              "normalized": 0.9978,
+              "contribution": 0.6985,
+              "note": "заявка съедает 0.2% оставшегося дневного запаса (25000 из 11500000)"
             }
           ]
         }
@@ -1461,15 +1295,9 @@
           "attempt": 1,
           "outcome": "expired",
           "latency_sec": 452
-        },
-        {
-          "provider": "orbita_gate",
-          "attempt": 2,
-          "outcome": "approved",
-          "latency_sec": 29
         }
       ],
-      "attempts_made": 2
+      "attempts_made": 1
     },
     "events": [
       {
@@ -1509,7 +1337,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5522,
         "outcome": "approved",
         "latency_sec": 44
       },
@@ -1543,85 +1371,8 @@
       "candidates": [
         {
           "provider": "altair_pay",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.5705,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 91.0%, в прогоне 1 из 2; нижняя граница 57.1% при доверии 90.0% на 10 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.95,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 3400 в полосе 100..20000 -> предпочтителен (altair_pay)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 8.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 12.5% при цели 100.0% (1 из 8 уже распределённых), недобор 8.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.9998,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 0.0% при цели 100.0% (780 из 4228580)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -2.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 2"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.8,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.7032,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5522,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -1674,7 +1425,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5518,
         "outcome": "approved",
         "latency_sec": 72
       },
@@ -1708,85 +1459,8 @@
       "candidates": [
         {
           "provider": "altair_pay",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.6007,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 91.0%, в прогоне 2 из 3; нижняя граница 60.1% при доверии 90.0% на 11 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.95,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 18700 в полосе 100..20000 -> предпочтителен (altair_pay)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 8.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 22.2% при цели 100.0% (2 из 9 уже распределённых), недобор 8.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.999,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 0.1% при цели 100.0% (4180 из 4231980)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -2.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 2"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.8,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.7026,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 29.7%, узкое место — дневной оборот (29.7%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5518,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -1839,7 +1513,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5492,
         "outcome": "approved",
         "latency_sec": 52
       },
@@ -1873,85 +1547,8 @@
       "candidates": [
         {
           "provider": "altair_pay",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.627,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 91.0%, в прогоне 3 из 4; нижняя граница 62.7% при доверии 90.0% на 12 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.4,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 120000 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 8.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 30.0% при цели 100.0% (3 из 10 уже распределённых), недобор 8.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.9948,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 0.5% при цели 100.0% (22880 из 4250680)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -2.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 2"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.8,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.6995,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 30.0%, узкое место — дневной оборот (30.0%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5492,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -2007,7 +1604,7 @@
         "stage": "cascade_attempt",
         "sequence": 5,
         "attempt_no": 3,
-        "score": 0.8417,
+        "score": 0.8554,
         "outcome": "approved",
         "latency_sec": 42,
         "factors": [
@@ -2081,6 +1678,15 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.9731,
+            "normalized": 0.9731,
+            "contribution": 0.6812,
+            "note": "заявка съедает 2.7% оставшегося дневного запаса (210000 из 7803100)"
           }
         ]
       },
@@ -2126,10 +1732,10 @@
       "candidates": [
         {
           "provider": "tenge_rail",
-          "score": 0.8417,
+          "score": 0.8554,
           "tiers": {
             "1": 0.8182,
-            "2": 0.8696,
+            "2": 0.8937,
             "3": 0.8333
           },
           "factors": [
@@ -2203,15 +1809,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9731,
+              "normalized": 0.9731,
+              "contribution": 0.6812,
+              "note": "заявка съедает 2.7% оставшегося дневного запаса (210000 из 7803100)"
             }
           ]
         },
         {
           "provider": "orbita_gate",
-          "score": 0.1583,
+          "score": 0.2444,
           "tiers": {
             "1": 0.1818,
-            "2": 0.1304,
+            "2": 0.3291,
             "3": 0.1667
           },
           "factors": [
@@ -2219,10 +1834,10 @@
               "factor": "conversion",
               "tier": 1,
               "weight": 1.4,
-              "raw": 0.5059,
+              "raw": 0.4724,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 74.0%, в прогоне 3 из 4; нижняя граница 50.6% при доверии 90.0% на 12 эффективных наблюдениях"
+              "note": "заявлено 74.0%, в прогоне 2 из 3; нижняя граница 47.2% при доверии 90.0% на 11 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -2237,19 +1852,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": 0.4286,
+              "raw": 1.4286,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по количеству 27.3% при цели 28.6% (3 из 11 уже распределённых), недобор 0.43 заявки"
+              "note": "доля по количеству 18.2% при цели 28.6% (2 из 11 уже распределённых), недобор 1.43 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": -0.6148,
+              "raw": -0.6093,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 94.4% при цели 28.6% (4125000 из 4370680)"
+              "note": "доля по объёму 93.8% при цели 28.6% (4100000 из 4370680)"
             },
             {
               "factor": "cascade_priority",
@@ -2273,10 +1888,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.459,
+              "raw": 0.46,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "загрузка 54.1%, узкое место — дневной оборот (54.1%)"
+              "note": "загрузка 54.0%, узкое место — дневной оборот (54.0%)"
             },
             {
               "factor": "turnover_commitment",
@@ -2285,6 +1900,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9817,
+              "normalized": 0.9817,
+              "contribution": 0.6872,
+              "note": "заявка съедает 1.8% оставшегося дневного запаса (210000 из 11500000)"
             }
           ]
         }
@@ -2364,27 +1988,15 @@
       },
       {
         "provider": "orbita_gate",
-        "decision": "skipped",
-        "reason": "provider_timeout",
-        "details": "попытка 1: ответ expired за 383 с, других допустимых кандидатов нет",
+        "decision": "selected",
+        "reason": "only_eligible_provider",
+        "details": "единственный провайдер, прошедший ограничения",
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
+        "score": 0.5517,
         "outcome": "expired",
-        "latency_sec": 383,
-        "explanation": "провайдер не ответил вовремя"
-      },
-      {
-        "provider": "orbita_gate",
-        "decision": "selected",
-        "reason": "cascade_retry",
-        "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
-        "stage": "cascade_attempt",
-        "sequence": 5,
-        "attempt_no": 2,
-        "score": 0.5,
-        "outcome": "approved",
-        "latency_sec": 25
+        "latency_sec": 383
       },
       {
         "provider": "nordwind_pay",
@@ -2396,96 +2008,19 @@
         "explanation": "провайдер не в статусе active"
       }
     ],
-    "simulated_result": "approved",
-    "latency_sec": 408,
+    "simulated_result": "expired",
+    "latency_sec": 383,
     "amount": 55000,
     "bank": "Otbasy Bank",
     "selection": {
-      "reason": "cascade_retry",
-      "details": "других допустимых провайдеров не осталось, повторная попытка на том же: уход на self-провайдера здесь означал бы, что маршрута не было, а он был",
+      "reason": "only_eligible_provider",
+      "details": "единственный провайдер, прошедший ограничения",
       "profile": "kzt_card_payout",
       "candidates": [
         {
           "provider": "orbita_gate",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.4588,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 74.0%, в прогоне 3 из 5; нижняя граница 45.9% при доверии 90.0% на 13 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.75,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 55000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 10.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 25.0% при цели 100.0% (3 из 12 уже распределённых), недобор 10.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.1102,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 90.1% при цели 100.0% (4125000 из 4580680)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -3.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 3"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.459,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 54.1%, узкое место — дневной оборот (54.1%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5517,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -2496,16 +2031,9 @@
           "attempt": 1,
           "outcome": "expired",
           "latency_sec": 383
-        },
-        {
-          "provider": "orbita_gate",
-          "attempt": 2,
-          "outcome": "approved",
-          "latency_sec": 25,
-          "final": true
         }
       ],
-      "attempts_made": 2
+      "attempts_made": 1
     },
     "events": [
       {
@@ -2521,14 +2049,6 @@
           "orbita_gate"
         ],
         "note": "целевая доля недоступных провайдеров (tenge_rail, altair_pay, nordwind_pay) перераспределена между orbita_gate"
-      },
-      {
-        "type": "pool_exhausted",
-        "policy": "retry_best",
-        "refused": [
-          "orbita_gate"
-        ],
-        "note": "все допустимые провайдеры отказали в приёме"
       }
     ]
   },
@@ -2539,12 +2059,12 @@
       {
         "provider": "tenge_rail",
         "decision": "selected",
-        "reason": "amount_band_match",
-        "details": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 23.1% при цели 48.4% (3 из 13 уже распределённых), недобор 3.77 заявки; решающий фактор против altair_pay — count_share",
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.7547,
+        "score": 0.8111,
         "outcome": "approved",
         "latency_sec": 45,
         "factors": [
@@ -2553,8 +2073,8 @@
             "tier": 1,
             "weight": 1.4,
             "raw": 0.5681,
-            "normalized": 0.4917,
-            "contribution": 0.6884,
+            "normalized": 0.6354,
+            "contribution": 0.8896,
             "note": "заявлено 83.0%, в прогоне 3 из 4; нижняя граница 56.8% при доверии 90.0% на 12 эффективных наблюдениях"
           },
           {
@@ -2607,8 +2127,8 @@
             "tier": 3,
             "weight": 1.0,
             "raw": 0.6328,
-            "normalized": 0.79,
-            "contribution": 0.79,
+            "normalized": 0.8042,
+            "contribution": 0.8042,
             "note": "загрузка 36.7%, узкое место — дневной оборот (36.7%)"
           },
           {
@@ -2618,6 +2138,15 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.987,
+            "normalized": 0.987,
+            "contribution": 0.6909,
+            "note": "заявка съедает 1.3% оставшегося дневного запаса (99000 из 7593100)"
           }
         ]
       },
@@ -2654,17 +2183,17 @@
     "amount": 99000,
     "bank": "Каспи",
     "selection": {
-      "reason": "amount_band_match",
-      "details": "сумма 99000 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 23.1% при цели 48.4% (3 из 13 уже распределённых), недобор 3.77 заявки; решающий фактор против altair_pay — count_share",
       "profile": "kzt_card_payout",
       "candidates": [
         {
           "provider": "tenge_rail",
-          "score": 0.7547,
+          "score": 0.8111,
           "tiers": {
-            "1": 0.6765,
-            "2": 0.8696,
-            "3": 0.6934
+            "1": 0.768,
+            "2": 0.897,
+            "3": 0.7028
           },
           "factors": [
             {
@@ -2672,8 +2201,8 @@
               "tier": 1,
               "weight": 1.4,
               "raw": 0.5681,
-              "normalized": 0.4917,
-              "contribution": 0.6884,
+              "normalized": 0.6354,
+              "contribution": 0.8896,
               "note": "заявлено 83.0%, в прогоне 3 из 4; нижняя граница 56.8% при доверии 90.0% на 12 эффективных наблюдениях"
             },
             {
@@ -2726,8 +2255,8 @@
               "tier": 3,
               "weight": 1.0,
               "raw": 0.6328,
-              "normalized": 0.79,
-              "contribution": 0.79,
+              "normalized": 0.8042,
+              "contribution": 0.8042,
               "note": "загрузка 36.7%, узкое место — дневной оборот (36.7%)"
             },
             {
@@ -2737,15 +2266,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.987,
+              "normalized": 0.987,
+              "contribution": 0.6909,
+              "note": "заявка съедает 1.3% оставшегося дневного запаса (99000 из 7593100)"
             }
           ]
         },
         {
           "provider": "altair_pay",
-          "score": 0.6435,
+          "score": 0.6192,
           "tiers": {
             "1": 0.6364,
-            "2": 0.5265,
+            "2": 0.4996,
             "3": 0.8333
           },
           "factors": [
@@ -2771,19 +2309,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": 0.5161,
-              "normalized": 0.3567,
-              "contribution": 0.3924,
-              "note": "доля по количеству 30.8% при цели 32.3% (4 из 13 уже распределённых), недобор 0.52 заявки"
+              "raw": -0.4839,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 38.5% при цели 32.3% (5 из 13 уже распределённых), недобор -0.48 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": 0.2924,
-              "normalized": 0.8774,
-              "contribution": 0.4387,
-              "note": "доля по объёму 3.1% при цели 32.3% (142880 из 4635680)"
+              "raw": 0.2871,
+              "normalized": 0.8721,
+              "contribution": 0.436,
+              "note": "доля по объёму 3.6% при цели 32.3% (167880 из 4635680)"
             },
             {
               "factor": "cascade_priority",
@@ -2807,10 +2345,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.6795,
+              "raw": 0.6754,
               "normalized": 1.0,
               "contribution": 1.0,
-              "note": "загрузка 32.0%, узкое место — дневной оборот (32.0%)"
+              "note": "загрузка 32.5%, узкое место — дневной оборот (32.5%)"
             },
             {
               "factor": "turnover_commitment",
@@ -2819,15 +2357,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9756,
+              "normalized": 0.9756,
+              "contribution": 0.6829,
+              "note": "заявка съедает 2.4% оставшегося дневного запаса (99000 из 4052120)"
             }
           ]
         },
         {
           "provider": "orbita_gate",
-          "score": 0.225,
+          "score": 0.3125,
           "tiers": {
             "1": 0.3636,
-            "2": 0.1304,
+            "2": 0.348,
             "3": 0.1667
           },
           "factors": [
@@ -2835,10 +2382,10 @@
               "factor": "conversion",
               "tier": 1,
               "weight": 1.4,
-              "raw": 0.4888,
+              "raw": 0.4252,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 74.0%, в прогоне 4 из 6; нижняя граница 48.9% при доверии 90.0% на 14 эффективных наблюдениях"
+              "note": "заявлено 74.0%, в прогоне 2 из 4; нижняя граница 42.5% при доверии 90.0% на 12 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -2853,19 +2400,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": -1.2903,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "доля по количеству 30.8% при цели 19.4% (4 из 13 уже распределённых), недобор -1.29 заявки"
+              "raw": -0.2903,
+              "normalized": 0.0455,
+              "contribution": 0.05,
+              "note": "доля по количеству 23.1% при цели 19.4% (3 из 13 уже распределённых), недобор -0.29 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": -0.6893,
+              "raw": -0.684,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 90.2% при цели 19.4% (4180000 из 4635680)"
+              "note": "доля по объёму 89.6% при цели 19.4% (4155000 из 4635680)"
             },
             {
               "factor": "cascade_priority",
@@ -2889,10 +2436,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.4568,
+              "raw": 0.4578,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "загрузка 54.3%, узкое место — дневной оборот (54.3%)"
+              "note": "загрузка 54.2%, узкое место — дневной оборот (54.2%)"
             },
             {
               "factor": "turnover_commitment",
@@ -2901,6 +2448,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9913,
+              "normalized": 0.9913,
+              "contribution": 0.6939,
+              "note": "заявка съедает 0.9% оставшегося дневного запаса (99000 из 11445000)"
             }
           ]
         }
@@ -2941,12 +2497,12 @@
       {
         "provider": "tenge_rail",
         "decision": "selected",
-        "reason": "amount_band_match",
-        "details": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 28.6% при цели 48.4% (4 из 14 уже распределённых), недобор 3.26 заявки; решающий фактор против altair_pay — count_share",
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.7867,
+        "score": 0.8292,
         "outcome": "approved",
         "latency_sec": 48,
         "factors": [
@@ -2955,8 +2511,8 @@
             "tier": 1,
             "weight": 1.4,
             "raw": 0.5945,
-            "normalized": 0.655,
-            "contribution": 0.917,
+            "normalized": 0.7525,
+            "contribution": 1.0535,
             "note": "заявлено 83.0%, в прогоне 4 из 5; нижняя граница 59.4% при доверии 90.0% на 13 эффективных наблюдениях"
           },
           {
@@ -3009,8 +2565,8 @@
             "tier": 3,
             "weight": 1.0,
             "raw": 0.6245,
-            "normalized": 0.753,
-            "contribution": 0.753,
+            "normalized": 0.7663,
+            "contribution": 0.7663,
             "note": "загрузка 37.5%, узкое место — дневной оборот (37.5%)"
           },
           {
@@ -3020,6 +2576,15 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.98,
+            "normalized": 0.98,
+            "contribution": 0.686,
+            "note": "заявка съедает 2.0% оставшегося дневного запаса (149999 из 7494100)"
           }
         ]
       },
@@ -3056,17 +2621,17 @@
     "amount": 149999,
     "bank": "Kaspi Bank",
     "selection": {
-      "reason": "amount_band_match",
-      "details": "сумма 149999 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate); решающий фактор против altair_pay — amount_band",
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 28.6% при цели 48.4% (4 из 14 уже распределённых), недобор 3.26 заявки; решающий фактор против altair_pay — count_share",
       "profile": "kzt_card_payout",
       "candidates": [
         {
           "provider": "tenge_rail",
-          "score": 0.7867,
+          "score": 0.8292,
           "tiers": {
-            "1": 0.7805,
-            "2": 0.8696,
-            "3": 0.6687
+            "1": 0.8425,
+            "2": 0.8953,
+            "3": 0.6775
           },
           "factors": [
             {
@@ -3074,8 +2639,8 @@
               "tier": 1,
               "weight": 1.4,
               "raw": 0.5945,
-              "normalized": 0.655,
-              "contribution": 0.917,
+              "normalized": 0.7525,
+              "contribution": 1.0535,
               "note": "заявлено 83.0%, в прогоне 4 из 5; нижняя граница 59.4% при доверии 90.0% на 13 эффективных наблюдениях"
             },
             {
@@ -3128,8 +2693,8 @@
               "tier": 3,
               "weight": 1.0,
               "raw": 0.6245,
-              "normalized": 0.753,
-              "contribution": 0.753,
+              "normalized": 0.7663,
+              "contribution": 0.7663,
               "note": "загрузка 37.5%, узкое место — дневной оборот (37.5%)"
             },
             {
@@ -3139,15 +2704,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.98,
+              "normalized": 0.98,
+              "contribution": 0.686,
+              "note": "заявка съедает 2.0% оставшегося дневного запаса (149999 из 7494100)"
             }
           ]
         },
         {
           "provider": "altair_pay",
-          "score": 0.6607,
+          "score": 0.6189,
           "tiers": {
             "1": 0.6364,
-            "2": 0.5713,
+            "2": 0.4989,
             "3": 0.8333
           },
           "factors": [
@@ -3173,19 +2747,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": 0.8387,
-              "normalized": 0.4444,
-              "contribution": 0.4889,
-              "note": "доля по количеству 28.6% при цели 32.3% (4 из 14 уже распределённых), недобор 0.84 заявки"
+              "raw": -0.1613,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "доля по количеству 35.7% при цели 32.3% (5 из 14 уже распределённых), недобор -0.16 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": 0.2933,
-              "normalized": 0.8903,
-              "contribution": 0.4452,
-              "note": "доля по объёму 3.0% при цели 32.3% (142880 из 4734680)"
+              "raw": 0.2882,
+              "normalized": 0.885,
+              "contribution": 0.4425,
+              "note": "доля по объёму 3.5% при цели 32.3% (167880 из 4734680)"
             },
             {
               "factor": "cascade_priority",
@@ -3209,10 +2783,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.6795,
+              "raw": 0.6754,
               "normalized": 1.0,
               "contribution": 1.0,
-              "note": "загрузка 32.0%, узкое место — дневной оборот (32.0%)"
+              "note": "загрузка 32.5%, узкое место — дневной оборот (32.5%)"
             },
             {
               "factor": "turnover_commitment",
@@ -3221,15 +2795,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.963,
+              "normalized": 0.963,
+              "contribution": 0.6741,
+              "note": "заявка съедает 3.7% оставшегося дневного запаса (149999 из 4052120)"
             }
           ]
         },
         {
           "provider": "orbita_gate",
-          "score": 0.225,
+          "score": 0.3077,
           "tiers": {
             "1": 0.3636,
-            "2": 0.1304,
+            "2": 0.3372,
             "3": 0.1667
           },
           "factors": [
@@ -3237,10 +2820,10 @@
               "factor": "conversion",
               "tier": 1,
               "weight": 1.4,
-              "raw": 0.4888,
+              "raw": 0.4252,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 74.0%, в прогоне 4 из 6; нижняя граница 48.9% при доверии 90.0% на 14 эффективных наблюдениях"
+              "note": "заявлено 74.0%, в прогоне 2 из 4; нижняя граница 42.5% при доверии 90.0% на 12 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -3255,19 +2838,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": -1.0968,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "доля по количеству 28.6% при цели 19.4% (4 из 14 уже распределённых), недобор -1.1 заявки"
+              "raw": -0.0968,
+              "normalized": 0.0189,
+              "contribution": 0.0208,
+              "note": "доля по количеству 21.4% при цели 19.4% (3 из 14 уже распределённых), недобор -0.1 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": -0.6622,
+              "raw": -0.6571,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 88.3% при цели 19.4% (4180000 из 4734680)"
+              "note": "доля по объёму 87.8% при цели 19.4% (4155000 из 4734680)"
             },
             {
               "factor": "cascade_priority",
@@ -3291,10 +2874,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.4568,
+              "raw": 0.4578,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "загрузка 54.3%, узкое место — дневной оборот (54.3%)"
+              "note": "загрузка 54.2%, узкое место — дневной оборот (54.2%)"
             },
             {
               "factor": "turnover_commitment",
@@ -3303,6 +2886,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9869,
+              "normalized": 0.9869,
+              "contribution": 0.6908,
+              "note": "заявка съедает 1.3% оставшегося дневного запаса (149999 из 11445000)"
             }
           ]
         }
@@ -3360,7 +2952,7 @@
         "stage": "cascade_attempt",
         "sequence": 5,
         "attempt_no": 2,
-        "score": 0.5,
+        "score": 0.5521,
         "outcome": "approved",
         "latency_sec": 42
       },
@@ -3403,85 +2995,8 @@
       "candidates": [
         {
           "provider": "tenge_rail",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.5655,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 83.0%, в прогоне 5 из 7; нижняя граница 56.5% при доверии 90.0% на 15 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.3,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 7200 в полосе 100..20000 -> не в списке предпочтения (altair_pay)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 11.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 33.3% при цели 100.0% (5 из 15 уже распределённых), недобор 11.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.8966,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 10.4% при цели 100.0% (505899 из 4884679)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -1.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 1"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.612,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 38.8%, узкое место — дневной оборот (38.8%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5521,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -3540,7 +3055,7 @@
         "stage": "cascade_attempt",
         "sequence": 3,
         "attempt_no": 1,
-        "score": 0.8417,
+        "score": 0.8537,
         "outcome": "approved",
         "latency_sec": 46,
         "factors": [
@@ -3614,6 +3129,15 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.9564,
+            "normalized": 0.9564,
+            "contribution": 0.6695,
+            "note": "заявка съедает 4.4% оставшегося дневного запаса (320000 из 7336901)"
           }
         ]
       },
@@ -3656,10 +3180,10 @@
       "candidates": [
         {
           "provider": "tenge_rail",
-          "score": 0.8417,
+          "score": 0.8537,
           "tiers": {
             "1": 0.8182,
-            "2": 0.8696,
+            "2": 0.8898,
             "3": 0.8333
           },
           "factors": [
@@ -3733,15 +3257,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9564,
+              "normalized": 0.9564,
+              "contribution": 0.6695,
+              "note": "заявка съедает 4.4% оставшегося дневного запаса (320000 из 7336901)"
             }
           ]
         },
         {
           "provider": "orbita_gate",
-          "score": 0.1583,
+          "score": 0.2433,
           "tiers": {
             "1": 0.1818,
-            "2": 0.1304,
+            "2": 0.3268,
             "3": 0.1667
           },
           "factors": [
@@ -3749,10 +3282,10 @@
               "factor": "conversion",
               "tier": 1,
               "weight": 1.4,
-              "raw": 0.4888,
+              "raw": 0.4252,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 74.0%, в прогоне 4 из 6; нижняя граница 48.9% при доверии 90.0% на 14 эффективных наблюдениях"
+              "note": "заявлено 74.0%, в прогоне 2 из 4; нижняя граница 42.5% при доверии 90.0% на 12 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -3767,19 +3300,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": 0.8571,
+              "raw": 1.8571,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по количеству 25.0% при цели 28.6% (4 из 16 уже распределённых), недобор 0.86 заявки"
+              "note": "доля по количеству 18.8% при цели 28.6% (3 из 16 уже распределённых), недобор 1.86 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": -0.5163,
+              "raw": -0.5115,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 85.4% при цели 28.6% (4180000 из 4891879)"
+              "note": "доля по объёму 84.9% при цели 28.6% (4155000 из 4891879)"
             },
             {
               "factor": "cascade_priority",
@@ -3803,10 +3336,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.4568,
+              "raw": 0.4578,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "загрузка 54.3%, узкое место — дневной оборот (54.3%)"
+              "note": "загрузка 54.2%, узкое место — дневной оборот (54.2%)"
             },
             {
               "factor": "turnover_commitment",
@@ -3815,6 +3348,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.972,
+              "normalized": 0.972,
+              "contribution": 0.6804,
+              "note": "заявка съедает 2.8% оставшегося дневного запаса (320000 из 11445000)"
             }
           ]
         }
@@ -3878,7 +3420,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5479,
         "outcome": "approved",
         "latency_sec": 37
       },
@@ -3903,85 +3445,8 @@
       "candidates": [
         {
           "provider": "orbita_gate",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.4888,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 74.0%, в прогоне 4 из 6; нижняя граница 48.9% при доверии 90.0% на 14 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 480000 в полосе 400001..+ -> предпочтителен (orbita_gate)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 14.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 23.5% при цели 100.0% (4 из 17 уже распределённых), недобор 14.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.2656,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 80.2% при цели 100.0% (4180000 из 5211879)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -3.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 3"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.4568,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 54.3%, узкое место — дневной оборот (54.3%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5479,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -4034,7 +3499,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5522,
         "outcome": "approved",
         "latency_sec": 47
       },
@@ -4068,85 +3533,8 @@
       "candidates": [
         {
           "provider": "altair_pay",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.6501,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 91.0%, в прогоне 4 из 5; нижняя граница 65.0% при доверии 90.0% на 13 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.95,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 2600 в полосе 100..20000 -> предпочтителен (altair_pay)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 15.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 22.2% при цели 100.0% (4 из 18 уже распределённых), недобор 15.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.9749,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 2.5% при цели 100.0% (142880 из 5691879)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -2.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 2"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.8,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.6795,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 32.0%, узкое место — дневной оборот (32.0%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5522,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -4199,7 +3587,7 @@
         "stage": "cascade_attempt",
         "sequence": 3,
         "attempt_no": 1,
-        "score": 0.775,
+        "score": 0.7969,
         "outcome": "approved",
         "latency_sec": 54,
         "factors": [
@@ -4225,19 +3613,19 @@
             "factor": "count_share",
             "tier": 2,
             "weight": 1.1,
-            "raw": 7.5,
+            "raw": 6.5,
             "normalized": 1.0,
             "contribution": 1.1,
-            "note": "доля по количеству 26.3% при цели 62.5% (5 из 19 уже распределённых), недобор 7.5 заявки"
+            "note": "доля по количеству 31.6% при цели 62.5% (6 из 19 уже распределённых), недобор 6.5 заявки"
           },
           {
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.5,
-            "raw": 0.5997,
+            "raw": 0.5954,
             "normalized": 1.0,
             "contribution": 0.5,
-            "note": "доля по объёму 2.6% при цели 62.5% (145480 из 5694479)"
+            "note": "доля по объёму 3.0% при цели 62.5% (170480 из 5694479)"
           },
           {
             "factor": "cascade_priority",
@@ -4261,10 +3649,10 @@
             "factor": "load_balance",
             "tier": 3,
             "weight": 1.0,
-            "raw": 0.6791,
+            "raw": 0.6749,
             "normalized": 1.0,
             "contribution": 1.0,
-            "note": "загрузка 32.1%, узкое место — дневной оборот (32.1%)"
+            "note": "загрузка 32.5%, узкое место — дневной оборот (32.5%)"
           },
           {
             "factor": "turnover_commitment",
@@ -4273,6 +3661,15 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.9842,
+            "normalized": 0.9842,
+            "contribution": 0.6889,
+            "note": "заявка съедает 1.6% оставшегося дневного запаса (64000 из 4049520)"
           }
         ]
       },
@@ -4306,10 +3703,10 @@
       "candidates": [
         {
           "provider": "altair_pay",
-          "score": 0.775,
+          "score": 0.7969,
           "tiers": {
             "1": 0.6364,
-            "2": 0.8696,
+            "2": 0.8963,
             "3": 0.8333
           },
           "factors": [
@@ -4335,19 +3732,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": 7.5,
+              "raw": 6.5,
               "normalized": 1.0,
               "contribution": 1.1,
-              "note": "доля по количеству 26.3% при цели 62.5% (5 из 19 уже распределённых), недобор 7.5 заявки"
+              "note": "доля по количеству 31.6% при цели 62.5% (6 из 19 уже распределённых), недобор 6.5 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": 0.5997,
+              "raw": 0.5954,
               "normalized": 1.0,
               "contribution": 0.5,
-              "note": "доля по объёму 2.6% при цели 62.5% (145480 из 5694479)"
+              "note": "доля по объёму 3.0% при цели 62.5% (170480 из 5694479)"
             },
             {
               "factor": "cascade_priority",
@@ -4371,10 +3768,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.6791,
+              "raw": 0.6749,
               "normalized": 1.0,
               "contribution": 1.0,
-              "note": "загрузка 32.1%, узкое место — дневной оборот (32.1%)"
+              "note": "загрузка 32.5%, узкое место — дневной оборот (32.5%)"
             },
             {
               "factor": "turnover_commitment",
@@ -4383,15 +3780,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9842,
+              "normalized": 0.9842,
+              "contribution": 0.6889,
+              "note": "заявка съедает 1.6% оставшегося дневного запаса (64000 из 4049520)"
             }
           ]
         },
         {
           "provider": "orbita_gate",
-          "score": 0.225,
+          "score": 0.3054,
           "tiers": {
             "1": 0.3636,
-            "2": 0.1304,
+            "2": 0.332,
             "3": 0.1667
           },
           "factors": [
@@ -4399,10 +3805,10 @@
               "factor": "conversion",
               "tier": 1,
               "weight": 1.4,
-              "raw": 0.5157,
+              "raw": 0.4588,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 74.0%, в прогоне 5 из 7; нижняя граница 51.6% при доверии 90.0% на 15 эффективных наблюдениях"
+              "note": "заявлено 74.0%, в прогоне 3 из 5; нижняя граница 45.9% при доверии 90.0% на 13 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -4417,19 +3823,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": 2.5,
+              "raw": 3.5,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по количеству 26.3% при цели 37.5% (5 из 19 уже распределённых), недобор 2.5 заявки"
+              "note": "доля по количеству 21.1% при цели 37.5% (4 из 19 уже распределённых), недобор 3.5 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": -0.4342,
+              "raw": -0.4299,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 81.8% при цели 37.5% (4660000 из 5694479)"
+              "note": "доля по объёму 81.4% при цели 37.5% (4635000 из 5694479)"
             },
             {
               "factor": "cascade_priority",
@@ -4453,10 +3859,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.4376,
+              "raw": 0.4386,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "загрузка 56.2%, узкое место — дневной оборот (56.2%)"
+              "note": "загрузка 56.1%, узкое место — дневной оборот (56.1%)"
             },
             {
               "factor": "turnover_commitment",
@@ -4465,6 +3871,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9942,
+              "normalized": 0.9942,
+              "contribution": 0.6959,
+              "note": "заявка съедает 0.6% оставшегося дневного запаса (64000 из 10965000)"
             }
           ]
         }
@@ -4531,7 +3946,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 2,
-        "score": 0.5,
+        "score": 0.5519,
         "outcome": "approved",
         "latency_sec": 33,
         "factors": [
@@ -4539,10 +3954,10 @@
             "factor": "conversion",
             "tier": 1,
             "weight": 1.4,
-            "raw": 0.5157,
+            "raw": 0.4588,
             "normalized": 0.5,
             "contribution": 0.7,
-            "note": "заявлено 74.0%, в прогоне 5 из 7; нижняя граница 51.6% при доверии 90.0% на 15 эффективных наблюдениях"
+            "note": "заявлено 74.0%, в прогоне 3 из 5; нижняя граница 45.9% при доверии 90.0% на 13 эффективных наблюдениях"
           },
           {
             "factor": "amount_band",
@@ -4557,19 +3972,19 @@
             "factor": "count_share",
             "tier": 2,
             "weight": 1.1,
-            "raw": 16.0,
+            "raw": 17.0,
             "normalized": 0.5,
             "contribution": 0.55,
-            "note": "доля по количеству 25.0% при цели 100.0% (5 из 20 уже распределённых), недобор 16.0 заявки"
+            "note": "доля по количеству 20.0% при цели 100.0% (4 из 20 уже распределённых), недобор 17.0 заявки"
           },
           {
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.5,
-            "raw": 0.1952,
+            "raw": 0.1995,
             "normalized": 0.5,
             "contribution": 0.25,
-            "note": "доля по объёму 80.9% при цели 100.0% (4660000 из 5758479)"
+            "note": "доля по объёму 80.5% при цели 100.0% (4635000 из 5758479)"
           },
           {
             "factor": "cascade_priority",
@@ -4593,10 +4008,10 @@
             "factor": "load_balance",
             "tier": 3,
             "weight": 1.0,
-            "raw": 0.4376,
+            "raw": 0.4386,
             "normalized": 0.5,
             "contribution": 0.5,
-            "note": "загрузка 56.2%, узкое место — дневной оборот (56.2%)"
+            "note": "загрузка 56.1%, узкое место — дневной оборот (56.1%)"
           },
           {
             "factor": "turnover_commitment",
@@ -4605,6 +4020,15 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.9971,
+            "normalized": 0.9971,
+            "contribution": 0.698,
+            "note": "заявка съедает 0.3% оставшегося дневного запаса (31500 из 10965000)"
           }
         ]
       },
@@ -4629,85 +4053,8 @@
       "candidates": [
         {
           "provider": "orbita_gate",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.5157,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 74.0%, в прогоне 5 из 7; нижняя граница 51.6% при доверии 90.0% на 15 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.75,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 31500 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 16.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 25.0% при цели 100.0% (5 из 20 уже распределённых), недобор 16.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.1952,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 80.9% при цели 100.0% (4660000 из 5758479)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -3.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 3"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.4376,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 56.2%, узкое место — дневной оборот (56.2%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5519,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -4757,7 +4104,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5522,
         "outcome": "approved",
         "latency_sec": 33
       },
@@ -4800,85 +4147,8 @@
       "candidates": [
         {
           "provider": "tenge_rail",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.5656,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 83.0%, в прогоне 7 из 10; нижняя граница 56.6% при доверии 90.0% на 18 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.3,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 2400 в полосе 100..20000 -> не в списке предпочтения (altair_pay)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 15.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 33.3% при цели 100.0% (7 из 21 уже распределённых), недобор 15.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.8562,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 14.4% при цели 100.0% (833099 из 5789979)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -1.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 1"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.5847,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 41.5%, узкое место — дневной оборот (41.5%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5522,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -4940,7 +4210,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 1,
-        "score": 0.5,
+        "score": 0.5437,
         "outcome": "approved",
         "latency_sec": 30
       },
@@ -4965,85 +4235,8 @@
       "candidates": [
         {
           "provider": "orbita_gate",
-          "score": 0.5,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.5,
-            "3": 0.5
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.54,
-              "normalized": 0.5,
-              "contribution": 0.7,
-              "note": "заявлено 74.0%, в прогоне 6 из 8; нижняя граница 54.0% при доверии 90.0% на 16 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.4,
-              "note": "сумма 890000 в полосе 400001..+ -> предпочтителен (orbita_gate)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 17.0,
-              "normalized": 0.5,
-              "contribution": 0.55,
-              "note": "доля по количеству 27.3% при цели 100.0% (6 из 22 уже распределённых), недобор 17.0 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.2979,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "доля по объёму 81.0% при цели 100.0% (4691500 из 5792379)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -3.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 3"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.15,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 0.9% = 1.0 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.4363,
-              "normalized": 0.5,
-              "contribution": 0.5,
-              "note": "загрузка 56.4%, узкое место — дневной оборот (56.4%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
+          "score": 0.5437,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
@@ -5096,7 +4289,7 @@
         "stage": "cascade_attempt",
         "sequence": 3,
         "attempt_no": 1,
-        "score": 0.625,
+        "score": 0.6638,
         "outcome": "approved",
         "latency_sec": 45,
         "factors": [
@@ -5122,19 +4315,19 @@
             "factor": "count_share",
             "tier": 2,
             "weight": 1.1,
-            "raw": 3.6,
+            "raw": 2.6,
             "normalized": 0.0,
             "contribution": 0.0,
-            "note": "доля по количеству 26.1% при цели 40.0% (6 из 23 уже распределённых), недобор 3.6 заявки"
+            "note": "доля по количеству 30.4% при цели 40.0% (7 из 23 уже распределённых), недобор 2.6 заявки"
           },
           {
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.5,
-            "raw": 0.3687,
+            "raw": 0.365,
             "normalized": 0.0,
             "contribution": 0.0,
-            "note": "доля по объёму 3.1% при цели 40.0% (209480 из 6682379)"
+            "note": "доля по объёму 3.5% при цели 40.0% (234480 из 6682379)"
           },
           {
             "factor": "cascade_priority",
@@ -5158,10 +4351,10 @@
             "factor": "load_balance",
             "tier": 3,
             "weight": 1.0,
-            "raw": 0.6684,
+            "raw": 0.6643,
             "normalized": 1.0,
             "contribution": 1.0,
-            "note": "загрузка 33.2%, узкое место — дневной оборот (33.2%)"
+            "note": "загрузка 33.6%, узкое место — дневной оборот (33.6%)"
           },
           {
             "factor": "turnover_commitment",
@@ -5170,6 +4363,15 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.9962,
+            "normalized": 0.9962,
+            "contribution": 0.6974,
+            "note": "заявка съедает 0.4% оставшегося дневного запаса (15000 из 3985520)"
           }
         ]
       },
@@ -5203,10 +4405,10 @@
       "candidates": [
         {
           "provider": "altair_pay",
-          "score": 0.625,
+          "score": 0.6638,
           "tiers": {
             "1": 1.0,
-            "2": 0.1304,
+            "2": 0.3325,
             "3": 0.8333
           },
           "factors": [
@@ -5232,19 +4434,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": 3.6,
+              "raw": 2.6,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по количеству 26.1% при цели 40.0% (6 из 23 уже распределённых), недобор 3.6 заявки"
+              "note": "доля по количеству 30.4% при цели 40.0% (7 из 23 уже распределённых), недобор 2.6 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": 0.3687,
+              "raw": 0.365,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 3.1% при цели 40.0% (209480 из 6682379)"
+              "note": "доля по объёму 3.5% при цели 40.0% (234480 из 6682379)"
             },
             {
               "factor": "cascade_priority",
@@ -5268,10 +4470,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.6684,
+              "raw": 0.6643,
               "normalized": 1.0,
               "contribution": 1.0,
-              "note": "загрузка 33.2%, узкое место — дневной оборот (33.2%)"
+              "note": "загрузка 33.6%, узкое место — дневной оборот (33.6%)"
             },
             {
               "factor": "turnover_commitment",
@@ -5280,15 +4482,24 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9962,
+              "normalized": 0.9962,
+              "contribution": 0.6974,
+              "note": "заявка съедает 0.4% оставшегося дневного запаса (15000 из 3985520)"
             }
           ]
         },
         {
           "provider": "tenge_rail",
-          "score": 0.375,
+          "score": 0.4401,
           "tiers": {
             "1": 0.0,
-            "2": 0.8696,
+            "2": 0.8995,
             "3": 0.1667
           },
           "factors": [
@@ -5362,6 +4573,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9979,
+              "normalized": 0.9979,
+              "contribution": 0.6985,
+              "note": "заявка съедает 0.2% оставшегося дневного запаса (15000 из 7014501)"
             }
           ]
         }
@@ -5397,91 +4617,82 @@
   },
   {
     "operation_id": "pay-2025",
-    "selected_provider": "altair_pay",
+    "selected_provider": "tenge_rail",
     "attempts": [
       {
         "provider": "tenge_rail",
-        "decision": "skipped",
-        "reason": "not_reached_in_cascade",
-        "details": "заявку принял altair_pay, стоявший выше по скорингу",
-        "stage": "ranking",
-        "sequence": 3,
-        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
-      },
-      {
-        "provider": "altair_pay",
         "decision": "selected",
-        "reason": "highest_conversion",
-        "details": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против tenge_rail — conversion",
+        "reason": "traffic_share_deficit",
+        "details": "доля по количеству 33.3% при цели 48.4% (8 из 24 уже распределённых), недобор 4.1 заявки; решающий фактор против altair_pay — count_share",
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.6769,
+        "score": 0.7403,
         "outcome": "approved",
-        "latency_sec": 50,
+        "latency_sec": 39,
         "factors": [
           {
             "factor": "conversion",
             "tier": 1,
             "weight": 1.4,
-            "raw": 0.705,
-            "normalized": 1.0,
-            "contribution": 1.4,
-            "note": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях"
+            "raw": 0.5846,
+            "normalized": 0.3637,
+            "contribution": 0.5092,
+            "note": "заявлено 83.0%, в прогоне 8 из 11; нижняя граница 58.5% при доверии 90.0% на 19 эффективных наблюдениях"
           },
           {
             "factor": "amount_band",
             "tier": 1,
             "weight": 0.8,
-            "raw": 0.4,
-            "normalized": 0.0,
-            "contribution": 0.0,
-            "note": "сумма 25000.50 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            "raw": 0.75,
+            "normalized": 1.0,
+            "contribution": 0.8,
+            "note": "сумма 25000.50 в полосе 20001..400000 -> предпочтителен (tenge_rail, orbita_gate)"
           },
           {
             "factor": "count_share",
             "tier": 2,
             "weight": 1.1,
-            "raw": 1.0645,
-            "normalized": 0.5155,
-            "contribution": 0.567,
-            "note": "доля по количеству 29.2% при цели 32.3% (7 из 24 уже распределённых), недобор 1.06 заявки"
+            "raw": 4.0968,
+            "normalized": 1.0,
+            "contribution": 1.1,
+            "note": "доля по количеству 33.3% при цели 48.4% (8 из 24 уже распределённых), недобор 4.1 заявки"
           },
           {
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.5,
-            "raw": 0.2892,
-            "normalized": 0.9293,
-            "contribution": 0.4647,
-            "note": "доля по объёму 3.4% при цели 32.3% (224480 из 6697379)"
+            "raw": 0.3596,
+            "normalized": 1.0,
+            "contribution": 0.5,
+            "note": "доля по объёму 12.5% при цели 48.4% (835499 из 6697379)"
           },
           {
             "factor": "cascade_priority",
             "tier": 2,
             "weight": 0.4,
-            "raw": -2.0,
-            "normalized": 0.5,
-            "contribution": 0.2,
-            "note": "приоритет в каскаде 2"
+            "raw": -1.0,
+            "normalized": 1.0,
+            "contribution": 0.4,
+            "note": "приоритет в каскаде 1"
           },
           {
             "factor": "margin",
             "tier": 2,
             "weight": 0.3,
-            "raw": 0.8,
-            "normalized": 0.6,
-            "contribution": 0.18,
-            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            "raw": 0.5,
+            "normalized": 0.0,
+            "contribution": 0.0,
+            "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.4% = 0.5 п.п."
           },
           {
             "factor": "load_balance",
             "tier": 3,
             "weight": 1.0,
-            "raw": 0.6659,
-            "normalized": 1.0,
-            "contribution": 1.0,
-            "note": "загрузка 33.4%, узкое место — дневной оборот (33.4%)"
+            "raw": 0.5845,
+            "normalized": 0.703,
+            "contribution": 0.703,
+            "note": "загрузка 41.5%, узкое место — дневной оборот (41.5%)"
           },
           {
             "factor": "turnover_commitment",
@@ -5490,14 +4701,32 @@
             "normalized": 0.5,
             "contribution": 0.25,
             "note": "обязательство по минимальному обороту не задано"
+          },
+          {
+            "factor": "headroom_fit",
+            "tier": 2,
+            "weight": 0.7,
+            "raw": 0.9964,
+            "normalized": 0.9964,
+            "contribution": 0.6975,
+            "note": "заявка съедает 0.4% оставшегося дневного запаса (25000.50 из 7014501)"
           }
         ]
+      },
+      {
+        "provider": "altair_pay",
+        "decision": "skipped",
+        "reason": "not_reached_in_cascade",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
+        "stage": "ranking",
+        "sequence": 3,
+        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
       },
       {
         "provider": "orbita_gate",
         "decision": "skipped",
         "reason": "not_reached_in_cascade",
-        "details": "заявку принял altair_pay, стоявший выше по скорингу",
+        "details": "заявку принял tenge_rail, стоявший выше по скорингу",
         "stage": "ranking",
         "sequence": 4,
         "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
@@ -5513,103 +4742,21 @@
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 50,
+    "latency_sec": 39,
     "amount": 25000.5,
     "bank": "Kaspi Bank",
     "selection": {
-      "reason": "highest_conversion",
-      "details": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях; решающий фактор против tenge_rail — conversion",
+      "reason": "traffic_share_deficit",
+      "details": "доля по количеству 33.3% при цели 48.4% (8 из 24 уже распределённых), недобор 4.1 заявки; решающий фактор против altair_pay — count_share",
       "profile": "kzt_card_payout",
       "candidates": [
         {
-          "provider": "altair_pay",
-          "score": 0.6769,
-          "tiers": {
-            "1": 0.6364,
-            "2": 0.6138,
-            "3": 0.8333
-          },
-          "factors": [
-            {
-              "factor": "conversion",
-              "tier": 1,
-              "weight": 1.4,
-              "raw": 0.705,
-              "normalized": 1.0,
-              "contribution": 1.4,
-              "note": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 1,
-              "weight": 0.8,
-              "raw": 0.4,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "сумма 25000.50 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.1,
-              "raw": 1.0645,
-              "normalized": 0.5155,
-              "contribution": 0.567,
-              "note": "доля по количеству 29.2% при цели 32.3% (7 из 24 уже распределённых), недобор 1.06 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.5,
-              "raw": 0.2892,
-              "normalized": 0.9293,
-              "contribution": 0.4647,
-              "note": "доля по объёму 3.4% при цели 32.3% (224480 из 6697379)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 2,
-              "weight": 0.4,
-              "raw": -2.0,
-              "normalized": 0.5,
-              "contribution": 0.2,
-              "note": "приоритет в каскаде 2"
-            },
-            {
-              "factor": "margin",
-              "tier": 2,
-              "weight": 0.3,
-              "raw": 0.8,
-              "normalized": 0.6,
-              "contribution": 0.18,
-              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 1.0,
-              "raw": 0.6659,
-              "normalized": 1.0,
-              "contribution": 1.0,
-              "note": "загрузка 33.4%, узкое место — дневной оборот (33.4%)"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 3,
-              "weight": 0.5,
-              "normalized": 0.5,
-              "contribution": 0.25,
-              "note": "обязательство по минимальному обороту не задано"
-            }
-          ]
-        },
-        {
           "provider": "tenge_rail",
-          "score": 0.6606,
+          "score": 0.7403,
           "tiers": {
-            "1": 0.4638,
-            "2": 0.8696,
-            "3": 0.6287
+            "1": 0.5951,
+            "2": 0.8992,
+            "3": 0.6354
           },
           "factors": [
             {
@@ -5617,8 +4764,8 @@
               "tier": 1,
               "weight": 1.4,
               "raw": 0.5846,
-              "normalized": 0.1574,
-              "contribution": 0.2204,
+              "normalized": 0.3637,
+              "contribution": 0.5092,
               "note": "заявлено 83.0%, в прогоне 8 из 11; нижняя граница 58.5% при доверии 90.0% на 19 эффективных наблюдениях"
             },
             {
@@ -5671,8 +4818,8 @@
               "tier": 3,
               "weight": 1.0,
               "raw": 0.5845,
-              "normalized": 0.6931,
-              "contribution": 0.6931,
+              "normalized": 0.703,
+              "contribution": 0.703,
               "note": "загрузка 41.5%, узкое место — дневной оборот (41.5%)"
             },
             {
@@ -5682,15 +4829,115 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9964,
+              "normalized": 0.9964,
+              "contribution": 0.6975,
+              "note": "заявка съедает 0.4% оставшегося дневного запаса (25000.50 из 7014501)"
+            }
+          ]
+        },
+        {
+          "provider": "altair_pay",
+          "score": 0.6634,
+          "tiers": {
+            "1": 0.6364,
+            "2": 0.5982,
+            "3": 0.8333
+          },
+          "factors": [
+            {
+              "factor": "conversion",
+              "tier": 1,
+              "weight": 1.4,
+              "raw": 0.705,
+              "normalized": 1.0,
+              "contribution": 1.4,
+              "note": "заявлено 91.0%, в прогоне 7 из 8; нижняя граница 70.5% при доверии 90.0% на 16 эффективных наблюдениях"
+            },
+            {
+              "factor": "amount_band",
+              "tier": 1,
+              "weight": 0.8,
+              "raw": 0.4,
+              "normalized": 0.0,
+              "contribution": 0.0,
+              "note": "сумма 25000.50 в полосе 20001..400000 -> не в списке предпочтения (tenge_rail, orbita_gate)"
+            },
+            {
+              "factor": "count_share",
+              "tier": 2,
+              "weight": 1.1,
+              "raw": 0.0645,
+              "normalized": 0.2331,
+              "contribution": 0.2564,
+              "note": "доля по количеству 33.3% при цели 32.3% (8 из 24 уже распределённых), недобор 0.06 заявки"
+            },
+            {
+              "factor": "volume_share",
+              "tier": 2,
+              "weight": 0.5,
+              "raw": 0.2855,
+              "normalized": 0.9253,
+              "contribution": 0.4627,
+              "note": "доля по объёму 3.7% при цели 32.3% (249480 из 6697379)"
+            },
+            {
+              "factor": "cascade_priority",
+              "tier": 2,
+              "weight": 0.4,
+              "raw": -2.0,
+              "normalized": 0.5,
+              "contribution": 0.2,
+              "note": "приоритет в каскаде 2"
+            },
+            {
+              "factor": "margin",
+              "tier": 2,
+              "weight": 0.3,
+              "raw": 0.8,
+              "normalized": 0.6,
+              "contribution": 0.18,
+              "note": "маржа мерчанта 1.9% минус комиссия провайдера 1.1% = 0.8 п.п."
+            },
+            {
+              "factor": "load_balance",
+              "tier": 3,
+              "weight": 1.0,
+              "raw": 0.6618,
+              "normalized": 1.0,
+              "contribution": 1.0,
+              "note": "загрузка 33.8%, узкое место — дневной оборот (33.8%)"
+            },
+            {
+              "factor": "turnover_commitment",
+              "tier": 3,
+              "weight": 0.5,
+              "normalized": 0.5,
+              "contribution": 0.25,
+              "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9937,
+              "normalized": 0.9937,
+              "contribution": 0.6956,
+              "note": "заявка съедает 0.6% оставшегося дневного запаса (25000.50 из 3970520)"
             }
           ]
         },
         {
           "provider": "orbita_gate",
-          "score": 0.225,
+          "score": 0.3057,
           "tiers": {
             "1": 0.3636,
-            "2": 0.1304,
+            "2": 0.3328,
             "3": 0.1667
           },
           "factors": [
@@ -5698,10 +4945,10 @@
               "factor": "conversion",
               "tier": 1,
               "weight": 1.4,
-              "raw": 0.5621,
+              "raw": 0.5157,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "заявлено 74.0%, в прогоне 7 из 9; нижняя граница 56.2% при доверии 90.0% на 17 эффективных наблюдениях"
+              "note": "заявлено 74.0%, в прогоне 5 из 7; нижняя граница 51.6% при доверии 90.0% на 15 эффективных наблюдениях"
             },
             {
               "factor": "amount_band",
@@ -5716,19 +4963,19 @@
               "factor": "count_share",
               "tier": 2,
               "weight": 1.1,
-              "raw": -2.1613,
+              "raw": -1.1613,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по количеству 29.2% при цели 19.4% (7 из 24 уже распределённых), недобор -2.16 заявки"
+              "note": "доля по количеству 25.0% при цели 19.4% (6 из 24 уже распределённых), недобор -1.16 заявки"
             },
             {
               "factor": "volume_share",
               "tier": 2,
               "weight": 0.5,
-              "raw": -0.6367,
+              "raw": -0.633,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "доля по объёму 83.3% при цели 19.4% (5581500 из 6697379)"
+              "note": "доля по объёму 83.0% при цели 19.4% (5556500 из 6697379)"
             },
             {
               "factor": "cascade_priority",
@@ -5752,10 +4999,10 @@
               "factor": "load_balance",
               "tier": 3,
               "weight": 1.0,
-              "raw": 0.4007,
+              "raw": 0.4017,
               "normalized": 0.0,
               "contribution": 0.0,
-              "note": "загрузка 59.9%, узкое место — дневной оборот (59.9%)"
+              "note": "загрузка 59.8%, узкое место — дневной оборот (59.8%)"
             },
             {
               "factor": "turnover_commitment",
@@ -5764,6 +5011,15 @@
               "normalized": 0.5,
               "contribution": 0.25,
               "note": "обязательство по минимальному обороту не задано"
+            },
+            {
+              "factor": "headroom_fit",
+              "tier": 2,
+              "weight": 0.7,
+              "raw": 0.9975,
+              "normalized": 0.9975,
+              "contribution": 0.6983,
+              "note": "заявка съедает 0.2% оставшегося дневного запаса (25000.50 из 10043500)"
             }
           ]
         }
@@ -5772,10 +5028,10 @@
     "cascade": {
       "path": [
         {
-          "provider": "altair_pay",
+          "provider": "tenge_rail",
           "attempt": 1,
           "outcome": "approved",
-          "latency_sec": 50
+          "latency_sec": 39
         }
       ],
       "attempts_made": 1

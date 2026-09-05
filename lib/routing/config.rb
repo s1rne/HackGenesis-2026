@@ -53,6 +53,7 @@ module Routing
         "amount_band" => { "enabled" => true, "weight" => 0.9, "tier" => 2, "bands" => [] },
         "cascade_priority" => { "enabled" => true, "weight" => 0.6, "tier" => 3 },
         "load_balance" => { "enabled" => true, "weight" => 0.7, "tier" => 3 },
+        "headroom_fit" => { "enabled" => true, "weight" => 0.7, "tier" => 2 },
         "margin" => { "enabled" => true, "weight" => 0.4, "tier" => 3 }
       },
       "scoring" => {

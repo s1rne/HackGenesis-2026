@@ -115,12 +115,16 @@ module RoutingTest
   class StubStrategy
     attr_reader :id, :weight, :tier
 
-    def initialize(id, tier: 2, weight: 1.0, scores: {})
+    def initialize(id, tier: 2, weight: 1.0, scores: {}, absolute: false)
       @id = id
       @tier = tier
       @weight = weight
       @scores = scores
+      @absolute = absolute
     end
+
+    # Часть контракта цели: величина уже в шкале 0..1 или её нормализует Scorer.
+    def absolute? = @absolute
 
     def raw_score(context) = @scores[context.provider.id]
     def explain(context) = "#{@id} по #{context.provider.id}"
