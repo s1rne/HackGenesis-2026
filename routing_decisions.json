@@ -11,7 +11,7 @@
         "stage": "cascade_attempt",
         "sequence": 1,
         "attempt_no": 1,
-        "score": 0.7079,
+        "score": 0.7561,
         "outcome": "approved",
         "latency_sec": 41,
         "factors": [
@@ -89,10 +89,10 @@
           {
             "factor": "headroom_fit",
             "tier": 2,
-            "weight": 0.7,
+            "weight": 2.5,
             "raw": 0.9917,
             "normalized": 0.9917,
-            "contribution": 0.6942,
+            "contribution": 2.4792,
             "note": "заявка съедает 0.8% оставшегося дневного запаса (15000 из 1800000)"
           },
           {
@@ -136,10 +136,10 @@
       "candidates": [
         {
           "provider": "vipay",
-          "score": 0.7079,
+          "score": 0.7561,
           "tiers": {
             "1": 0.5,
-            "2": 0.9099,
+            "2": 0.9337,
             "3": 0.5152
           },
           "factors": [
@@ -217,10 +217,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.9917,
               "normalized": 0.9917,
-              "contribution": 0.6942,
+              "contribution": 2.4792,
               "note": "заявка съедает 0.8% оставшегося дневного запаса (15000 из 1800000)"
             },
             {
@@ -236,10 +236,10 @@
         },
         {
           "provider": "payflow",
-          "score": 0.5695,
+          "score": 0.6171,
           "tiers": {
             "1": 0.5,
-            "2": 0.7186,
+            "2": 0.7567,
             "3": 0.2941
           },
           "factors": [
@@ -318,10 +318,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.85,
               "normalized": 0.85,
-              "contribution": 0.595,
+              "contribution": 2.125,
               "note": "заявка съедает 15.0% оставшегося дневного запаса (15000 из 100000)"
             },
             {
@@ -337,10 +337,10 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.4487,
+          "score": 0.5419,
           "tiers": {
             "1": 0.5,
-            "2": 0.3406,
+            "2": 0.5314,
             "3": 0.6471
           },
           "factors": [
@@ -418,10 +418,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.9978,
               "normalized": 0.9978,
-              "contribution": 0.6985,
+              "contribution": 2.4946,
               "note": "заявка съедает 0.2% оставшегося дневного запаса (15000 из 6900000)"
             },
             {
@@ -471,7 +471,7 @@
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.5925,
+        "score": 0.5802,
         "outcome": "approved",
         "latency_sec": 97,
         "factors": [
@@ -550,10 +550,10 @@
           {
             "factor": "headroom_fit",
             "tier": 2,
-            "weight": 0.7,
+            "weight": 2.5,
             "raw": 0.52,
             "normalized": 0.52,
-            "contribution": 0.364,
+            "contribution": 1.3,
             "note": "заявка съедает 48.0% оставшегося дневного запаса (48000 из 100000)"
           },
           {
@@ -588,10 +588,10 @@
       "candidates": [
         {
           "provider": "payflow",
-          "score": 0.5925,
+          "score": 0.5802,
           "tiers": {
             "1": 0.5,
-            "2": 0.7418,
+            "2": 0.6774,
             "3": 0.3529
           },
           "factors": [
@@ -670,10 +670,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.52,
               "normalized": 0.52,
-              "contribution": 0.364,
+              "contribution": 1.3,
               "note": "заявка съедает 48.0% оставшегося дневного запаса (48000 из 100000)"
             },
             {
@@ -689,10 +689,10 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.4483,
+          "score": 0.5408,
           "tiers": {
             "1": 0.5,
-            "2": 0.3398,
+            "2": 0.5295,
             "3": 0.6471
           },
           "factors": [
@@ -770,10 +770,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.993,
               "normalized": 0.993,
-              "contribution": 0.6951,
+              "contribution": 2.4826,
               "note": "заявка съедает 0.7% оставшегося дневного запаса (48000 из 6900000)"
             },
             {
@@ -858,7 +858,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 2,
-        "score": 0.538,
+        "score": 0.6128,
         "outcome": "rejected",
         "latency_sec": 83
       }
@@ -874,7 +874,7 @@
       "candidates": [
         {
           "provider": "quickpay",
-          "score": 0.538,
+          "score": 0.6128,
           "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
@@ -951,7 +951,7 @@
         "stage": "cascade_attempt",
         "sequence": 3,
         "attempt_no": 1,
-        "score": 0.5397,
+        "score": 0.6178,
         "outcome": "expired",
         "latency_sec": 314
       }
@@ -967,7 +967,7 @@
       "candidates": [
         {
           "provider": "quickpay",
-          "score": 0.5397,
+          "score": 0.6178,
           "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
@@ -1011,7 +1011,7 @@
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.8057,
+        "score": 0.8363,
         "outcome": "approved",
         "latency_sec": 32,
         "factors": [
@@ -1089,10 +1089,10 @@
           {
             "factor": "headroom_fit",
             "tier": 2,
-            "weight": 0.7,
+            "weight": 2.5,
             "raw": 0.986,
             "normalized": 0.986,
-            "contribution": 0.6902,
+            "contribution": 2.465,
             "note": "заявка съедает 1.4% оставшегося дневного запаса (25000 из 1785000)"
           },
           {
@@ -1136,10 +1136,10 @@
       "candidates": [
         {
           "provider": "vipay",
-          "score": 0.8057,
+          "score": 0.8363,
           "tiers": {
             "1": 0.7778,
-            "2": 0.9978,
+            "2": 0.9944,
             "3": 0.3529
           },
           "factors": [
@@ -1217,10 +1217,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.986,
               "normalized": 0.986,
-              "contribution": 0.6902,
+              "contribution": 2.465,
               "note": "заявка съедает 1.4% оставшегося дневного запаса (25000 из 1785000)"
             },
             {
@@ -1236,10 +1236,10 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.2724,
+          "score": 0.3954,
           "tiers": {
             "1": 0.2222,
-            "2": 0.1585,
+            "2": 0.4018,
             "3": 0.6471
           },
           "factors": [
@@ -1317,10 +1317,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.9964,
               "normalized": 0.9964,
-              "contribution": 0.6975,
+              "contribution": 2.4909,
               "note": "заявка съедает 0.4% оставшегося дневного запаса (25000 из 6897000)"
             },
             {
@@ -1375,7 +1375,7 @@
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.8045,
+        "score": 0.8327,
         "outcome": "approved",
         "latency_sec": 42,
         "factors": [
@@ -1453,10 +1453,10 @@
           {
             "factor": "headroom_fit",
             "tier": 2,
-            "weight": 0.7,
+            "weight": 2.5,
             "raw": 0.9705,
             "normalized": 0.9705,
-            "contribution": 0.6793,
+            "contribution": 2.4261,
             "note": "заявка съедает 3.0% оставшегося дневного запаса (52000 из 1760000)"
           },
           {
@@ -1500,10 +1500,10 @@
       "candidates": [
         {
           "provider": "vipay",
-          "score": 0.8045,
+          "score": 0.8327,
           "tiers": {
             "1": 0.7778,
-            "2": 0.9953,
+            "2": 0.9881,
             "3": 0.3529
           },
           "factors": [
@@ -1581,10 +1581,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.9705,
               "normalized": 0.9705,
-              "contribution": 0.6793,
+              "contribution": 2.4261,
               "note": "заявка съедает 3.0% оставшегося дневного запаса (52000 из 1760000)"
             },
             {
@@ -1600,10 +1600,10 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.2721,
+          "score": 0.3944,
           "tiers": {
             "1": 0.2222,
-            "2": 0.1579,
+            "2": 0.4002,
             "3": 0.6471
           },
           "factors": [
@@ -1681,10 +1681,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.9925,
               "normalized": 0.9925,
-              "contribution": 0.6947,
+              "contribution": 2.4812,
               "note": "заявка съедает 0.8% оставшегося дневного запаса (52000 из 6897000)"
             },
             {
@@ -1748,7 +1748,7 @@
         "stage": "cascade_attempt",
         "sequence": 3,
         "attempt_no": 1,
-        "score": 0.5385,
+        "score": 0.6143,
         "outcome": "approved",
         "latency_sec": 110
       },
@@ -1773,7 +1773,7 @@
       "candidates": [
         {
           "provider": "payflow",
-          "score": 0.5385,
+          "score": 0.6143,
           "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
@@ -1847,7 +1847,7 @@
         "stage": "cascade_attempt",
         "sequence": 4,
         "attempt_no": 2,
-        "score": 0.5393,
+        "score": 0.6165,
         "outcome": "approved",
         "latency_sec": 34
       }
@@ -1863,7 +1863,7 @@
       "candidates": [
         {
           "provider": "quickpay",
-          "score": 0.5393,
+          "score": 0.6165,
           "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
@@ -1922,7 +1922,7 @@
         "stage": "cascade_attempt",
         "sequence": 2,
         "attempt_no": 1,
-        "score": 0.7211,
+        "score": 0.7675,
         "outcome": "approved",
         "latency_sec": 41,
         "factors": [
@@ -2000,10 +2000,10 @@
           {
             "factor": "headroom_fit",
             "tier": 2,
-            "weight": 0.7,
+            "weight": 2.5,
             "raw": 0.9941,
             "normalized": 0.9941,
-            "contribution": 0.6959,
+            "contribution": 2.4854,
             "note": "заявка съедает 0.6% оставшегося дневного запаса (10000 из 1708000)"
           },
           {
@@ -2047,10 +2047,10 @@
       "candidates": [
         {
           "provider": "vipay",
-          "score": 0.7211,
+          "score": 0.7675,
           "tiers": {
             "1": 0.5,
-            "2": 0.9991,
+            "2": 0.9976,
             "3": 0.3529
           },
           "factors": [
@@ -2128,10 +2128,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.9941,
               "normalized": 0.9941,
-              "contribution": 0.6959,
+              "contribution": 2.4854,
               "note": "заявка съедает 0.6% оставшегося дневного запаса (10000 из 1708000)"
             },
             {
@@ -2147,10 +2147,10 @@
         },
         {
           "provider": "quickpay",
-          "score": 0.3578,
+          "score": 0.4666,
           "tiers": {
             "1": 0.5,
-            "2": 0.1589,
+            "2": 0.4026,
             "3": 0.6471
           },
           "factors": [
@@ -2228,10 +2228,10 @@
             {
               "factor": "headroom_fit",
               "tier": 2,
-              "weight": 0.7,
+              "weight": 2.5,
               "raw": 0.9985,
               "normalized": 0.9985,
-              "contribution": 0.699,
+              "contribution": 2.4964,
               "note": "заявка съедает 0.1% оставшегося дневного запаса (10000 из 6855000)"
             },
             {
@@ -2290,14 +2290,14 @@
       {
         "provider": "payflow",
         "decision": "selected",
-        "reason": "traffic_share_deficit",
-        "details": "доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки; решающий фактор против quickpay — count_share",
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего",
         "stage": "cascade_attempt",
-        "sequence": 2,
-        "attempt_no": 1,
-        "score": 0.5685,
+        "sequence": 3,
+        "attempt_no": 2,
+        "score": 0.4337,
         "outcome": "approved",
-        "latency_sec": 103,
+        "latency_sec": 107,
         "factors": [
           {
             "factor": "provider_health",
@@ -2321,27 +2321,27 @@
             "factor": "count_share",
             "tier": 2,
             "weight": 1.0,
-            "raw": 3.8333,
-            "normalized": 1.0,
-            "contribution": 1.0,
-            "note": "доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки"
+            "raw": 8.0,
+            "normalized": 0.5,
+            "contribution": 0.5,
+            "note": "доля по количеству 22.2% при цели 100.0% (2 из 9 уже распределённых), недобор 8.0 заявки"
           },
           {
             "factor": "volume_share",
             "tier": 2,
             "weight": 0.8,
-            "raw": -0.0313,
-            "normalized": 0.0,
-            "contribution": 0.0,
-            "note": "доля по объёму 14.1% при цели 9.5% (48800 из 345800)"
+            "raw": 0.8735,
+            "normalized": 0.5,
+            "contribution": 0.4,
+            "note": "доля по объёму 14.1% при цели 100.0% (48800 из 345800)"
           },
           {
             "factor": "conversion",
             "tier": 2,
             "weight": 1.0,
             "raw": 0.7334,
-            "normalized": 1.0,
-            "contribution": 1.0,
+            "normalized": 0.5,
+            "contribution": 0.5,
             "note": "заявлено 91.0%, в прогоне 2 из 2; нижняя граница 73.3% при доверии 95.0% на 22 эффективных наблюдениях"
           },
           {
@@ -2349,8 +2349,8 @@
             "tier": 2,
             "weight": 0.9,
             "raw": 0.8,
-            "normalized": 1.0,
-            "contribution": 0.9,
+            "normalized": 0.5,
+            "contribution": 0.45,
             "note": "сумма 40000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
           },
           {
@@ -2358,8 +2358,8 @@
             "tier": 3,
             "weight": 0.6,
             "raw": -2.0,
-            "normalized": 1.0,
-            "contribution": 0.6,
+            "normalized": 0.5,
+            "contribution": 0.3,
             "note": "приоритет в каскаде 2"
           },
           {
@@ -2367,17 +2367,17 @@
             "tier": 3,
             "weight": 0.7,
             "raw": 0.0171,
-            "normalized": 0.0,
-            "contribution": 0.0,
+            "normalized": 0.5,
+            "contribution": 0.35,
             "note": "загрузка 98.3%, узкое место — дневной оборот (98.3%)"
           },
           {
             "factor": "headroom_fit",
             "tier": 2,
-            "weight": 0.7,
+            "weight": 2.5,
             "raw": 0.2188,
             "normalized": 0.2188,
-            "contribution": 0.1531,
+            "contribution": 0.5469,
             "note": "заявка съедает 78.1% оставшегося дневного запаса (40000 из 51200)"
           },
           {
@@ -2385,8 +2385,8 @@
             "tier": 3,
             "weight": 0.4,
             "raw": 0.5,
-            "normalized": 0.0,
-            "contribution": 0.0,
+            "normalized": 0.5,
+            "contribution": 0.2,
             "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
           }
         ]
@@ -2394,235 +2394,48 @@
       {
         "provider": "quickpay",
         "decision": "skipped",
-        "reason": "not_reached_in_cascade",
-        "details": "заявку принял payflow, стоявший выше по скорингу",
-        "stage": "ranking",
-        "sequence": 3,
-        "explanation": "не понадобился: заявку принял провайдер выше по каскаду"
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 65 с, заявка передана следующему кандидату",
+        "stage": "cascade_attempt",
+        "sequence": 2,
+        "attempt_no": 1,
+        "outcome": "rejected",
+        "latency_sec": 65,
+        "explanation": "провайдер отказал в обработке"
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 103,
+    "latency_sec": 172,
     "amount": 40000,
     "bank": "alfa",
     "selection": {
-      "reason": "traffic_share_deficit",
-      "details": "доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки; решающий фактор против quickpay — count_share",
+      "reason": "cascade_retry",
+      "details": "следующий в каскаде после отказа предыдущего",
       "profile": "balanced",
       "candidates": [
         {
           "provider": "payflow",
-          "score": 0.5685,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.6939,
-            "3": 0.3529
-          },
-          "factors": [
-            {
-              "factor": "provider_health",
-              "tier": 1,
-              "weight": 1.5,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.75,
-              "note": "отказов подряд нет, здоровье полное"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 1,
-              "weight": 1.2,
-              "raw": 0.0,
-              "normalized": 0.5,
-              "contribution": 0.6,
-              "note": "минимальный оборот 2000000 выполнен (2948800)"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.0,
-              "raw": 3.8333,
-              "normalized": 1.0,
-              "contribution": 1.0,
-              "note": "доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.8,
-              "raw": -0.0313,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "доля по объёму 14.1% при цели 9.5% (48800 из 345800)"
-            },
-            {
-              "factor": "conversion",
-              "tier": 2,
-              "weight": 1.0,
-              "raw": 0.7334,
-              "normalized": 1.0,
-              "contribution": 1.0,
-              "note": "заявлено 91.0%, в прогоне 2 из 2; нижняя граница 73.3% при доверии 95.0% на 22 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 2,
-              "weight": 0.9,
-              "raw": 0.8,
-              "normalized": 1.0,
-              "contribution": 0.9,
-              "note": "сумма 40000 в полосе 500..50000 -> предпочтителен (payflow, vipay)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 3,
-              "weight": 0.6,
-              "raw": -2.0,
-              "normalized": 1.0,
-              "contribution": 0.6,
-              "note": "приоритет в каскаде 2"
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 0.7,
-              "raw": 0.0171,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "загрузка 98.3%, узкое место — дневной оборот (98.3%)"
-            },
-            {
-              "factor": "headroom_fit",
-              "tier": 2,
-              "weight": 0.7,
-              "raw": 0.2188,
-              "normalized": 0.2188,
-              "contribution": 0.1531,
-              "note": "заявка съедает 78.1% оставшегося дневного запаса (40000 из 51200)"
-            },
-            {
-              "factor": "margin",
-              "tier": 3,
-              "weight": 0.4,
-              "raw": 0.5,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "маржа мерчанта 1.5% минус комиссия провайдера 1.0% = 0.5 п.п."
-            }
-          ]
-        },
-        {
-          "provider": "quickpay",
-          "score": 0.4484,
-          "tiers": {
-            "1": 0.5,
-            "2": 0.34,
-            "3": 0.6471
-          },
-          "factors": [
-            {
-              "factor": "provider_health",
-              "tier": 1,
-              "weight": 1.5,
-              "raw": 1.0,
-              "normalized": 0.5,
-              "contribution": 0.75,
-              "note": "отказов подряд нет, здоровье полное"
-            },
-            {
-              "factor": "turnover_commitment",
-              "tier": 1,
-              "weight": 1.2,
-              "normalized": 0.5,
-              "contribution": 0.6,
-              "note": "обязательство по минимальному обороту не задано"
-            },
-            {
-              "factor": "count_share",
-              "tier": 2,
-              "weight": 1.0,
-              "raw": 1.1667,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "доля по количеству 33.3% при цели 41.7% (3 из 9 уже распределённых), недобор 1.17 заявки"
-            },
-            {
-              "factor": "volume_share",
-              "tier": 2,
-              "weight": 0.8,
-              "raw": 0.3994,
-              "normalized": 1.0,
-              "contribution": 0.8,
-              "note": "доля по объёму 56.4% при цели 90.5% (195000 из 345800)"
-            },
-            {
-              "factor": "conversion",
-              "tier": 2,
-              "weight": 1.0,
-              "raw": 0.4762,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "заявлено 79.0%, в прогоне 1 из 5; нижняя граница 47.6% при доверии 95.0% на 25 эффективных наблюдениях"
-            },
-            {
-              "factor": "amount_band",
-              "tier": 2,
-              "weight": 0.9,
-              "raw": 0.35,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "сумма 40000 в полосе 500..50000 -> не в списке предпочтения (payflow, vipay)"
-            },
-            {
-              "factor": "cascade_priority",
-              "tier": 3,
-              "weight": 0.6,
-              "raw": -3.0,
-              "normalized": 0.0,
-              "contribution": 0.0,
-              "note": "приоритет в каскаде 3"
-            },
-            {
-              "factor": "load_balance",
-              "tier": 3,
-              "weight": 0.7,
-              "raw": 0.8569,
-              "normalized": 1.0,
-              "contribution": 0.7,
-              "note": "загрузка 14.3%, узкое место — дневной оборот (14.3%)"
-            },
-            {
-              "factor": "headroom_fit",
-              "tier": 2,
-              "weight": 0.7,
-              "raw": 0.9942,
-              "normalized": 0.9942,
-              "contribution": 0.6959,
-              "note": "заявка съедает 0.6% оставшегося дневного запаса (40000 из 6855000)"
-            },
-            {
-              "factor": "margin",
-              "tier": 3,
-              "weight": 0.4,
-              "raw": 0.7,
-              "normalized": 1.0,
-              "contribution": 0.4,
-              "note": "маржа мерчанта 1.5% минус комиссия провайдера 0.8% = 0.7 п.п."
-            }
-          ]
+          "score": 0.4337,
+          "note": "единственный допустимый кандидат: сравнивать не с кем, поэтому раскладка по целям не приводится"
         }
       ]
     },
     "cascade": {
       "path": [
         {
-          "provider": "payflow",
+          "provider": "quickpay",
           "attempt": 1,
+          "outcome": "rejected",
+          "latency_sec": 65
+        },
+        {
+          "provider": "payflow",
+          "attempt": 2,
           "outcome": "approved",
-          "latency_sec": 103
+          "latency_sec": 107
         }
       ],
-      "attempts_made": 1
+      "attempts_made": 2
     },
     "events": [
       {

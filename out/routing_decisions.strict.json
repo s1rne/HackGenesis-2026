@@ -258,17 +258,17 @@
       {
         "provider": "payflow",
         "decision": "selected",
-        "reason": "traffic_share_deficit",
-        "details": "доля по количеству 22.2% при цели 58.3% (2 из 9 уже распределённых), недобор 3.83 заявки; решающий фактор против quickpay — count_share"
+        "reason": "cascade_retry",
+        "details": "следующий в каскаде после отказа предыдущего"
       },
       {
         "provider": "quickpay",
         "decision": "skipped",
-        "reason": "not_reached_in_cascade",
-        "details": "заявку принял payflow, стоявший выше по скорингу"
+        "reason": "provider_declined",
+        "details": "попытка 1: ответ rejected за 65 с, заявка передана следующему кандидату"
       }
     ],
     "simulated_result": "approved",
-    "latency_sec": 103
+    "latency_sec": 172
   }
 ]

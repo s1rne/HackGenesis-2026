@@ -45,10 +45,10 @@
   },
   "skip_reasons": {
     "bank_not_in_list": 8,
-    "not_reached_in_cascade": 7,
+    "not_reached_in_cascade": 6,
     "amount_exceeds_limit": 3,
-    "amount_below_minimum": 2,
-    "provider_declined": 2
+    "provider_declined": 3,
+    "amount_below_minimum": 2
   },
   "skip_reasons_by_category": {
     "по жёстким ограничениям": {
@@ -57,10 +57,10 @@
       "amount_below_minimum": 2
     },
     "по отказу провайдера": {
-      "provider_declined": 2
+      "provider_declined": 3
     },
     "не понадобились": {
-      "not_reached_in_cascade": 7
+      "not_reached_in_cascade": 6
     }
   },
   "projected_daily_utilization": {
@@ -105,8 +105,8 @@
     "rejected": 1,
     "expired": 1,
     "approval_rate": 0.8,
-    "avg_latency_sec": 102.1,
-    "total_latency_sec": 1021
+    "avg_latency_sec": 109.0,
+    "total_latency_sec": 1090
   },
   "provider_performance": {
     "vipay": {
@@ -136,15 +136,15 @@
       "available_requisites": 5
     },
     "quickpay": {
-      "attempts": 5,
+      "attempts": 6,
       "selected": 3,
       "approved": 1,
-      "declined": 3,
+      "declined": 4,
       "expired": 1,
-      "skipped": 7,
+      "skipped": 6,
       "declared_conversion": 0.79,
-      "observed_conversion": 0.2,
-      "conversion_gap": -0.59,
+      "observed_conversion": 0.1667,
+      "conversion_gap": -0.6233,
       "load_factor": 0.1431,
       "available_requisites": 20
     },
@@ -161,12 +161,12 @@
     }
   },
   "cascade": {
-    "avg_depth": 1.2,
+    "avg_depth": 1.3,
     "max_depth": 2,
-    "single_attempt": 8,
-    "multi_attempt": 2,
-    "rescued_by_cascade": 1,
-    "cascade_uplift_pct": 10.0,
+    "single_attempt": 7,
+    "multi_attempt": 3,
+    "rescued_by_cascade": 2,
+    "cascade_uplift_pct": 20.0,
     "fallback_used": 0
   },
   "goal_relaxation_summary": {
@@ -505,7 +505,7 @@
     }
   ],
   "routing_setup": {
-    "run_id": "d5122831af52",
+    "run_id": "5d290073a31a",
     "profile": "balanced",
     "scoring_mode": "lexicographic_weighted",
     "seed": 20260906,
@@ -566,7 +566,7 @@
       },
       {
         "id": "headroom_fit",
-        "weight": 0.7,
+        "weight": 2.5,
         "tier": 2
       },
       {
@@ -585,7 +585,7 @@
     "inputs": {
       "providers": "sha256:ddcf33dd1b7da401",
       "history": "sha256:97c3b1eb7fdc04bc",
-      "config": "sha256:5d14604ef47f102e"
+      "config": "sha256:26bfd2d7ccd450ac"
     },
     "note": "run_id детерминирован: это функция входов и настроек, а не времени. Одинаковые входы дают одинаковый run_id — по нему сверяют, тот ли это прогон"
   },

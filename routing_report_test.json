@@ -3,34 +3,34 @@
   "total_operations": 90,
   "distribution": {
     "vipay": {
-      "count": 23,
-      "share_pct": 25.6,
+      "count": 24,
+      "share_pct": 26.7,
       "target_pct": 40.0,
-      "deviation_pct": -14.4,
-      "volume": 548000.0,
-      "volume_share_pct": 15.7,
+      "deviation_pct": -13.3,
+      "volume": 573000.0,
+      "volume_share_pct": 16.4,
       "target_volume_pct": 46.4,
-      "volume_deviation_pct": -30.7
+      "volume_deviation_pct": -30.0
     },
     "payflow": {
-      "count": 11,
-      "share_pct": 12.2,
+      "count": 12,
+      "share_pct": 13.3,
       "target_pct": 35.0,
-      "deviation_pct": -22.8,
+      "deviation_pct": -21.7,
       "volume": 94700.0,
       "volume_share_pct": 2.7,
       "target_volume_pct": 5.1,
       "volume_deviation_pct": -2.4
     },
     "quickpay": {
-      "count": 54,
-      "share_pct": 60.0,
+      "count": 52,
+      "share_pct": 57.8,
       "target_pct": 25.0,
-      "deviation_pct": 35.0,
-      "volume": 2851000.0,
-      "volume_share_pct": 81.6,
+      "deviation_pct": 32.8,
+      "volume": 2826000.0,
+      "volume_share_pct": 80.8,
       "target_volume_pct": 48.5,
-      "volume_deviation_pct": 33.1
+      "volume_deviation_pct": 32.3
     },
     "spacepayments": {
       "count": 2,
@@ -45,33 +45,33 @@
   },
   "skip_reasons": {
     "bank_not_in_list": 84,
-    "not_reached_in_cascade": 36,
+    "not_reached_in_cascade": 38,
     "amount_exceeds_limit": 33,
     "amount_below_minimum": 16,
-    "provider_declined": 15,
-    "daily_limit_exceeded": 9
+    "provider_declined": 14,
+    "daily_limit_exceeded": 7
   },
   "skip_reasons_by_category": {
     "по жёстким ограничениям": {
       "bank_not_in_list": 84,
       "amount_exceeds_limit": 33,
       "amount_below_minimum": 16,
-      "daily_limit_exceeded": 9
+      "daily_limit_exceeded": 7
     },
     "по отказу провайдера": {
-      "provider_declined": 15
+      "provider_declined": 14
     },
     "не понадобились": {
-      "not_reached_in_cascade": 36
+      "not_reached_in_cascade": 38
     }
   },
   "projected_daily_utilization": {
     "vipay": {
-      "used": 3748000,
+      "used": 3773000,
       "limit": 5000000,
-      "utilization_pct": 75.0,
-      "headroom": 1252000,
-      "added_this_run": 548000
+      "utilization_pct": 75.5,
+      "headroom": 1227000,
+      "added_this_run": 573000
     },
     "payflow": {
       "used": 2994700,
@@ -84,11 +84,11 @@
       "turnover_min_met": true
     },
     "quickpay": {
-      "used": 3951000,
+      "used": 3926000,
       "limit": 8000000,
-      "utilization_pct": 49.4,
-      "headroom": 4049000,
-      "added_this_run": 2851000
+      "utilization_pct": 49.1,
+      "headroom": 4074000,
+      "added_this_run": 2826000
     },
     "spacepayments": {
       "used": 1800,
@@ -100,60 +100,60 @@
     "payflow выбрал 99.8% дневного лимита, свободно 5300 — снизить traffic_percentage с 35.0% до 20.0% (это доказанный потолок по свободному лимиту) или поднять daily_amount_limit, иначе он выпадет из распределения до конца суток",
     "Заявленная конверсия расходится с фактической у 3 партнёров: vipay 87% против 78% на 41; payflow 91% против 47% на 19; quickpay 79% против 68% на 40 — обновить conversion_24h: скоринг опирается на числа, которых история не подтверждает",
     "fallback на собственного провайдера сработал 2 раз — расширить пул внешних провайдеров под эти заявки, каждое такое срабатывание означает, что маршрута не нашлось",
-    "quickpay перебирает долю: факт 60.0% против цели 25.0% (отклонение 35.0 п.п.) — привести traffic_percentage к 42.5% или снять ограничение, из-за которого он выпадает",
-    "payflow недобирает долю: факт 12.2% против цели 35.0% (отклонение -22.8 п.п.) — привести traffic_percentage к 23.6% или снять ограничение, из-за которого он выпадает",
-    "payflow исчерпал дневной лимит на 11 заявках при среднем чеке 8609 — теми же деньгами он вместил бы 18: его потолок по ёмкости 20.0% против фактических 12.2%. Лимит задан в деньгах, а доля в заявках, поэтому крупные выплаты стоят ему собственной доли: сузить верхнюю границу чека или отдать ему полосу мелких сумм",
+    "quickpay перебирает долю: факт 57.8% против цели 25.0% (отклонение 32.8 п.п.) — привести traffic_percentage к 41.4% или снять ограничение, из-за которого он выпадает",
+    "payflow недобирает долю: факт 13.3% против цели 35.0% (отклонение -21.7 п.п.) — привести traffic_percentage к 24.2% или снять ограничение, из-за которого он выпадает",
+    "payflow исчерпал дневной лимит на 12 заявках при среднем чеке 7892 — теми же деньгами он вместил бы 18: его потолок по ёмкости 20.0% против фактических 13.3%. Лимит задан в деньгах, а доля в заявках, поэтому крупные выплаты стоят ему собственной доли: сузить верхнюю границу чека или отдать ему полосу мелких сумм",
     "vipay отсеян 41 раз из 90 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: sberbank, tinkoff, vtb",
-    "quickpay перебирает по объёму: факт 81.6% против цели 48.5% (33.1 п.п. выше) при доле по количеству 60.0% — привести volume_share_pct к 81.6% или пересмотреть долю по количеству",
-    "vipay недобирает по объёму: факт 15.7% против цели 46.4% (30.7 п.п. ниже) при доле по количеству 25.6% — привести volume_share_pct к 15.7% или пересмотреть долю по количеству",
-    "vipay недобирает долю: факт 25.6% против цели 40.0% (отклонение -14.4 п.п.) — привести traffic_percentage к 32.8% или снять ограничение, из-за которого он выпадает"
+    "quickpay перебирает по объёму: факт 80.8% против цели 48.5% (32.3 п.п. выше) при доле по количеству 57.8% — привести volume_share_pct к 80.8% или пересмотреть долю по количеству",
+    "vipay недобирает по объёму: факт 16.4% против цели 46.4% (30.0 п.п. ниже) при доле по количеству 26.7% — привести volume_share_pct к 16.4% или пересмотреть долю по количеству",
+    "vipay недобирает долю: факт 26.7% против цели 40.0% (отклонение -13.3 п.п.) — привести traffic_percentage к 33.4% или снять ограничение, из-за которого он выпадает"
   ],
   "outcomes": {
-    "approved": 79,
+    "approved": 80,
     "rejected": 0,
-    "expired": 11,
-    "approval_rate": 0.8778,
-    "avg_latency_sec": 114.83,
-    "total_latency_sec": 10335
+    "expired": 10,
+    "approval_rate": 0.8889,
+    "avg_latency_sec": 110.46,
+    "total_latency_sec": 9941
   },
   "provider_performance": {
     "vipay": {
-      "attempts": 26,
-      "selected": 23,
-      "approved": 22,
+      "attempts": 27,
+      "selected": 24,
+      "approved": 23,
       "declined": 3,
       "expired": 1,
-      "skipped": 65,
+      "skipped": 64,
       "declared_conversion": 0.87,
-      "observed_conversion": 0.8462,
-      "conversion_gap": -0.0238,
-      "load_factor": 0.7496,
+      "observed_conversion": 0.8519,
+      "conversion_gap": -0.0181,
+      "load_factor": 0.7546,
       "available_requisites": 12
     },
     "payflow": {
-      "attempts": 12,
-      "selected": 11,
-      "approved": 8,
+      "attempts": 13,
+      "selected": 12,
+      "approved": 9,
       "declined": 1,
       "expired": 3,
-      "skipped": 78,
+      "skipped": 77,
       "declared_conversion": 0.91,
-      "observed_conversion": 0.6667,
-      "conversion_gap": -0.2433,
+      "observed_conversion": 0.6923,
+      "conversion_gap": -0.2177,
       "load_factor": 0.9982,
       "available_requisites": 5
     },
     "quickpay": {
-      "attempts": 65,
-      "selected": 54,
-      "approved": 47,
-      "declined": 11,
-      "expired": 7,
-      "skipped": 35,
+      "attempts": 62,
+      "selected": 52,
+      "approved": 46,
+      "declined": 10,
+      "expired": 6,
+      "skipped": 37,
       "declared_conversion": 0.79,
-      "observed_conversion": 0.7231,
-      "conversion_gap": -0.0669,
-      "load_factor": 0.4939,
+      "observed_conversion": 0.7419,
+      "conversion_gap": -0.0481,
+      "load_factor": 0.4908,
       "available_requisites": 20
     },
     "spacepayments": {
@@ -171,10 +171,10 @@
     }
   },
   "cascade": {
-    "avg_depth": 1.17,
+    "avg_depth": 1.16,
     "max_depth": 3,
-    "single_attempt": 77,
-    "multi_attempt": 13,
+    "single_attempt": 78,
+    "multi_attempt": 12,
     "rescued_by_cascade": 11,
     "cascade_uplift_pct": 12.2,
     "fallback_used": 2
@@ -184,9 +184,9 @@
     "of_total": 90,
     "by_provider": {
       "payflow": {
-        "operations": 75,
+        "operations": 73,
         "unreachable_share_pct": 35.0,
-        "of_operations_pct": 83.3
+        "of_operations_pct": 81.1
       },
       "vipay": {
         "operations": 59,
@@ -668,14 +668,14 @@
       "type": "goal_relaxation",
       "goal": "traffic_share",
       "unreachable": {
-        "vipay": 40.0,
-        "payflow": 35.0
+        "vipay": 40.0
       },
-      "released_share_pct": 75.0,
+      "released_share_pct": 40.0,
       "reallocated_to": [
+        "payflow",
         "quickpay"
       ],
-      "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay",
+      "note": "целевая доля недоступных провайдеров (vipay) перераспределена между payflow, quickpay",
       "operation_id": "op_145"
     },
     {
@@ -709,14 +709,14 @@
       "type": "goal_relaxation",
       "goal": "traffic_share",
       "unreachable": {
-        "vipay": 40.0,
-        "payflow": 35.0
+        "vipay": 40.0
       },
-      "released_share_pct": 75.0,
+      "released_share_pct": 40.0,
       "reallocated_to": [
+        "payflow",
         "quickpay"
       ],
-      "note": "целевая доля недоступных провайдеров (vipay, payflow) перераспределена между quickpay",
+      "note": "целевая доля недоступных провайдеров (vipay) перераспределена между payflow, quickpay",
       "operation_id": "op_148"
     },
     {
@@ -1431,15 +1431,6 @@
         "quickpay"
       ],
       "note": "все допустимые провайдеры отказали в приёме",
-      "operation_id": "op_145"
-    },
-    {
-      "type": "pool_exhausted",
-      "policy": "retry_best",
-      "refused": [
-        "quickpay"
-      ],
-      "note": "все допустимые провайдеры отказали в приёме",
       "operation_id": "op_161"
     },
     {
@@ -1654,35 +1645,35 @@
       "text": "fallback на собственного провайдера сработал 2 раз — расширить пул внешних провайдеров под эти заявки, каждое такое срабатывание означает, что маршрута не нашлось",
       "parameter": "run.max_attempts",
       "current": 3,
-      "evidence": "средняя глубина каскада 1.17",
+      "evidence": "средняя глубина каскада 1.16",
       "priority": "high",
       "impact": 40
     },
     {
-      "text": "quickpay перебирает долю: факт 60.0% против цели 25.0% (отклонение 35.0 п.п.) — привести traffic_percentage к 42.5% или снять ограничение, из-за которого он выпадает",
+      "text": "quickpay перебирает долю: факт 57.8% против цели 25.0% (отклонение 32.8 п.п.) — привести traffic_percentage к 41.4% или снять ограничение, из-за которого он выпадает",
       "parameter": "providers.quickpay.traffic_percentage",
       "current": 25.0,
-      "suggested": 42.5,
-      "evidence": "54 из 90 операций",
+      "suggested": 41.4,
+      "evidence": "52 из 90 операций",
       "priority": "high",
-      "impact": 35.0
+      "impact": 32.8
     },
     {
-      "text": "payflow недобирает долю: факт 12.2% против цели 35.0% (отклонение -22.8 п.п.) — привести traffic_percentage к 23.6% или снять ограничение, из-за которого он выпадает",
+      "text": "payflow недобирает долю: факт 13.3% против цели 35.0% (отклонение -21.7 п.п.) — привести traffic_percentage к 24.2% или снять ограничение, из-за которого он выпадает",
       "parameter": "providers.payflow.traffic_percentage",
       "current": 35.0,
-      "suggested": 23.6,
-      "evidence": "11 из 90 операций",
+      "suggested": 24.2,
+      "evidence": "12 из 90 операций",
       "priority": "high",
-      "impact": 22.8
+      "impact": 21.7
     },
     {
-      "text": "payflow исчерпал дневной лимит на 11 заявках при среднем чеке 8609 — теми же деньгами он вместил бы 18: его потолок по ёмкости 20.0% против фактических 12.2%. Лимит задан в деньгах, а доля в заявках, поэтому крупные выплаты стоят ему собственной доли: сузить верхнюю границу чека или отдать ему полосу мелких сумм",
+      "text": "payflow исчерпал дневной лимит на 12 заявках при среднем чеке 7892 — теми же деньгами он вместил бы 18: его потолок по ёмкости 20.0% против фактических 13.3%. Лимит задан в деньгах, а доля в заявках, поэтому крупные выплаты стоят ему собственной доли: сузить верхнюю границу чека или отдать ему полосу мелких сумм",
       "parameter": "providers.payflow.limit_amount_max",
       "current": 50000,
-      "evidence": "11 заявок на 94700.0 при свободном лимите на 18",
+      "evidence": "12 заявок на 94700.0 при свободном лимите на 18",
       "priority": "high",
-      "impact": 7.8
+      "impact": 6.7
     },
     {
       "text": "vipay отсеян 41 раз из 90 по причине «банк заявки не входит в список поддерживаемых» — расширить banks или снять фильтр, сейчас список: sberbank, tinkoff, vtb",
@@ -1692,37 +1683,37 @@
       "impact": 410
     },
     {
-      "text": "quickpay перебирает по объёму: факт 81.6% против цели 48.5% (33.1 п.п. выше) при доле по количеству 60.0% — привести volume_share_pct к 81.6% или пересмотреть долю по количеству",
+      "text": "quickpay перебирает по объёму: факт 80.8% против цели 48.5% (32.3 п.п. выше) при доле по количеству 57.8% — привести volume_share_pct к 80.8% или пересмотреть долю по количеству",
       "parameter": "providers.quickpay.volume_share_pct",
       "current": 48.5,
-      "suggested": 81.6,
-      "evidence": "объём 2851000.0 из общего по прогону",
+      "suggested": 80.8,
+      "evidence": "объём 2826000.0 из общего по прогону",
       "priority": "medium",
-      "impact": 33.1,
-      "short": "quickpay перебирает 33.1 п.п."
+      "impact": 32.3,
+      "short": "quickpay перебирает 32.3 п.п."
     },
     {
-      "text": "vipay недобирает по объёму: факт 15.7% против цели 46.4% (30.7 п.п. ниже) при доле по количеству 25.6% — привести volume_share_pct к 15.7% или пересмотреть долю по количеству",
+      "text": "vipay недобирает по объёму: факт 16.4% против цели 46.4% (30.0 п.п. ниже) при доле по количеству 26.7% — привести volume_share_pct к 16.4% или пересмотреть долю по количеству",
       "parameter": "providers.vipay.volume_share_pct",
       "current": 46.4,
-      "suggested": 15.7,
-      "evidence": "объём 548000.0 из общего по прогону",
+      "suggested": 16.4,
+      "evidence": "объём 573000.0 из общего по прогону",
       "priority": "medium",
-      "impact": 30.7,
-      "short": "vipay недобирает 30.7 п.п."
+      "impact": 30.0,
+      "short": "vipay недобирает 30.0 п.п."
     },
     {
-      "text": "vipay недобирает долю: факт 25.6% против цели 40.0% (отклонение -14.4 п.п.) — привести traffic_percentage к 32.8% или снять ограничение, из-за которого он выпадает",
+      "text": "vipay недобирает долю: факт 26.7% против цели 40.0% (отклонение -13.3 п.п.) — привести traffic_percentage к 33.4% или снять ограничение, из-за которого он выпадает",
       "parameter": "providers.vipay.traffic_percentage",
       "current": 40.0,
-      "suggested": 32.8,
-      "evidence": "23 из 90 операций",
+      "suggested": 33.4,
+      "evidence": "24 из 90 операций",
       "priority": "medium",
-      "impact": 14.4
+      "impact": 13.3
     }
   ],
   "routing_setup": {
-    "run_id": "2b24fc7d5db3",
+    "run_id": "41400534c9f8",
     "profile": "balanced",
     "scoring_mode": "lexicographic_weighted",
     "seed": 20260906,
@@ -1783,7 +1774,7 @@
       },
       {
         "id": "headroom_fit",
-        "weight": 0.7,
+        "weight": 2.5,
         "tier": 2
       },
       {
@@ -1802,7 +1793,7 @@
     "inputs": {
       "providers": "sha256:ddcf33dd1b7da401",
       "history": "sha256:97c3b1eb7fdc04bc",
-      "config": "sha256:5d14604ef47f102e"
+      "config": "sha256:26bfd2d7ccd450ac"
     },
     "note": "run_id детерминирован: это функция входов и настроек, а не времени. Одинаковые входы дают одинаковый run_id — по нему сверяют, тот ли это прогон"
   },
